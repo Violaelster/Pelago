@@ -12,6 +12,18 @@ $dotenv->load();
 // Start a session to track if the user is authenticated
 session_start();
 
+try {
+    // Connect to the SQLite database
+    $db = new PDO('sqlite:hotel-bookings.db');
+
+    // Set error mode to throw exceptions for better error handling
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    // Display error message and stop execution if connection fails
+    echo "Database connection error: " . $e->getMessage();
+    exit;
+}
+
 // Check if the request is a POST request and contains an 'api_key'
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['api_key'])) {
     $input_key = $_POST['api_key']; // Get the API key submitted by the user
@@ -57,21 +69,55 @@ if (!isset($_SESSION['authenticated']) || !$_SESSION['authenticated']) {
 <body>
     <h1>Uppdatera admininställningar</h1>
 
-    <!-- Form to update admin settings -->
+    <!-- Combined Form to update admin settings and feature prices -->
     <form method="POST" action="update_admin.php">
-        <label for="price_budget">Pris för budget:</label>
-        <input type="number" name="price_budget" id="price_budget" step "0.01" required><br><br>
+        <h2>Uppdatera Rumspriser</h2>
+        <?php
+        // Fetch current room prices and discount from the admin table
+        $stmt = $db->query("SELECT price_budget, price_standard, price_luxury, discount FROM admin WHERE id = 1");
+        $settings = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        <label for="price_standard">Pris för standard:</label>
-        <input type="number" name="price_standard" id="price_standard" step "0.01" required><br><br>
+        if ($settings) {
+            echo '
+                <label for="price_budget">Pris för budget:</label>
+                <input type="number" name="price_budget" id="price_budget" step="0.01" value="' . htmlspecialchars(strval($settings['price_budget'])) . '"><br><br>
+        
+                <label for="price_standard">Pris för standard:</label>
+                <input type="number" name="price_standard" id="price_standard" step="0.01" value="' . htmlspecialchars(strval($settings['price_standard'])) . '"><br><br>
+        
+                <label for="price_luxury">Pris för luxury:</label>
+                <input type="number" name="price_luxury" id="price_luxury" step="0.01" value="' . htmlspecialchars(strval($settings['price_luxury'])) . '"><br><br>
+        
+                <label for="discount">Pris för rabatt:</label>
+                <input type="number" name="discount" id="discount" step="0.01" value="' . htmlspecialchars(strval($settings['discount'])) . '"><br><br>
+            ';
+        } else {
+            echo "<p>Det gick inte att hämta rumspriser från databasen.</p>";
+        }
+        ?>
 
-        <label for="price_luxury">Pris för luxury:</label>
-        <input type="number" name="price_luxury" id="price_luxury" step "0.01" required><br><br>
+        <h2>Uppdatera Funktioners Priser</h2>
+        <?php
+        // Fetch existing features and their prices
+        $stmt = $db->query("SELECT id, feature_name, price FROM features");
+        $features = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        <label for="discount">Pris för rabatt:</label>
-        <input type="number" name="discount" id="discount" step "0.01" required><br><br>
+        if (!empty($features)) {
+            foreach ($features as $row) {
+                echo '
+                <label for="feature_' . $row['id'] . '">' . htmlspecialchars($row['feature_name']) . ' Price:</label>
+                <input type="number" name="feature_prices[' . $row['id'] . ']" id="feature_' . $row['id'] . '" step="0.01" value="' . $row['price'] . '"><br><br>
+            ';
+            }
+        } else {
+            echo "<p>Det finns inga funktioner att uppdatera.</p>";
+        }
+        ?>
+        <button type="submit">Uppdatera Priser</button>
+    </form>
 
-        <button type="submit">Uppdatera</button>
+
+
 </body>
 
 </html>
