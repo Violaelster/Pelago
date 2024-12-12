@@ -11,6 +11,46 @@ function isValidUuid(string $uuid): bool
     return true;
 }
 
+// Function to make a POST request using file_get_contents()
+function makeApiRequest(string $url, array $data): array
+{
+    $options = [
+        'http' => [
+            'header' => "Content-Type: application/json\r\n",
+            'method' => 'POST',
+            'content' => json_encode($data),
+            'timeout' => 10 // Optional timeout
+        ]
+    ];
+
+    $context = stream_context_create($options);
+    $response = file_get_contents($url, false, $context);
+
+    if ($response === false) {
+        die("API request failed.");
+    }
+
+    $httpCode = $http_response_header[0] ?? '';
+    if (strpos($httpCode, '200') === false) {
+        die("API returned an error: $httpCode - $response");
+    }
+
+    return json_decode($response, true);
+}
+
+// Validate transfer code with the API
+function validateTransferCode(string $transferCode, float $totalCost): bool
+{
+    $url = "https://www.yrgopelago.se/centralbank/transferCode";
+    $data = [
+        'transferCode' => $transferCode,
+        'totalcost' => $totalCost
+    ];
+
+    $response = makeApiRequest($url, $data);
+    return isset($response['status']) && $response['status'] === 'success';
+}
+
 // Connect to database
 try {
     $db = new PDO('sqlite:hotel-bookings.db');
@@ -52,7 +92,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!is_array($features)) {
         $errors[] = "Invalid features selected.";
     } else {
-        // Check that all selected features exist in the database
         foreach ($features as $feature_id) {
             $stmt = $db->prepare("SELECT COUNT(*) FROM features WHERE id = :id");
             $stmt->execute([':id' => $feature_id]);
@@ -73,8 +112,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    // If no errors, proceed to save the booking (next step)
-    echo "The form has been validated! The next step is to save the booking.";
+    // Calculate total cost
+    $room_costs = [
+        'budget' => 50.00,
+        'standard' => 100.00,
+        'luxury' => 150.00
+    ];
+    $room_cost = $room_costs[$room_type];
+    $feature_cost = 0;
+
+    foreach ($features as $feature_id) {
+        $stmt = $db->prepare("SELECT price FROM features WHERE id = :id");
+        $stmt->execute([':id' => $feature_id]);
+        $feature_cost += (float) $stmt->fetchColumn();
+    }
+
+    $total_cost = $room_cost + $feature_cost;
+
+    // Insert booking into the bookings table
+    try {
+        $stmt = $db->prepare("
+            INSERT INTO bookings (transfer_code, room_id, arrival_date, departure_date, total_cost, status)
+            VALUES (:transfer_code, :room_id, :arrival_date, :departure_date, :total_cost, :status)
+        ");
+
+        $stmt->execute([
+            ':transfer_code' => $transfer_code,
+            ':room_id' => array_search($room_type, $valid_room_types) + 1, // Map room type to room_id
+            ':arrival_date' => $arrival_date,
+            ':departure_date' => $departure_date,
+            ':total_cost' => $total_cost,
+            ':status' => 'confirmed'
+        ]);
+
+        $booking_id = $db->lastInsertId();
+
+        // Insert selected features into the bookings_features table
+        $stmt = $db->prepare("
+            INSERT INTO bookings_features (booking_id, features_id)
+            VALUES (:booking_id, :features_id)
+        ");
+
+        foreach ($features as $feature_id) {
+            $stmt->execute([
+                ':booking_id' => $booking_id,
+                ':features_id' => $feature_id
+            ]);
+        }
+
+        echo "Booking and features saved successfully with ID: $booking_id.";
+    } catch (PDOException $e) {
+        die("Failed to save booking or features: " . $e->getMessage());
+    }
 } else {
     echo "Invalid request.";
 }
