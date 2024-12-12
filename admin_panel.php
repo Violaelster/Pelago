@@ -67,11 +67,11 @@ if (!isset($_SESSION['authenticated']) || !$_SESSION['authenticated']) {
 </head>
 
 <body>
-    <h1>Uppdatera admininställningar</h1>
+    <h1>Update adminsettings</h1>
 
     <!-- Combined Form to update admin settings and feature prices -->
     <form method="POST" action="update_admin.php">
-        <h2>Uppdatera Rumspriser</h2>
+        <h2>Update roomprices</h2>
         <?php
         // Fetch current room prices and discount from the admin table
         $stmt = $db->query("SELECT price_budget, price_standard, price_luxury, discount FROM admin WHERE id = 1");
@@ -92,11 +92,11 @@ if (!isset($_SESSION['authenticated']) || !$_SESSION['authenticated']) {
                 <input type="number" name="discount" id="discount" step="0.01" value="' . htmlspecialchars(strval($settings['discount'])) . '"><br><br>
             ';
         } else {
-            echo "<p>Det gick inte att hämta rumspriser från databasen.</p>";
+            echo "<p>Was not able to fetch roomprices from database.</p>";
         }
         ?>
 
-        <h2>Uppdatera Funktioners Priser</h2>
+        <h2>Update featurepirces</h2>
         <?php
         // Fetch existing features and their prices
         $stmt = $db->query("SELECT id, feature_name, price FROM features");
@@ -110,10 +110,10 @@ if (!isset($_SESSION['authenticated']) || !$_SESSION['authenticated']) {
             ';
             }
         } else {
-            echo "<p>Det finns inga funktioner att uppdatera.</p>";
+            echo "<p>There's no prices to update</p>";
         }
         ?>
-        <button type="submit">Uppdatera Priser</button>
+        <button type="submit">Update Prices</button>
     </form>
 
 
