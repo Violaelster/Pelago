@@ -129,6 +129,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $total_cost = $room_cost + $feature_cost;
 
+    // Check for overlapping bookings
+    $stmt = $db->prepare("
+        SELECT COUNT(*) FROM bookings
+        WHERE room_id = :room_id
+          AND (
+              (:arrival_date BETWEEN arrival_date AND departure_date)
+              OR (:departure_date BETWEEN arrival_date AND departure_date)
+              OR (arrival_date BETWEEN :arrival_date AND :departure_date)
+          )
+    ");
+
+    $stmt->execute([
+        ':room_id' => array_search($room_type, $valid_room_types) + 1, // Map room type to room_id
+        ':arrival_date' => $arrival_date,
+        ':departure_date' => $departure_date
+    ]);
+
+    if ($stmt->fetchColumn() > 0) {
+        die("The selected room is already booked for the chosen dates. Please choose different dates or a different room.");
+    }
+
     // Insert booking into the bookings table
     try {
         $stmt = $db->prepare("
@@ -149,14 +170,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Insert selected features into the bookings_features table
         $stmt = $db->prepare("
-            INSERT INTO bookings_features (booking_id, features_id)
-            VALUES (:booking_id, :features_id)
+            INSERT INTO bookings_features (booking_id, feature_id)
+            VALUES (:booking_id, :feature_id)
         ");
 
         foreach ($features as $feature_id) {
             $stmt->execute([
                 ':booking_id' => $booking_id,
-                ':features_id' => $feature_id
+                ':feature_id' => $feature_id
             ]);
         }
 
