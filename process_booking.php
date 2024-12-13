@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+
+
 /**
  * Validates if a given string is in UUID format.
  *
@@ -37,8 +39,15 @@ function getBookingData(): array
     }
 
     // Fetch discount
-    $stmt = $db->query("SELECT discount FROM admin LIMIT 1");
+    $stmt = $db->prepare("SELECT discount FROM rooms WHERE id = :room_id");
+    $stmt->execute([':room_id' => $_POST['room_id']]);
     $discount = (float)$stmt->fetchColumn();
+
+    if ($discount <= 0 || $discount > 100) {
+        $errors[] = "Invalid discount value for the selected room.";
+    }
+
+
 
     return [
         'rooms' => $rooms,

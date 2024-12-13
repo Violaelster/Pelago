@@ -5,6 +5,8 @@ declare(strict_types=1);
 require 'process_booking.php'; // Include the backend logic to fetch data
 $data = getBookingData(); // Fetch rooms, features, and discount from the database
 
+
+
 ?>
 
 <!DOCTYPE html>
