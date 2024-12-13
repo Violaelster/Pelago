@@ -10,30 +10,35 @@
 <body>
     <h1>Book a Room</h1>
     <form method="POST" action="process_booking.php">
-        <!-- Transfercode -->
-        <label for="transfer_code">Transfercode:</label>
+        <!-- Transfer Code -->
+        <label for="transfer_code">Transfer Code:</label>
         <input type="text" id="transfer_code" name="transfer_code" required><br><br>
 
-        <!-- Arrival and departure -->
-        <label for="arrival_date">Ankomstdatum:</label>
+        <!-- Arrival and Departure Dates -->
+        <label for="arrival_date">Arrival Date:</label>
         <input type="date" id="arrival_date" name="arrival_date" required><br><br>
 
-        <label for="departure_date">Avresedatum:</label>
+        <label for="departure_date">Departure Date:</label>
         <input type="date" id="departure_date" name="departure_date" required><br><br>
 
-        <!-- Roomtype -->
-        <label for="room_type">Rumstyp:</label>
-        <select id="room_type" name="room_type" required>
+        <!-- Room Type -->
+        <label for="room_type">Room Type:</label>
+        <select id="room_type" name="room_type" required onchange="updateCalendar()">
             <option value="budget">Budget</option>
             <option value="standard">Standard</option>
-            <option value="luxury">Lyx</option>
+            <option value="luxury">Luxury</option>
         </select><br><br>
 
-        <!-- Feautures -->
+        <!-- Calendar -->
+        <h2>Calendar for Selected Room</h2>
+        <div id="calendar">
+            <!-- The calendar will be displayed here -->
+        </div>
+
+        <!-- Additional Features -->
         <fieldset>
-            <legend>Feautres:</legend>
+            <legend>Additional Features (optional):</legend>
             <?php
-            // Connect to database and fetch available features
             try {
                 $db = new PDO('sqlite:hotel-bookings.db');
                 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -46,14 +51,34 @@
                     </label><br>';
                 }
             } catch (PDOException $e) {
-                echo "Error when fetching feature: " . $e->getMessage();
+                echo "Failed to fetch features: " . $e->getMessage();
             }
             ?>
         </fieldset><br>
 
-        <!-- Book -->
-        <button type="submit">Book!</button>
+        <!-- Submit Button -->
+        <button type="submit">Submit Booking</button>
     </form>
+
+    <script>
+        function updateCalendar() {
+            const roomType = document.getElementById('room_type').value;
+            const calendarDiv = document.getElementById('calendar');
+
+            // Fetch calendar data for the selected room
+            fetch(`room_calendar.php?room_id=${roomType}`)
+                .then(response => response.text())
+                .then(html => {
+                    calendarDiv.innerHTML = html;
+                })
+                .catch(error => {
+                    calendarDiv.innerHTML = "Failed to load calendar.";
+                });
+        }
+
+        // Load the calendar for the default room type on page load
+        window.onload = updateCalendar;
+    </script>
 </body>
 
 </html>
