@@ -1,0 +1,14 @@
+.calendar-day {
+  display: inline-block;
+  width: 100px;
+  height: 30px;
+  margin: 2px;
+  text-align: center;
+  line-height: 30px;
+  border: 1px solid #ccc;
+}
+
+.unavailable {
+  background-color: red;
+  color: white;
+}

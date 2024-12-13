@@ -1,49 +1,45 @@
-// Function to fetch and update booked dates
-function updateBookedDates() {
-  const roomType = document.getElementById("room_type").value;
-
-  // Fetch booked dates from the API endpoint
-  fetch(`room_calendar.php?room_id=${roomType}`)
-    .then((response) => response.json())
-    .then((data) => {
-      // Debugging: Log fetched data
-      console.log("Booked dates:", data);
-
-      // Clear existing unavailable dates in the calendar
-      document.querySelectorAll(".unavailable").forEach((cell) => {
-        cell.classList.remove("unavailable");
-      });
-
-      // Highlight unavailable dates in the calendar
-      data.forEach((date) => {
-        const cell = document.querySelector(`[data-date="${date}"]`);
-        if (cell) {
-          cell.classList.add("unavailable");
-        }
-      });
-    })
-    .catch((error) => console.error("Error fetching booked dates:", error));
-}
-
-// Function to update the calendar dynamically
+// Function to update the calendar
 function updateCalendar() {
   const roomType = document.getElementById("room_type").value;
   const calendarDiv = document.getElementById("calendar");
 
-  // Fetch calendar HTML for the selected room
+  // Fetch booked dates from the API
   fetch(`room_calendar.php?room_id=${roomType}`)
-    .then((response) => response.text())
-    .then((html) => {
-      calendarDiv.innerHTML = html; // Update calendar HTML
-      updateBookedDates(); // Call function to highlight booked dates
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((bookedDates) => {
+      console.log("Booked dates:", bookedDates); // Debugging log
+
+      // Clear the calendar
+      calendarDiv.innerHTML = ""; // Reset calendar content
+
+      // Generate a simple calendar
+      // Generate a calendar for January
+      const daysInJanuary = 31;
+      for (let day = 1; day <= daysInJanuary; day++) {
+        const date = `2025-01-${String(day).padStart(2, "0")}`;
+        const dayDiv = document.createElement("div");
+        dayDiv.textContent = date;
+        dayDiv.className = "calendar-day";
+
+        // Highlight booked dates
+        if (bookedDates.includes(date)) {
+          dayDiv.classList.add("unavailable");
+        }
+
+        calendarDiv.appendChild(dayDiv);
+      }
     })
     .catch((error) => {
+      console.error("Error fetching calendar:", error);
       calendarDiv.innerHTML = "Failed to load calendar.";
     });
 }
 
-// Event listener for room type dropdown
+// Load calendar on page load and when room type changes
 document.getElementById("room_type").addEventListener("change", updateCalendar);
-
-// Automatically load the calendar for the default room type on page load
 window.onload = updateCalendar;

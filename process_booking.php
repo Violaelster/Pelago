@@ -2,54 +2,12 @@
 
 declare(strict_types=1);
 
-// Function to validate if a string is in UUID format
+// Functions (same as before)
 function isValidUuid(string $uuid): bool
 {
-    if (!is_string($uuid) || (preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/', $uuid) !== 1)) {
-        return false;
-    }
-    return true;
+    return preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/', $uuid) === 1;
 }
 
-// Function to make a POST request using file_get_contents()
-function makeApiRequest(string $url, array $data): array
-{
-    $options = [
-        'http' => [
-            'header' => "Content-Type: application/json\r\n",
-            'method' => 'POST',
-            'content' => json_encode($data),
-            'timeout' => 10 // Optional timeout
-        ]
-    ];
-
-    $context = stream_context_create($options);
-    $response = file_get_contents($url, false, $context);
-
-    if ($response === false) {
-        die("API request failed.");
-    }
-
-    $httpCode = $http_response_header[0] ?? '';
-    if (strpos($httpCode, '200') === false) {
-        die("API returned an error: $httpCode - $response");
-    }
-
-    return json_decode($response, true);
-}
-
-// Validate transfer code with the API
-function validateTransferCode(string $transferCode, float $totalCost): bool
-{
-    $url = "https://www.yrgopelago.se/centralbank/transferCode";
-    $data = [
-        'transferCode' => $transferCode,
-        'totalcost' => $totalCost
-    ];
-
-    $response = makeApiRequest($url, $data);
-    return isset($response['status']) && $response['status'] === 'success';
-}
 
 // Connect to database
 try {
@@ -58,6 +16,8 @@ try {
 } catch (PDOException $e) {
     die("Database connection failed: " . $e->getMessage());
 }
+
+
 
 // Check if form was submitted via POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -80,11 +40,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = "Arrival date must be earlier than departure date.";
     }
 
-    // Validate room type
-    $room_type = $_POST['room_type'] ?? '';
-    $valid_room_types = ['budget', 'standard', 'luxury'];
-    if (!in_array($room_type, $valid_room_types, true)) {
-        $errors[] = "Invalid room type selected.";
+
+    //Validates that the booking is in january
+    if (!preg_match('/^2025-01-\d{2}$/', $arrival_date) || !preg_match('/^2025-01-\d{2}$/', $departure_date)) {
+        $errors[] = "Bookings can only be made for January 2025.";
+    }
+
+    // Validate room ID
+    $room_id = $_POST['room_id'] ?? '';
+    if (!is_numeric($room_id)) {
+        $errors[] = "Invalid room ID.";
+    } else {
+        $stmt = $db->prepare("SELECT COUNT(*) FROM rooms WHERE id = :id");
+        $stmt->execute([':id' => $room_id]);
+        if ($stmt->fetchColumn() == 0) {
+            $errors[] = "Invalid room ID selected.";
+        }
     }
 
     // Validate features (if any)
@@ -102,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // If there are errors, display them
+    // If there are validation errors, display them
     if (!empty($errors)) {
         echo "<h1>Validation Errors:</h1><ul>";
         foreach ($errors as $error) {
@@ -112,22 +83,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    // Calculate total cost
-    $room_costs = [
-        'budget' => 50.00,
-        'standard' => 100.00,
-        'luxury' => 150.00
-    ];
-    $room_cost = $room_costs[$room_type];
-    $feature_cost = 0;
+    // Fetch the discount value from the admin table
+    $stmt = $db->query("SELECT discount FROM admin LIMIT 1");
+    $discount = (float) $stmt->fetchColumn();
 
+    // Fetch the discount value from the admin table
+    $stmt = $db->query("SELECT discount FROM admin LIMIT 1");
+    $discount = (float) $stmt->fetchColumn();
+
+    // Debug: Output the discount value
+    echo "Discount value: $discount<br>";
+
+
+
+
+    // Calculate total cost
+    $stmt = $db->prepare("SELECT price FROM rooms WHERE id = :id");
+    $stmt->execute([':id' => $room_id]);
+    $room_cost = $stmt->fetchColumn();
+
+    $feature_cost = 0;
     foreach ($features as $feature_id) {
         $stmt = $db->prepare("SELECT price FROM features WHERE id = :id");
         $stmt->execute([':id' => $feature_id]);
         $feature_cost += (float) $stmt->fetchColumn();
     }
 
-    $total_cost = $room_cost + $feature_cost;
+    // Calculate the number of nights
+    $nights = (strtotime($departure_date) - strtotime($arrival_date)) / (60 * 60 * 24);
+
+    // Apply discount after the first night
+    if ($nights > 1) {
+        $discount_amount = ($room_cost * ($nights - 1)) * ($discount / 100);
+    } else {
+        $discount_amount = 0;
+    }
+
+    $total_cost = ($room_cost * $nights + $feature_cost) - $discount_amount;
+
+    // Calculate total cost
+    $total_cost = ($room_cost * $nights + $feature_cost) - $discount_amount;
+
+    // Debug: Output calculation details
+    echo "Nights: $nights<br>";
+    echo "Room cost: $room_cost<br>";
+    echo "Feature cost: $feature_cost<br>";
+    echo "Discount amount: $discount_amount<br>";
+    echo "Total cost: $total_cost<br>";
+
+
 
     // Check for overlapping bookings
     $stmt = $db->prepare("
@@ -141,7 +145,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ");
 
     $stmt->execute([
-        ':room_id' => array_search($room_type, $valid_room_types) + 1, // Map room type to room_id
+        ':room_id' => $room_id,
         ':arrival_date' => $arrival_date,
         ':departure_date' => $departure_date
     ]);
@@ -150,7 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die("The selected room is already booked for the chosen dates. Please choose different dates or a different room.");
     }
 
-    // Insert booking into the bookings table
+    // Insert booking
     try {
         $stmt = $db->prepare("
             INSERT INTO bookings (transfer_code, room_id, arrival_date, departure_date, total_cost, status)
@@ -159,7 +163,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $stmt->execute([
             ':transfer_code' => $transfer_code,
-            ':room_id' => array_search($room_type, $valid_room_types) + 1, // Map room type to room_id
+            ':room_id' => $room_id,
             ':arrival_date' => $arrival_date,
             ':departure_date' => $departure_date,
             ':total_cost' => $total_cost,
@@ -168,7 +172,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $booking_id = $db->lastInsertId();
 
-        // Insert selected features into the bookings_features table
+        // Insert features
         $stmt = $db->prepare("
             INSERT INTO bookings_features (booking_id, feature_id)
             VALUES (:booking_id, :feature_id)
@@ -188,3 +192,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 } else {
     echo "Invalid request.";
 }
+
+
+$response = [
+    'status' => 'success',
+    'booking_id' => $booking_id,
+    'total_cost' => $total_cost,
+    'discount_applied' => $discount_amount,
+    'message' => "Booking saved successfully with ID: $booking_id."
+];
+
+header('Content-Type: application/json');
+echo json_encode($response);
+exit;
