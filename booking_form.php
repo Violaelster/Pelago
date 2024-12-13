@@ -59,26 +59,7 @@
         <!-- Submit Button -->
         <button type="submit">Submit Booking</button>
     </form>
-
-    <script>
-        function updateCalendar() {
-            const roomType = document.getElementById('room_type').value;
-            const calendarDiv = document.getElementById('calendar');
-
-            // Fetch calendar data for the selected room
-            fetch(`room_calendar.php?room_id=${roomType}`)
-                .then(response => response.text())
-                .then(html => {
-                    calendarDiv.innerHTML = html;
-                })
-                .catch(error => {
-                    calendarDiv.innerHTML = "Failed to load calendar.";
-                });
-        }
-
-        // Load the calendar for the default room type on page load
-        window.onload = updateCalendar;
-    </script>
+    <script src="room_calendar.js"></script>
 </body>
 
 </html>
