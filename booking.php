@@ -2,11 +2,34 @@
 
 declare(strict_types=1);
 
-require 'process_booking.php'; // Include the backend logic to fetch data
-$data = getBookingData(); // Fetch rooms, features, and discount from the database
+function getBookingData(): array
+{
+  try {
+    $db = new PDO('sqlite:hotel-bookings.db');
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+    $rooms = [];
+    $stmt = $db->query("SELECT id, room_type, price, discount FROM rooms");
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $rooms[] = $row;
+    }
 
+    $features = [];
+    $stmt = $db->query("SELECT id, feature_name, price FROM features");
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $features[] = $row;
+    }
 
+    return [
+      'rooms' => $rooms,
+      'features' => $features,
+    ];
+  } catch (PDOException $e) {
+    die("Database connection failed: " . $e->getMessage());
+  }
+}
+
+$data = getBookingData();
 ?>
 
 <!DOCTYPE html>
@@ -67,7 +90,7 @@ $data = getBookingData(); // Fetch rooms, features, and discount from the databa
     </fieldset><br />
 
     <!-- Discount (hidden input) -->
-    <input type="hidden" id="discount" value="<?php echo $data['discount']; ?>">
+    <input type="hidden" id="discount" value="<?php echo $data['rooms'][0]['discount']; ?>">
 
     <!-- Display Total Cost -->
     <div id="total_cost">Total Cost: $0.00</div>

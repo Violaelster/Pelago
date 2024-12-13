@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-
-
 /**
  * Validates if a given string is in UUID format.
  *
@@ -16,9 +14,46 @@ function isValidUuid(string $uuid): bool
 }
 
 /**
+ * Validates a transfer code using the central bank API.
+ *
+ * @param string $transferCode
+ * @param float $totalCost
+ * @return bool
+ */
+function validateTransferCodeWithAPI(string $transferCode, float $totalCost): bool
+{
+    $url = "https://www.yrgopelago.se/centralbank/transferCode";
+
+    $data = [
+        'transferCode' => $transferCode,
+        'totalCost' => $totalCost,
+    ];
+
+    $options = [
+        'http' => [
+            'header'  => "Content-Type: application/json\r\n",
+            'method'  => 'POST',
+            'content' => json_encode($data),
+        ],
+    ];
+
+    $context = stream_context_create($options);
+    $result = file_get_contents($url, false, $context);
+
+    if ($result === false) {
+        return false; // API-anropet misslyckades
+    }
+
+    $response = json_decode($result, true);
+
+    // Kontrollera API-svaret
+    return isset($response['valid']) && $response['valid'] === true;
+}
+
+/**
  * Fetch booking-related data from the database.
  *
- * @return array Associative array containing rooms, features, and discount values.
+ * @return array Associative array containing rooms and features.
  */
 function getBookingData(): array
 {
@@ -26,7 +61,7 @@ function getBookingData(): array
 
     // Fetch rooms
     $rooms = [];
-    $stmt = $db->query("SELECT id, room_type, price FROM rooms");
+    $stmt = $db->query("SELECT id, room_type, price, discount FROM rooms");
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $rooms[] = $row;
     }
@@ -38,21 +73,9 @@ function getBookingData(): array
         $features[] = $row;
     }
 
-    // Fetch discount
-    $stmt = $db->prepare("SELECT discount FROM rooms WHERE id = :room_id");
-    $stmt->execute([':room_id' => $_POST['room_id']]);
-    $discount = (float)$stmt->fetchColumn();
-
-    if ($discount <= 0 || $discount > 100) {
-        $errors[] = "Invalid discount value for the selected room.";
-    }
-
-
-
     return [
         'rooms' => $rooms,
         'features' => $features,
-        'discount' => $discount
     ];
 }
 
@@ -89,7 +112,59 @@ function validateInput(array $data, PDO $db): array
         $errors[] = "Transfer code is required.";
     } elseif (!isValidUuid($transfer_code)) {
         $errors[] = "Transfer code is not in a valid UUID format.";
+    } else {
+        // Kontrollera transferkoden med API:t
+        $stmt = $db->prepare("SELECT price, discount FROM rooms WHERE id = :room_id");
+        $stmt->execute([':room_id' => $data['room_id']]);
+        $room = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($room) {
+            $total_cost = calculateTotalCost($data, $room['price'], $room['discount']); // Ny funktion för total kostnad
+            if (!validateTransferCodeWithAPI($transfer_code, $total_cost)) {
+                $errors[] = "Transfer code is invalid or has already been used.";
+            }
+        } else {
+            $errors[] = "Room ID is invalid.";
+        }
     }
+
+    return $errors;
+}
+
+/**
+ * Calculate the total cost for a booking.
+ *
+ * @param array $data
+ * @param float $room_price
+ * @param float $room_discount
+ * @return float
+ */
+function calculateTotalCost(array $data, float $room_price, float $room_discount): float
+{
+    $nights = (strtotime($data['departure_date']) - strtotime($data['arrival_date'])) / (60 * 60 * 24);
+
+    // Grundkostnad för rummet
+    $total_cost = $room_price * $nights;
+
+    // Dra av rabatt om den är giltig
+    if ($room_discount > 0 && $room_discount <= 100) {
+        $discount_amount = $total_cost * ($room_discount / 100);
+        $total_cost -= $discount_amount;
+    }
+
+    // Lägg till kostnaden för valda tillval
+    if (!empty($data['features'])) {
+        foreach ($data['features'] as $feature_id) {
+            $stmt = $db->prepare("SELECT price FROM features WHERE id = :id");
+            $stmt->execute([':id' => $feature_id]);
+            $feature_price = (float)$stmt->fetchColumn();
+            $total_cost += $feature_price;
+        }
+    }
+
+    return $total_cost;
+}
+
 
     // Validate dates
     $arrival_date = $data['arrival_date'] ?? '';
@@ -119,6 +194,9 @@ function validateInput(array $data, PDO $db): array
 
 // Main logic
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Debug incoming POST data
+    error_log("Incoming POST: " . print_r($_POST, true));
+
     $db = connectDatabase();
     $errors = validateInput($_POST, $db);
 
@@ -128,9 +206,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Calculate costs
-    $stmt = $db->prepare("SELECT price FROM rooms WHERE id = :id");
-    $stmt->execute([':id' => $_POST['room_id']]);
-    $room_cost = (float)$stmt->fetchColumn();
+    $stmt = $db->prepare("SELECT price, discount FROM rooms WHERE id = :room_id");
+    $stmt->execute([':room_id' => $_POST['room_id']]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$row) {
+        echo json_encode(['status' => 'error', 'message' => "Invalid room ID."]);
+        exit;
+    }
+
+    $room_cost = (float)$row['price'];
+    $discount = (float)$row['discount'];
+
+    if ($discount <= 0 || $discount > 100) {
+        echo json_encode(['status' => 'error', 'message' => "Invalid discount value for the selected room."]);
+        exit;
+    }
 
     $features = $_POST['features'] ?? [];
     $feature_cost = 0;
@@ -141,8 +232,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $nights = (strtotime($_POST['departure_date']) - strtotime($_POST['arrival_date'])) / (60 * 60 * 24);
-    $stmt = $db->query("SELECT discount FROM admin LIMIT 1");
-    $discount = (float)$stmt->fetchColumn();
     $discount_amount = ($nights > 1) ? ($room_cost * ($nights - 1)) * ($discount / 100) : 0;
     $total_cost = ($room_cost * $nights + $feature_cost) - $discount_amount;
 
