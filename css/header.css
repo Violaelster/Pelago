@@ -1,0 +1,85 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%; /* 62.5% av standarden (16px) blir 10px */
+}
+
+header {
+  display: flex;
+  flex-direction: row;
+  background-color: var(--color-bg);
+  position: sticky; /* Sticky header */
+  top: 0;
+  align-items: center;
+  padding: 70px 500px 0px 20px;
+}
+
+.header-left {
+  align-self: baseline;
+}
+
+/* #region booking*/
+
+.paw-svg {
+  width: 300px;
+}
+/* #endregion */
+
+/* #region intro*/
+#intro {
+  text-align: center;
+  padding: 0px 110px;
+}
+
+#intro h1 {
+  color: var(--color-primary);
+  font-size: var(--font-size-h1);
+  font-family: var(--font-family-h1);
+  text-wrap: nowrap;
+}
+
+#intro p {
+  color: var(--color-primary);
+  font-size: 4rem;
+  font-family: var(--font-family-p);
+}
+
+/* #endregion */
+
+/* #region main-navigation*/
+.header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 60px;
+}
+
+#main-navigation {
+  width: 40vw;
+  background-color: #ff63a3;
+  border-radius: 10px;
+}
+#main-navigation ul {
+  list-style: none;
+  gap: 15px;
+  padding: 0;
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+}
+
+#main-navigation a {
+  text-decoration: none;
+  color: var(--color-primary);
+  font-size: 5rem;
+  font-weight: bold;
+}
+
+#main-navigation a:hover {
+  color: #007bff;
+}
+/* #endregion */

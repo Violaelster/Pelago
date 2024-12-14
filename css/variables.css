@@ -1,0 +1,57 @@
+:root {
+  /* Färgpalett */
+  --color-bg: #ffe6eb; /* Bakgrundsfärg */
+  --color-primary: #ffa2c8; /* Huvudfärg */
+  --color-secondary: #ffe6eb; /* Sekundär färg */
+  --color-tertiary: #ffa2c8;
+  --color-p: #ffe6eb; /* Accentfärg */
+  --color-accent: #ff63a3; /* Knappfärg */
+
+  /* Typsnitt */
+  --font-family-h1: "Sonsie One";
+  --font-family-p: "Roboto Slab";
+  --font-family-mono: "Courier New", monospace;
+
+  /* Typografi */
+  --font-size-h1: clamp(
+    4rem,
+    7vw,
+    9rem
+  ); /* Min 3rem, växer responsivt, Max 5rem */
+  --font-size-h2: clamp(
+    4rem,
+    3.5vw,
+    3rem
+  ); /* Min 2rem, växer responsivt, Max 3rem */
+  --font-size-h3: clamp(
+    1.5rem,
+    2.5vw,
+    2.5rem
+  ); /* Min 1.5rem, växer responsivt, Max 2.5rem */
+  --font-size-h4: clamp(
+    1.25rem,
+    2vw,
+    2rem
+  ); /* Min 1.25rem, växer responsivt, Max 2rem */
+  --font-size-p: clamp(
+    1rem,
+    1.5vw,
+    1.25rem
+  ); /* Min 1rem, växer responsivt, Max 1.25rem */
+  --line-height-base: 1.5;
+
+  /* Spacing (Padding och Margins) */
+  --spacing-xs: 0.5rem; /* 8px */
+  --spacing-sm: 1rem; /* 16px */
+  --spacing-md: 1.5rem; /* 24px */
+  --spacing-lg: 2rem; /* 32px */
+  --spacing-xl: 3rem; /* 48px */
+
+  /* Border och skuggor */
+  --border-radius: 4px;
+  --box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+
+  /* Övergångar */
+  --transition-duration: 0.3s;
+  --transition-easing: ease-in-out;
+}
