@@ -34,9 +34,9 @@
     2rem
   ); /* Min 1.25rem, växer responsivt, Max 2rem */
   --font-size-p: clamp(
-    1rem,
-    1.5vw,
-    1.25rem
+    2rem,
+    2vw,
+    3rem
   ); /* Min 1rem, växer responsivt, Max 1.25rem */
   --line-height-base: 1.5;
 

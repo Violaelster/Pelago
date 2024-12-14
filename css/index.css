@@ -1,0 +1,61 @@
+body {
+  background-color: var(--color-bg);
+}
+
+/* #region section 1 */
+#hero {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+#hero-index {
+  width: 90%;
+  height: auto;
+  border-radius: 20px 20px 0 0;
+}
+
+#welcoming {
+  background-color: var(--color-tertiary);
+  width: 90%;
+  padding: 2rem;
+}
+
+#welcoming p {
+  font-size: var(--font-size-p); /* Justera textstorlek */
+  color: var(--color-secondary);
+  font-family: var(--font-family-p);
+  margin-bottom: 3rem;
+  font-weight: 300;
+}
+
+#spot {
+  background-color: var(--color-tertiary);
+  width: 90%;
+  border-radius: 0 0 20px 20px;
+  justify-content: flex-end;
+  display: flex;
+  padding: 0 2rem 2rem 2rem;
+}
+
+#spot p {
+  font-size: clamp(0.1rem, 3vw, 1.4rem); /* Justera textstorlek */
+  font-family: var(--font-family-h1);
+  font-size: clamp(2rem, 7vw, 2rem);
+}
+
+.spot-button {
+  font-family: var(--font-family-h1); /* Annat typsnitt */
+  font-size: 18px; /* Annan storlek */
+  background-color: var(--color-accent); /* Grön bakgrund */
+  color: var(--color-secondary); /* Vit text */
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.spot-button:hover {
+}
+
+/* #endregion */
