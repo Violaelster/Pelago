@@ -13,7 +13,7 @@ $data = getBookingData();
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Book a Room</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="/css/styles.css" />
 </head>
 
 <body>
@@ -64,8 +64,8 @@ $data = getBookingData();
     <button type="submit">Submit Booking</button>
   </form>
 
-  <script src="booking.js"></script>
-  <script src="room_calendar.js"></script>
+  <script src="/js/booking.js"></script>
+  <script src="/js/room_calendar.js"></script>
 </body>
 
 </html>
