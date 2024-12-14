@@ -2,31 +2,44 @@
 
 declare(strict_types=1);
 
-try {
-    // Connect to the database
-    $db = new PDO('sqlite:hotel-bookings.db');
-    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    // Handle POST requests
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Update room prices and discounts
-        if (!empty($_POST['room_prices'])) {
-            updateRoomPrices($db, $_POST['room_prices']);
-            echo "Room prices and discounts updated successfully!<br>";
-        }
-
-        // Update feature prices
-        if (!empty($_POST['feature_prices'])) {
-            updateFeaturePrices($db, $_POST['feature_prices']);
-            echo "Feature prices updated successfully!<br>";
-        }
-    } else {
-        echo "Invalid request method.";
+/**
+ * Connect to the database.
+ *
+ * @return PDO
+ */
+function connectDatabase(): PDO
+{
+    try {
+        $db = new PDO('sqlite:hotel-bookings.db');
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        return $db;
+    } catch (PDOException $e) {
+        error_log("Database error: " . $e->getMessage());
+        throw new RuntimeException("Could not connect to the database.");
     }
-} catch (PDOException $e) {
-    // Log the error and show a generic message
-    error_log("Database error: " . $e->getMessage());
-    echo "Error: Could not process the request.";
+}
+
+/**
+ * Handle POST requests to update data in the database.
+ *
+ * @param PDO $db
+ * @return string Feedback for the admin
+ */
+function handlePostRequest(PDO $db): string
+{
+    ob_start();
+
+    if (!empty($_POST['room_prices'])) {
+        updateRoomPrices($db, $_POST['room_prices']);
+        echo "Room prices and discounts updated successfully! ";
+    }
+
+    if (!empty($_POST['feature_prices'])) {
+        updateFeaturePrices($db, $_POST['feature_prices']);
+        echo "Feature prices updated successfully!";
+    }
+
+    return ob_get_clean();
 }
 
 /**
@@ -74,4 +87,21 @@ function updateFeaturePrices(PDO $db, array $featurePrices): void
             ':id' => $id
         ]);
     }
+}
+
+/**
+ * Fetch room and feature data for rendering the form.
+ *
+ * @param PDO $db
+ * @return array
+ */
+function fetchDataForForm(PDO $db): array
+{
+    $stmt = $db->query("SELECT id, room_type, price, discount FROM rooms");
+    $rooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $stmt = $db->query("SELECT id, feature_name, price FROM features");
+    $features = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    return compact('rooms', 'features');
 }
