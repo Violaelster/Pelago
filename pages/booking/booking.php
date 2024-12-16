@@ -1,7 +1,8 @@
 <?php
 
 declare(strict_types=1);
-require_once 'process_booking.php';
+require_once __DIR__ . '/../../includes/database.php';
+require_once __DIR__ . '/process_booking.php';
 
 $data = getBookingData();
 ?>
@@ -13,9 +14,8 @@ $data = getBookingData();
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Book a Room</title>
-  <link rel="stylesheet" href="/css/calendar.css" />
-  <link rel="stylesheet" href="/css/booking.css" />
-
+  <link rel="stylesheet" href="/public/css/calendar.css" />
+  <link rel="stylesheet" href="/public/css/booking.css" />
 </head>
 
 <body>
@@ -66,8 +66,8 @@ $data = getBookingData();
     <button type="submit">Submit Booking</button>
   </form>
 
-  <script src="/js/booking.js"></script>
-  <script src="/js/room_calendar.js"></script>
+  <script src="/public/js/booking.js"></script>
+  <script src="/public/js/room_calendar.js"></script>
 </body>
 
 </html>

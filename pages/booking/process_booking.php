@@ -2,21 +2,7 @@
 
 declare(strict_types=1);
 
-/**
- * Establish a database connection.
- *
- * @return PDO
- */
-function connectDatabase(): PDO
-{
-    try {
-        $db = new PDO('sqlite:hotel-bookings.db');
-        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        return $db;
-    } catch (PDOException $e) {
-        die("Database connection failed: " . $e->getMessage());
-    }
-}
+require_once __DIR__ . '/../../includes/database.php';
 
 /**
  * Fetch booking-related data from the database.
@@ -25,7 +11,7 @@ function connectDatabase(): PDO
  */
 function getBookingData(): array
 {
-    $db = connectDatabase();
+    $db = getDb();
 
     // Fetch rooms
     $rooms = $db->query("SELECT id, room_type, price, discount FROM rooms")->fetchAll(PDO::FETCH_ASSOC);
@@ -176,7 +162,7 @@ function calculateTotalcost(array $data, float $room_price, float $room_discount
 
 // Main booking processing logic
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $db = connectDatabase();
+    $db = getDb();
 
     // Validate input
     $errors = validateInput($_POST, $db);
