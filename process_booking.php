@@ -1,9 +1,6 @@
 <?php
 
-// Enforce strict typing
 declare(strict_types=1);
-
-
 
 /**
  * Establish a database connection.
@@ -103,7 +100,7 @@ function validateInput(array $data, PDO $db): array
  * Validate the transfer code using the central bank API.
  *
  * @param string $transferCode
- * @param float $totalCost
+ * @param float $totalcost
  * @return bool
  */
 function validateTransferCodeWithAPI(string $transferCode, float $totalCost): bool
@@ -112,7 +109,7 @@ function validateTransferCodeWithAPI(string $transferCode, float $totalCost): bo
 
     $data = [
         'transferCode' => $transferCode,
-        'totalCost' => $totalCost,
+        'totalcost' => $totalCost  // Note: lowercase 'cost'
     ];
 
     $options = [
@@ -120,20 +117,29 @@ function validateTransferCodeWithAPI(string $transferCode, float $totalCost): bo
             'header'  => "Content-Type: application/json\r\n",
             'method'  => 'POST',
             'content' => json_encode($data),
+            'ignore_errors' => true,
         ],
     ];
 
-    $context = stream_context_create($options);
-    $result = file_get_contents($url, false, $context);
+    try {
+        $context = stream_context_create($options);
+        $result = file_get_contents($url, false, $context);
 
-    if ($result === false) {
+        if ($result === false) {
+            return false;
+        }
+
+        $response = json_decode($result, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return false;
+        }
+
+        // Ändrad kontroll för att matcha API:ts faktiska svar
+        return isset($response['status']) && $response['status'] === 'success';
+    } catch (Exception $e) {
         return false;
     }
-
-    $response = json_decode($result, true);
-    return isset($response['valid']) && $response['valid'] === true;
 }
-
 /**
  * Calculate the total cost for a booking.
  *
@@ -143,7 +149,7 @@ function validateTransferCodeWithAPI(string $transferCode, float $totalCost): bo
  * @param PDO $db
  * @return float
  */
-function calculateTotalCost(array $data, float $room_price, float $room_discount, PDO $db): float
+function calculateTotalcost(array $data, float $room_price, float $room_discount, PDO $db): float
 {
     $nights = (strtotime($data['departure_date']) - strtotime($data['arrival_date'])) / (60 * 60 * 24);
 
@@ -191,7 +197,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Calculate total cost
-    $total_cost = calculateTotalCost($_POST, $room['price'], $room['discount'], $db);
+    $total_cost = calculateTotalcost($_POST, $room['price'], $room['discount'], $db);
 
     // Validate transfer code
     if (!validateTransferCodeWithAPI($_POST['transfer_code'], $total_cost)) {

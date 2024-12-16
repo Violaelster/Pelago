@@ -2,6 +2,13 @@ body {
   background-color: var(--color-bg);
 }
 
+main {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 50px;
+}
+
 /* #region section 1 */
 #hero {
   display: flex;
@@ -56,6 +63,50 @@ body {
 }
 
 .spot-button:hover {
+}
+
+/* #endregion */
+
+/* #region section 2 */
+
+#highlights {
+  width: 90%;
+  height: auto;
+  padding: 30px 30px;
+  background-color: var(--color-tertiary);
+  border-radius: 20px;
+}
+
+#shortcuts {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+/* För varje SVG-behållare */
+.shortcut {
+  position: relative;
+  overflow: hidden;
+  border-radius: 25px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* SVG-storlek */
+.svg-shortcut {
+  width: 100%;
+  display: block;
+  cursor: pointer;
+}
+
+/* Hover-effekt */
+.svg-shortcut:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+#highlights h2 {
+  font-size: var(--font-size-h2);
 }
 
 /* #endregion */
