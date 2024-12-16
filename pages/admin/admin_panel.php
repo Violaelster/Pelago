@@ -1,23 +1,9 @@
 <?php
 
 declare(strict_types=1);
+require_once __DIR__ . '/../../includes/database.php';
 
-/**
- * Connect to the database.
- *
- * @return PDO
- */
-function connectDatabase(): PDO
-{
-    try {
-        $db = new PDO('sqlite:hotel-bookings.db');
-        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        return $db;
-    } catch (PDOException $e) {
-        error_log("Database error: " . $e->getMessage());
-        throw new RuntimeException("Could not connect to the database.");
-    }
-}
+// Ta bort den gamla connectDatabase funktionen eftersom vi nu använder database.php
 
 /**
  * Handle POST requests to update data in the database.

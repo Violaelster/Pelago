@@ -1,10 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
+require_once __DIR__ . '/../../includes/database.php';
 require_once __DIR__ . '/admin_panel.php';
 
-$db = connectDatabase();
+$db = getDb();  // Använd den centrala databasanslutningen istället
 $feedback = '';
 $data = [];
 
@@ -13,7 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $data = fetchDataForForm($db);
-
 ?>
 
 <!DOCTYPE html>
