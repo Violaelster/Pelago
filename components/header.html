@@ -4,48 +4,43 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Smooth Motel</title>
-    <link rel="stylesheet" href="/../css/header.css" />
-    <link rel="stylesheet" href="/../css/variables.css" />
-    <link rel="stylesheet" href="/../css/index.css" />
-
+    <link rel="stylesheet" href="/public/css/header.css" />
+    <link rel="stylesheet" href="/public/css/variables.css" />
+    <link rel="stylesheet" href="/public/css/index.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Sonsie+One&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Advent+Pro:ital,wght@0,100..900;1,100..900&family=Sacramento&family=Sonsie+One&display=swap"
       rel="stylesheet"
     />
   </head>
 
   <body>
     <header>
-      <div class="header-left">
-        <!-- Boka sektion -->
-        <section id="booking">
-          <a href="/../booking.php" class="paw-header">
+      <div class="content-wrapper">
+        <!-- Vänster: Logga -->
+        <div class="logo">
+          <a href="/pages/booking/booking.php">
             <img
               src="/assets/svg/book-here.svg"
               alt="Book Here"
               class="paw-svg"
             />
           </a>
-        </section>
-      </div>
+        </div>
 
-      <div class="header-right">
-        <!-- Introduktion -->
-        <section id="intro">
-          <h1>Smooth Motel</h1>
+        <!-- Mitten: Titel och text -->
+        <div class="title-section">
+          <h1>Smooth Oasis</h1>
           <p>Smooth vibes, Snoop style.</p>
-        </section>
+        </div>
 
-        <!-- Navigering -->
-        <nav id="main-navigation">
+        <!-- Höger: Navigering -->
+        <nav class="nav-menu">
           <ul>
             <li><a href="index.php">Home</a></li>
-            <li><a href="about.php">Booking</a></li>
-            <li><a href="contact.php">About</a></li>
+            <li><a href="booking.php">Booking</a></li>
+            <li><a href="about.php">About</a></li>
           </ul>
         </nav>
       </div>

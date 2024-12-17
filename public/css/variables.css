@@ -8,15 +8,15 @@
   --color-accent: #ff63a3; /* Knappfärg */
 
   /* Typsnitt */
-  --font-family-h1: "Sonsie One";
+  --font-family-h1: "Monoton";
   --font-family-p: "Roboto Slab";
   --font-family-mono: "Courier New", monospace;
 
   /* Typografi */
   --font-size-h1: clamp(
     4rem,
-    7vw,
-    9rem
+    5vw,
+    8rem
   ); /* Min 3rem, växer responsivt, Max 5rem */
   --font-size-h2: clamp(
     4rem,

@@ -8,25 +8,25 @@ html {
   font-size: 62.5%; /* 62.5% av standarden (16px) blir 10px */
 }
 
-header {
+.header {
+  width: 100%;
   display: flex;
-  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
   background-color: var(--color-bg);
   top: 0;
-  align-items: center;
-  padding: 70px 500px 0px 20px;
 }
 
-.header-left {
-  align-self: baseline;
+.content-wrapper {
+  max-width: 1200px; /* eller den bredd du vill ha på innehållet */
+  margin: 0 auto;
+  width: 100%;
 }
-
-/* #region booking*/
 
 .paw-svg {
   width: 300px;
 }
-/* #endregion */
 
 /* #region intro*/
 #intro {
@@ -39,6 +39,12 @@ header {
   font-size: var(--font-size-h1);
   font-family: var(--font-family-h1);
   text-wrap: nowrap;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  text-align: center;
 }
 
 #intro p {

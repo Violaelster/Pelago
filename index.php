@@ -1,10 +1,12 @@
-<?php include __DIR__ . '/../components/header.html'; ?>
+<?php include __DIR__ . '/components/header.html'; ?>
 <main>
     <section id="hero">
-        <img src="/../assets/images/knuckles.jpg" alt="Description of the image" id="hero-index">
+        <img src="/assets/images/knuckles.jpg" alt="Description of the image" id="hero-index">
 
         <section id="welcoming">
-            <p>Welcome to Smooth Motel, where every stay is smoother than a Snoop Dogg beat. Immerse yourself in a world of laid-back luxury and unforgettable experiences. Whether you're here to chill in our G-funk-inspired suites, sip on a signature cocktail at the Gin & Juice Lounge, or simply enjoy the pink paradise we've created, Smooth Motel is your ultimate escape.</p>
+            <p>Welcome to Smooth Oasis, where every stay is smoother than a Snoop Dogg beat. No one represents effortless relaxation and style quite like Snoop. </p>
+
+            <p>At Smooth Oasis, we’ve crafted the ultimate retreat where calm meets elegance, and every detail invites you to unwind in true Doggfather fashion. Whether you're here to chill in our G-funk-inspired suites, sip on a signature cocktail at the Gin & Juice Lounge, Smooth Motel is your ultimate escape.</p>
 
             <p>It's not just a place to stay—it's a lifestyle, handpicked by the Doggfather himself. Ready to live smooth? Book your stay now and join the vibe.</p>
         </section>
@@ -36,9 +38,6 @@
             </div>
         </article>
     </section>
-
-
-
     </section>
 </main>
 </body>
