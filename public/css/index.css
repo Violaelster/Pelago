@@ -18,8 +18,12 @@ main {
 
 #hero-index {
   width: 90%;
-  height: auto;
+  height: 80%;
   border-radius: 20px 20px 0 0;
+  margin-top: 30rem;
+  border-width: var(--border-width-upper);
+  border-style: var(--border-style);
+  border-color: var(--border-color);
 }
 
 #welcoming {

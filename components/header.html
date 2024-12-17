@@ -9,41 +9,60 @@
     <link rel="stylesheet" href="/public/css/index.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Advent+Pro:ital,wght@0,100..900;1,100..900&family=Sacramento&family=Sonsie+One&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Advent+Pro:ital,wght@0,100..900;1,100..900&family=Monoton&family=Roboto+Slab:wght@100..900&family=Sacramento&family=Sonsie+One&display=swap"
       rel="stylesheet"
     />
   </head>
 
   <body>
-    <header>
-      <div class="content-wrapper">
-        <!-- Vänster: Logga -->
-        <div class="logo">
-          <a href="/pages/booking/booking.php">
+    <!-- Header Component -->
+    <header class="header">
+      <section class="content-wrapper">
+        <!-- Logo -->
+        <figure class="header-logo">
+          <a href="/pages/booking/booking.php" aria-label="Book your stay">
             <img
               src="/assets/svg/book-here.svg"
               alt="Book Here"
               class="paw-svg"
             />
           </a>
-        </div>
+        </figure>
 
-        <!-- Mitten: Titel och text -->
-        <div class="title-section">
+        <!-- Title Section -->
+        <article class="title-section">
           <h1>Smooth Oasis</h1>
           <p>Smooth vibes, Snoop style.</p>
-        </div>
+        </article>
 
-        <!-- Höger: Navigering -->
-        <nav class="nav-menu">
-          <ul>
-            <li><a href="index.php">Home</a></li>
-            <li><a href="booking.php">Booking</a></li>
-            <li><a href="about.php">About</a></li>
-          </ul>
-        </nav>
-      </div>
+        <!-- Hamburger Menu Button -->
+        <button
+          class="hamburger-menu"
+          aria-label="Toggle navigation menu"
+          aria-expanded="false"
+        >
+          <span class="menu-trigger">
+            <span class="menu-bar"></span>
+            <span class="menu-bar"></span>
+            <span class="menu-bar"></span>
+          </span>
+        </button>
+      </section>
+
+      <!-- Navigation Menu -->
+      <nav class="nav-menu" aria-label="Main navigation">
+        <ul role="menu">
+          <li role="none"><a href="index.php" role="menuitem">Home</a></li>
+          <li role="none"><a href="booking.php" role="menuitem">Booking</a></li>
+          <li role="none"><a href="about.php" role="menuitem">About</a></li>
+        </ul>
+      </nav>
     </header>
+
+    <!-- Include header-specific JavaScript -->
+    <script src="/public/js/header.js"></script>
   </body>
 </html>

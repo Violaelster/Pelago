@@ -8,13 +8,26 @@
   --color-accent: #ff63a3; /* Knappfärg */
 
   /* Typsnitt */
-  --font-family-h1: "Monoton";
+  --font-family-h1: "Monoton", serif;
   --font-family-p: "Roboto Slab";
   --font-family-mono: "Courier New", monospace;
 
+  /* White borders sections */
+
+  --border-width-upper: 30px 30px 0 30px; /* Topp, höger, botten, vänster */
+  --border-width-lower: 30px 30px 0 30px; /* Topp, höger, botten, vänster */
+  --border-style: solid; /* Stil för ramen (solid, dashed, etc.) */
+  --border-color: white; /* Ramens färg */
+
+  /*   border-width: var(--border-width-upper);
+  border-style: var(--border-style);
+  border-color: var(--border-color); */
+
+  --title-section-p: clamp(2rem, 2vw, 3rem);
+
   /* Typografi */
   --font-size-h1: clamp(
-    4rem,
+    3rem,
     5vw,
     8rem
   ); /* Min 3rem, växer responsivt, Max 5rem */
