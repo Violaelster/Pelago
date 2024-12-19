@@ -1,7 +1,21 @@
 <?php include __DIR__ . '/components/header.html'; ?>
 <main>
-    <section id="hero">
-        <img src="/assets/images/knuckles.jpg" alt="Description of the image" id="hero-index">
+    <section id="hero-index">
+        <div id="video-section">
+            <video id="video-hero" autoplay muted loop playsinline>
+                <source src="/assets/images/snoop-hero.mp4" type="video/mp4">
+                Din webbläsare stöder inte HTML5-video.
+            </video>
+            <div class="video-content">
+                <p class="video-small">Step into luxury</p>
+                <h1 class="video-large">Smooth Mansion</h1>
+                <p class="video-smaller">Experience the vibe. Opening January 10th, 2025.</p>
+                <div class="video-buttons">
+                    <a href="#" class="video-button">Book Now</a>
+                    <a href="#" class="video-button">Learn More</a>
+                </div>
+            </div>
+        </div>
 
         <section id="welcoming">
             <p>Welcome to Smooth Oasis, where every stay is smoother than a Snoop Dogg beat. No one represents effortless relaxation and style quite like Snoop. </p>

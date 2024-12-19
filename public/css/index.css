@@ -9,26 +9,25 @@ main {
   gap: 50px;
 }
 
-/* #region section 1 */
-#hero {
+#video-hero {
+  width: 100%;
+  border-radius: 10px 10px 0 0;
+}
+
+#hero-index {
+  width: 90%;
+  border-radius: 20px 20px 20px 20px;
+  margin-top: 18rem;
+  border-width: 30px 30px 30px 30px;
+  border-style: var(--border-style);
+  border-color: var(--border-color);
   display: flex;
   align-items: center;
   flex-direction: column;
 }
 
-#hero-index {
-  width: 90%;
-  height: 80%;
-  border-radius: 20px 20px 0 0;
-  margin-top: 30rem;
-  border-width: var(--border-width-upper);
-  border-style: var(--border-style);
-  border-color: var(--border-color);
-}
-
 #welcoming {
   background-color: var(--color-tertiary);
-  width: 90%;
   padding: 2rem;
 }
 
@@ -42,31 +41,45 @@ main {
 
 #spot {
   background-color: var(--color-tertiary);
-  width: 90%;
-  border-radius: 0 0 20px 20px;
+  width: 100%;
   justify-content: flex-end;
   display: flex;
   padding: 0 2rem 2rem 2rem;
+  border-radius: 0 0 10px 10px;
+  border-width: 30px 30px 30px 30px;
 }
 
 #spot p {
-  font-size: clamp(0.1rem, 3vw, 1.4rem); /* Justera textstorlek */
-  font-family: var(--font-family-h1);
-  font-size: clamp(2rem, 7vw, 2rem);
+  color: #ffe6eb;
+  font-family: var(--font-family-p);
+  font-size: clamp(3rem, 5vw, 4rem);
+  font-weight: 600;
 }
 
 .spot-button {
-  font-family: var(--font-family-h1); /* Annat typsnitt */
-  font-size: 18px; /* Annan storlek */
-  background-color: var(--color-accent); /* Grön bakgrund */
-  color: var(--color-secondary); /* Vit text */
+  font-family: var(--font-family-h1);
+  font-size: 4rem;
+  background-color: var(--color-accent);
+  color: var(--color-secondary);
   border: none;
   border-radius: 5px;
   padding: 5px 10px;
   cursor: pointer;
+  transition: all 0.3s ease;
+  /* Lägger till skugga och position för hover-animationen */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  position: relative;
+  top: 0;
 }
 
 .spot-button:hover {
+  /* Lyfter knappen och gör skuggan större */
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  /* Subtil ökning av ljusstyrkan */
+  filter: brightness(110%);
+  /* Lätt skalning */
+  scale: 1.02;
 }
 
 /* #endregion */
@@ -79,6 +92,9 @@ main {
   padding: 30px 30px;
   background-color: var(--color-tertiary);
   border-radius: 20px;
+  border-width: var(--border-width-upper);
+  border-style: var(--border-style);
+  border-color: var(--border-color);
 }
 
 #shortcuts {
@@ -114,3 +130,58 @@ main {
 }
 
 /* #endregion */
+
+.video-content {
+  position: absolute;
+  top: 75%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  z-index: 1;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8); /* Gör texten synlig mot bakgrunden */
+}
+
+.video-content .video-small {
+  font-size: clamp(4rem, 5vw, 7rem);
+  margin-bottom: 0.5rem;
+  font-family: var(--font-family-p);
+}
+
+.video-content .video-large {
+  font-size: clamp(6rem, 6vw, 9rem); /* Dynamisk storlek */
+  font-family: var(--font-family-h1);
+  margin-bottom: 0.5rem;
+  text-wrap: nowrap;
+}
+
+.video-content .video-smaller {
+  font-size: clamp(2rem, 5vw, 4rem);
+
+  margin-bottom: 2rem;
+  font-family: var(--font-family-p);
+}
+
+/* Knappar */
+.video-content .video-buttons {
+  margin-top: 2rem;
+}
+
+.video-content .video-button {
+  display: inline-block;
+  padding: 1rem 2rem;
+  font-size: 3rem;
+  color: white;
+  background-color: #ff4081;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  margin: 0 0.5rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.video-content .video-button:hover {
+  background-color: #ff1c70;
+  transform: scale(1.05);
+}

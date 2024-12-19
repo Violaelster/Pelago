@@ -1,8 +1,10 @@
 <?php
 
 declare(strict_types=1);
+include __DIR__ . '/../../components/header.html';
 require_once __DIR__ . '/../../includes/database.php';
 require_once __DIR__ . '/process_booking.php';
+
 
 $data = getBookingData();
 ?>
