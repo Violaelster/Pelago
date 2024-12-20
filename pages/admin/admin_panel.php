@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-require_once __DIR__ . '/../../includes/database.php';
+require_once __DIR__ . '/../../config/app.php';
 
 // Ta bort den gamla connectDatabase funktionen eftersom vi nu använder database.php
 

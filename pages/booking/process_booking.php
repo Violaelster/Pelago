@@ -1,6 +1,5 @@
 <?php
 
-// Enable strict typing for better error handling and type checking.
 declare(strict_types=1);
 
 // Include database connection file.
