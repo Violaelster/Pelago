@@ -39,5 +39,5 @@ class Database
  */
 function getDb(): PDO
 {
-    return Database::getConnection();
+    return Database::getConnection(3);
 }

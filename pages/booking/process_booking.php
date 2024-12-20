@@ -4,7 +4,7 @@
 declare(strict_types=1);
 
 // Include database connection file.
-require_once __DIR__ . '/../../includes/database.php';
+require_once __DIR__ . '/../../config/app.php';
 
 /**
  * Fetch booking-related data from the database.
@@ -13,7 +13,13 @@ require_once __DIR__ . '/../../includes/database.php';
  */
 function getBookingData(): array
 {
-    $db = getDb(); // Get database connection.
+    try {
+        $db = getDb(); // Försök att få databasanslutningen.
+    } catch (PDOException $e) {
+        error_log("Database connection error: " . $e->getMessage()); // Logga felet.
+        echo json_encode(['status' => 'error', 'message' => "Unable to connect to the database."]); // Returnera JSON-fel.
+        exit;
+    } // Get database connection.
 
     // Fetch all room data with id, type, price, and discount.
     $stmt = $db->prepare("SELECT id, room_type, price, discount FROM rooms");
@@ -123,11 +129,13 @@ function validateTransferCodeWithAPI(string $transferCode, float $totalCost): bo
         $result = file_get_contents($url, false, $context); // Send request.
 
         if ($result === false) { // Check if request failed.
+            error_log('Failed to contact API at $url');
             return false;
         }
 
         $response = json_decode($result, true); // Decode JSON response.
         if (json_last_error() !== JSON_ERROR_NONE) { // Check for JSON errors.
+            error_log("JSON decode error: " . json_last_error_msg()); // Logs the error with an explanation
             return false;
         }
 
@@ -175,7 +183,13 @@ function calculateTotalcost(array $data, float $room_price, float $room_discount
 
 // Main booking processing logic.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') { // Check if request is POST.
-    $db = getDb(); // Get database connection.
+    try {
+        $db = getDb(); // Försök att få databasanslutningen.
+    } catch (PDOException $e) {
+        error_log("Database connection error: " . $e->getMessage()); // Logga felet.
+        echo json_encode(['status' => 'error', 'message' => "Unable to connect to the database."]); // Returnera JSON-fel.
+        exit;
+    } // Get database connection.
 
     // Validate user input.
     $errors = validateInput($_POST, $db);
