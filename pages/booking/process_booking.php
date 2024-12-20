@@ -1,42 +1,88 @@
 <?php
 
-declare(strict_types=1);
+/**
+ * Process Booking Handler
+ * 
+ * This file handles all booking-related operations including:
+ * - Data fetching
+ * - Input validation
+ * - Cost calculations
+ * - Booking processing
+ */
 
-// Include database connection file.
+declare(strict_types=1);
 require_once __DIR__ . '/../../config/app.php';
+
+// ============================================================================
+//  Data Fetching Functions
+// ============================================================================
 
 /**
  * Fetch booking-related data from the database.
+ * 
+ * Returns room and feature information needed for the booking form.
+ * Includes room types, prices, discounts and available features.
  *
- * @return array Associative array containing rooms and features.
+ * @throws PDOException if database connection fails
+ * @return array{
+ *    rooms: array{
+ *      id: int,
+ *      room_type: string,
+ *      price: float,
+ *      discount: float
+ *    }[],
+ *    features: array{
+ *      id: int,
+ *      feature_name: string,
+ *      price: float
+ *    }[]
+ * }
  */
 function getBookingData(): array
 {
+    // Get database connection
     try {
-        $db = getDb(); // Försök att få databasanslutningen.
+        $db = getDb();
     } catch (PDOException $e) {
-        error_log("Database connection error: " . $e->getMessage()); // Logga felet.
-        echo json_encode(['status' => 'error', 'message' => "Unable to connect to the database."]); // Returnera JSON-fel.
+        error_log("Database connection error in getBookingData: " . $e->getMessage());
+        echo json_encode([
+            'status' => 'error',
+            'message' => "Unable to connect to the database. Please try again later."
+        ]);
         exit;
-    } // Get database connection.
+    }
 
-    // Fetch all room data with id, type, price, and discount.
-    $stmt = $db->prepare("SELECT id, room_type, price, discount FROM rooms");
+    // Prepare room query
+    $roomQuery = "SELECT id, room_type, price, discount 
+                 FROM rooms 
+                 ORDER BY price ASC";
+
+    // Fetch room data
+    $stmt = $db->prepare($roomQuery);
     $stmt->execute();
     $rooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    // Prepare features query    
+    $featureQuery = "SELECT id, feature_name, price 
+                    FROM features 
+                    ORDER BY price ASC";
 
-    // Fetch all feature data with id, name, and price.
-    $stmt = $db->prepare("SELECT id, feature_name, price FROM features");
+    // Fetch feature data
+    $stmt = $db->prepare($featureQuery);
     $stmt->execute();
     $features = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Return rooms and features as an associative array.
+    // Return combined data
     return [
         'rooms' => $rooms,
-        'features' => $features,
+        'features' => $features
     ];
 }
+
+// ============================================================================
+//  Validation Functions
+// ============================================================================
+
 
 /**
  * Validates if a given string is in UUID format.
@@ -51,49 +97,89 @@ function isValidUuid(string $uuid): bool
 }
 
 /**
- * Validate user input.
- * Consolidates all validation logic in one place.
+ * Validate all user input for a booking request.
+ * 
+ * Performs validation on:
+ * - Transfer code (UUID format)
+ * - Dates (must be valid January 2025 dates in correct order)
+ * - Room ID (must exist in database)
  *
- * @param array $data Input data from the user.
- * @param PDO $db Database connection.
- * @return array List of validation errors.
+ * @param array{
+ *    transfer_code: string,
+ *    arrival_date: string,
+ *    departure_date: string,
+ *    room_id: string
+ * } $data User submitted booking data
+ * @param PDO $db Database connection for room validation
+ * @return array List of validation error messages, empty if validation passed
  */
+
 function validateInput(array $data, PDO $db): array
 {
-    $errors = []; // Initialize errors array.
+    $errors = [];
 
-    // Validate transfer code.
-    $transfer_code = $data['transfer_code'] ?? ''; // Get transfer code or empty string.
-    if (empty($transfer_code)) {
-        $errors[] = "Transfer code is required.";
-    } elseif (!isValidUuid($transfer_code)) {
-        $errors[] = "Transfer code is not in a valid UUID format.";
+    // Validate transfer code
+    $transfer_code = $data['transfer_code'] ?? '';
+    if (!validateTransferCode($transfer_code)) {
+        $errors[] = "Transfer code is invalid or missing.";
     }
 
-    // Validate dates.
-    $arrival_date = $data['arrival_date'] ?? ''; // Get arrival date or empty string.
-    $departure_date = $data['departure_date'] ?? ''; // Get departure date or empty string.
+    // Validate dates
+    $date_errors = validateDates(
+        $data['arrival_date'] ?? '',
+        $data['departure_date'] ?? ''
+    );
+    $errors = array_merge($errors, $date_errors);
+
+    // Validate room ID
+    $room_id = $data['room_id'] ?? '';
+    if (!validateRoomId($room_id, $db)) {
+        $errors[] = "Invalid room ID selected.";
+    }
+
+    return $errors;
+}
+
+function validateTransferCode(string $transfer_code): bool
+{
+    if (empty($transfer_code)) {
+        return false;
+    }
+    return isValidUuid($transfer_code);
+}
+
+function validateDates(string $arrival_date, string $departure_date): array
+{
+    $errors = [];
+
     if (empty($arrival_date) || empty($departure_date)) {
         $errors[] = "Both arrival and departure dates are required.";
-    } elseif (strtotime($arrival_date) >= strtotime($departure_date)) {
+        return $errors;
+    }
+
+    if (strtotime($arrival_date) >= strtotime($departure_date)) {
         $errors[] = "Arrival date must be earlier than departure date.";
-    } elseif (!preg_match('/^2025-01-\d{2}$/', $arrival_date) || !preg_match('/^2025-01-\d{2}$/', $departure_date)) {
+    }
+
+    if (
+        !preg_match('/^2025-01-\d{2}$/', $arrival_date) ||
+        !preg_match('/^2025-01-\d{2}$/', $departure_date)
+    ) {
         $errors[] = "Bookings can only be made for January 2025.";
     }
 
-    // Validate room ID.
-    $room_id = $data['room_id'] ?? ''; // Get room ID or empty string.
+    return $errors;
+}
+
+function validateRoomId(string $room_id, PDO $db): bool
+{
     if (!is_numeric($room_id)) {
-        $errors[] = "Invalid room ID.";
-    } else {
-        $stmt = $db->prepare("SELECT COUNT(*) FROM rooms WHERE id = :id"); // Prepare query.
-        $stmt->execute([':id' => $room_id]); // Execute query with room ID.
-        if ($stmt->fetchColumn() == 0) {
-            $errors[] = "Invalid room ID selected.";
-        }
+        return false;
     }
 
-    return $errors; // Return list of errors.
+    $stmt = $db->prepare("SELECT COUNT(*) FROM rooms WHERE id = :id");
+    $stmt->execute([':id' => $room_id]);
+    return $stmt->fetchColumn() > 0;
 }
 
 /**
@@ -145,6 +231,11 @@ function validateTransferCodeWithAPI(string $transferCode, float $totalCost): bo
     }
 }
 
+// ============================================================================
+//  Calculation Functions
+// ============================================================================
+
+
 /**
  * Calculate the total cost for a booking.
  *
@@ -179,6 +270,10 @@ function calculateTotalcost(array $data, float $room_price, float $room_discount
 
     return $total_cost; // Return total cost.
 }
+
+// ============================================================================
+//  Main Booking Logic
+// ============================================================================
 
 // Main booking processing logic.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') { // Check if request is POST.
