@@ -7,9 +7,11 @@
                 Din webbläsare stöder inte HTML5-video.
             </video>
             <div class="video-content">
-                <p class="video-small">Step into luxury</p>
-                <h1 class="video-large">Smooth Mansion</h1>
-                <p class="video-smaller">Experience the vibe. Opening January 10th, 2025.</p>
+                <div class="video-text">
+                    <p class="video-small">Welcome to the luxury of</p>
+                    <h1 class="video-large"> D-O-Double-G's</h1>
+                </div>
+
                 <div class="video-buttons">
                     <a href="#" class="video-button">Book Now</a>
                     <a href="#" class="video-button">Learn More</a>
@@ -19,9 +21,7 @@
 
         <section id="welcoming">
             <p>Welcome to Smooth Oasis, where every stay is smoother than a Snoop Dogg beat. No one represents effortless relaxation and style quite like Snoop. </p>
-
             <p>At Smooth Oasis, we’ve crafted the ultimate retreat where calm meets elegance, and every detail invites you to unwind in true Doggfather fashion. Whether you're here to chill in our G-funk-inspired suites, sip on a signature cocktail at the Gin & Juice Lounge, Smooth Motel is your ultimate escape.</p>
-
             <p>It's not just a place to stay—it's a lifestyle, handpicked by the Doggfather himself. Ready to live smooth? Book your stay now and join the vibe.</p>
         </section>
 
@@ -54,4 +54,5 @@
     </section>
     </section>
 </main>
+<script src="/public/js/index.js"></script>
 </body>

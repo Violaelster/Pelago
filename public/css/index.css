@@ -9,11 +9,6 @@ main {
   gap: 50px;
 }
 
-#video-hero {
-  width: 100%;
-  border-radius: 10px 10px 0 0;
-}
-
 #hero-index {
   width: 90%;
   border-radius: 20px 20px 20px 20px;
@@ -107,7 +102,7 @@ main {
 .shortcut {
   position: relative;
   overflow: hidden;
-  border-radius: 25px;
+  border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -121,8 +116,8 @@ main {
 
 /* Hover-effekt */
 .svg-shortcut:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  transform: scale(1.02);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
 }
 
 #highlights h2 {
@@ -131,57 +126,86 @@ main {
 
 /* #endregion */
 
+#video-section {
+  position: relative;
+  width: 100%;
+}
+
+#video-hero {
+  width: 100%;
+  object-fit: cover; /* Ser till att videon fyller containern utan att förvrängas */
+}
+
 .video-content {
   position: absolute;
-  top: 75%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  color: white;
+  bottom: 0; /* Texten börjar i herons nederkant */
+  left: 0;
+  width: 100%; /* Fyll hela bredden */
+  display: flex;
+  justify-content: space-between; /* Sprid text och knappar */
+  padding: 2rem 4rem; /* Marginaler runt text och knappar */
   z-index: 1;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8); /* Gör texten synlig mot bakgrunden */
+  transform: translateY(0); /* Ingen initial förskjutning */
+  transition: transform 0.1s ease-out; /* Mjuk rörelse vid skrollning */
 }
 
-.video-content .video-small {
-  font-size: clamp(4rem, 5vw, 7rem);
-  margin-bottom: 0.5rem;
+.video-text {
+  display: flex;
+  flex-direction: column;
+  align-self: flex-start; /* Placera texten högst upp */
+  margin: 0 2rem;
+}
+
+.video-small,
+.video-large {
+  text-align: left;
+  margin: 0.5rem 0;
+}
+
+.video-small {
+  font-size: clamp(1rem, 3vw, 3rem);
   font-family: var(--font-family-p);
+  color: white;
 }
 
-.video-content .video-large {
+.video-large {
   font-size: clamp(6rem, 6vw, 9rem); /* Dynamisk storlek */
-  font-family: var(--font-family-h1);
-  margin-bottom: 0.5rem;
-  text-wrap: nowrap;
-}
+  font-family: cursive;
+  font-weight: bolder;
+  line-height: 9rem;
 
-.video-content .video-smaller {
-  font-size: clamp(2rem, 5vw, 4rem);
-
-  margin-bottom: 2rem;
-  font-family: var(--font-family-p);
+  color: #ffa2c8;
 }
 
 /* Knappar */
-.video-content .video-buttons {
-  margin-top: 2rem;
+.video-buttons {
+  display: flex;
+  flex-direction: row; /* Lägg knapparna i en kolumn */
+  align-self: flex-start; /* Placera knapparna högst upp */
+  margin: 0 2rem;
+  gap: 1rem; /* Avstånd mellan knapparna */
 }
 
-.video-content .video-button {
+.video-button {
   display: inline-block;
-  padding: 1rem 2rem;
-  font-size: 3rem;
+  padding: 1.2rem 3rem;
+  font-size: 2rem;
   color: white;
-  background-color: #ff4081;
   border: none;
-  border-radius: 5px;
   text-decoration: none;
   margin: 0 0.5rem;
   transition: all 0.3s ease;
   cursor: pointer;
+  font-family: var(--font-family-p);
+  border-radius: 40px;
+  border-width: 2px;
+  border-color: white;
+  border-style: solid;
 }
 
-.video-content .video-button:hover {
-  background-color: #ff1c70;
+.video-button:hover {
+  background-color: #ffa2c8;
   transform: scale(1.05);
+  border-color: #ff63a3;
+  color: #ff63a3;
 }

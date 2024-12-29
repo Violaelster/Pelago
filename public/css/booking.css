@@ -25,3 +25,174 @@
 .success-message button:hover {
   background-color: #388e3c;
 }
+
+body {
+  display: flex;
+  justify-content: center;
+}
+
+/* #section form */
+
+#booking-section {
+  padding-top: 20rem;
+  width: 90%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 5rem;
+  justify-content: center;
+}
+
+#options-section {
+  background-color: #ffe6f2; /* Ljusrosa bakgrund */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Mjuk skugga */
+  max-width: 500px;
+  border-radius: 20px 20px 20px 20px;
+  border-width: 30px 30px 30px 30px;
+  border-style: var(--border-style);
+  border-color: var(--border-color);
+}
+
+/* General Form Styling */
+form br {
+  display: none; /* Dölj br-taggar för att använda CSS-spacing */
+}
+
+form > *:not(:last-child) {
+  margin-bottom: 16px; /* Avstånd mellan elementen */
+}
+
+form {
+}
+
+#form-section h2 {
+  font-size: 3rem;
+}
+
+#calendar-section h2 {
+  font-size: 3rem;
+}
+
+label {
+  display: block;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #d63384; /* Mörkrosa */
+}
+
+#transfer_code {
+}
+
+#arrival_date {
+}
+
+#departure_date {
+}
+
+#room_type {
+}
+
+#calendar-section {
+  background: linear-gradient(145deg, #ffe6f2 0%, #ffd6eb 100%);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(214, 51, 132, 0.1),
+    0 6px 6px rgba(214, 51, 132, 0.08);
+  border-radius: 20px;
+  border-width: 30px;
+  border-style: var(--border-style);
+  border-color: var(--border-color);
+  width: 60%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  max-height: 30vw;
+}
+
+.calendar-day {
+  width: 15rem;
+  height: 5rem;
+  line-height: 60px;
+  font-size: 3rem;
+  font-weight: bold;
+  border: 1px solid #d63384;
+  background-color: #fff;
+  color: #333;
+  text-align: center;
+  margin: 0;
+}
+
+.unavailable {
+  background: linear-gradient(145deg, #d63384 0%, #c42b76 100%);
+  color: #fff;
+  border-color: #9c2465;
+}
+
+fieldset {
+}
+
+legend {
+}
+
+#feature-section {
+}
+
+input[type="text"],
+input[type="date"],
+select {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 2px solid #d63384; /* Mörkrosa kant */
+  border-radius: 5px;
+  margin-bottom: 20px;
+  background-color: #fff;
+  color: #333;
+  box-sizing: border-box;
+}
+
+/* Input Focus Effect */
+input[type="text"]:focus,
+input[type="date"]:focus,
+select:focus {
+  outline: none;
+  border-color: #9c2465; /* Djupare rosa vid fokus */
+  box-shadow: 0 0 10px rgba(220, 102, 150, 0.5); /* Subtil skuggeffekt */
+}
+
+select {
+}
+
+input[type="checkbox"] {
+}
+
+#discount {
+}
+
+#total_cost {
+}
+
+button[type="submit"] {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #d63384; /* Mörkrosa */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #9c2465; /* Djupare rosa vid hover */
+}
+
+button[type="submit"]:active {
+  background-color: #6e1a46; /* Ännu mörkare vid klick */
+}
