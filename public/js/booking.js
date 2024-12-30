@@ -8,6 +8,22 @@ document.addEventListener("DOMContentLoaded", () => {
   );
   const totalcostDiv = document.getElementById("total_cost");
   const discountInput = document.getElementById("discount");
+  const rooms = document.querySelectorAll(".room");
+
+  // Function to update room display
+  function updateRoomDisplay() {
+    const selectedRoomText =
+      roomTypeSelect.options[roomTypeSelect.selectedIndex].text;
+    const selectedRoomType = selectedRoomText.split(" (")[0]; // Get room type without price
+
+    rooms.forEach((room) => {
+      if (room.querySelector("h2").textContent === selectedRoomType) {
+        room.style.display = "block";
+      } else {
+        room.style.display = "none";
+      }
+    });
+  }
 
   function calculateTotalcost() {
     const roomPrice = parseFloat(
@@ -33,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const totalcost = roomPrice * nights + featureCost - discountAmount;
 
     totalcostDiv.textContent = `Total Cost: $${totalcost.toFixed(2)}`;
-    return totalcost; // Return the calculated total
+    return totalcost;
   }
 
   form.addEventListener("submit", async function (e) {
@@ -67,10 +83,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (result.status === "success") {
           // Ta bort h2
           document.querySelector("#form-section h2").remove();
-
-          // Resten av success-koden
-          const successDiv = document.createElement("div");
-          // ...
         }
 
         // Show success message
@@ -100,11 +112,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Add existing event listeners
-  roomTypeSelect.addEventListener("change", calculateTotalcost);
+  // Add event listeners
+  roomTypeSelect.addEventListener("change", () => {
+    calculateTotalcost();
+    updateRoomDisplay();
+  });
+
   arrivalDateInput.addEventListener("change", calculateTotalcost);
   departureDateInput.addEventListener("change", calculateTotalcost);
   featureCheckboxes.forEach((checkbox) =>
     checkbox.addEventListener("change", calculateTotalcost)
   );
+
+  // Initialize room display on page load
+  updateRoomDisplay();
 });

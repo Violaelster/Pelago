@@ -70,56 +70,38 @@ $data = getBookingData();
       </section>
 
       <section id="rooms-section">
-        <div class="room">
-          <img src="images/budget-room.jpg" alt="Budget Room">
-          <h2>Budget Room</h2>
-          <div class="room-info">
-            <p>Size: 30m²</p>
-            <p>Price: 100kr/night</p>
-            <h3>Facilities:</h3>
-            <ul>
-              <li>Single bed</li>
-              <li>Private bathroom</li>
-              <li>Basic TV</li>
-              <li>WiFi</li>
-            </ul>
+        <?php foreach ($data['rooms'] as $room): ?>
+          <div class="room">
+            <img src="/../../assets/images/<?= strtolower($room['room_type']) ?>-room.png" alt="<?= $room['room_type'] ?> Room">
+            <h2><?= $room['room_type'] ?></h2>
+            <div class="room-info">
+              <p>Size: <?= $room['room_type'] === 'Budget' ? '30m²' : ($room['room_type'] === 'Standard' ? '50m²' : '100m²') ?></p>
+              <p>Price: $<?= $room['price'] ?>/night</p>
+              <h3>Facilities:</h3>
+              <ul>
+                <?php if ($room['room_type'] === 'Budget'): ?>
+                  <li>Single bed</li>
+                  <li>Private bathroom</li>
+                  <li>Basic TV</li>
+                  <li>WiFi</li>
+                <?php elseif ($room['room_type'] === 'Standard'): ?>
+                  <li>Double bed</li>
+                  <li>Private bathroom</li>
+                  <li>Smart TV</li>
+                  <li>WiFi</li>
+                  <li>Mini fridge</li>
+                <?php else: ?>
+                  <li>King size bed</li>
+                  <li>Luxury bathroom with jacuzzi</li>
+                  <li>65" Smart TV</li>
+                  <li>High-speed WiFi</li>
+                  <li>Mini bar</li>
+                  <li>Room service</li>
+                <?php endif; ?>
+              </ul>
+            </div>
           </div>
-        </div>
-
-        <div class="room">
-          <img src="images/standard-room.jpg" alt="Standard Room">
-          <h2>Standard Room</h2>
-          <div class="room-info">
-            <p>Size: 50m²</p>
-            <p>Price: 100kr/night</p>
-            <h3>Facilities:</h3>
-            <ul>
-              <li>Double bed</li>
-              <li>Private bathroom</li>
-              <li>Smart TV</li>
-              <li>WiFi</li>
-              <li>Mini fridge</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="room">
-          <img src="images/luxury-room.jpg" alt="Luxury Room">
-          <h2>Luxury Room</h2>
-          <div class="room-info">
-            <p>Size: 100m²</p>
-            <p>Price: 100kr/night</p>
-            <h3>Facilities:</h3>
-            <ul>
-              <li>King size bed</li>
-              <li>Luxury bathroom with jacuzzi</li>
-              <li>65" Smart TV</li>
-              <li>High-speed WiFi</li>
-              <li>Mini bar</li>
-              <li>Room service</li>
-            </ul>
-          </div>
-        </div>
+        <?php endforeach; ?>
       </section>
     </aside>
   </main>
