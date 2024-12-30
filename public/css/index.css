@@ -1,3 +1,4 @@
+/* #region BASE STYLES */
 body {
   background-color: var(--color-bg);
 }
@@ -8,11 +9,13 @@ main {
   flex-direction: column;
   gap: 50px;
 }
+/* #endregion */
 
+/* #region HERO SECTION */
 #hero-index {
   width: 90%;
   border-radius: 20px 20px 20px 20px;
-  margin-top: 18rem;
+  margin-top: 25rem;
   border-width: 30px 30px 30px 30px;
   border-style: var(--border-style);
   border-color: var(--border-color);
@@ -23,14 +26,17 @@ main {
 
 #welcoming {
   background-color: var(--color-tertiary);
-  padding: 2rem;
+  padding: 3rem 3rem 0 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
 }
 
 #welcoming p {
-  font-size: var(--font-size-p); /* Justera textstorlek */
-  color: var(--color-secondary);
+  font-size: var(--font-size-p);
+  color: #d63384;
   font-family: var(--font-family-p);
-  margin-bottom: 3rem;
+
   font-weight: 300;
 }
 
@@ -50,7 +56,9 @@ main {
   font-size: clamp(3rem, 5vw, 4rem);
   font-weight: 600;
 }
+/* #endregion */
 
+/* #region SPOT BUTTON */
 .spot-button {
   font-family: var(--font-family-h1);
   font-size: 4rem;
@@ -61,71 +69,71 @@ main {
   padding: 5px 10px;
   cursor: pointer;
   transition: all 0.3s ease;
-  /* Lägger till skugga och position för hover-animationen */
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   position: relative;
   top: 0;
 }
 
 .spot-button:hover {
-  /* Lyfter knappen och gör skuggan större */
   transform: translateY(-3px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-  /* Subtil ökning av ljusstyrkan */
   filter: brightness(110%);
-  /* Lätt skalning */
   scale: 1.02;
 }
-
 /* #endregion */
 
-/* #region section 2 */
-
+/* #region HIGHLIGHTS SECTION */
 #highlights {
   width: 90%;
   height: auto;
   padding: 30px 30px;
   background-color: var(--color-tertiary);
   border-radius: 20px;
-  border-width: var(--border-width-upper);
+  border-width: var(--border-width);
   border-style: var(--border-style);
   border-color: var(--border-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 #shortcuts {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  gap: 30px;
 }
 
-/* För varje SVG-behållare */
 .shortcut {
   position: relative;
   overflow: hidden;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* SVG-storlek */
 .svg-shortcut {
-  width: 100%;
   display: block;
   cursor: pointer;
 }
 
-/* Hover-effekt */
-.svg-shortcut:hover {
-  transform: scale(1.02);
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
-}
-
 #highlights h2 {
-  font-size: var(--font-size-h2);
+  font-size: 6rem;
+  font-family: var(--font-family-p);
+  font-weight: 500;
+  color: var(--color-secondary);
+  padding-bottom: 3rem;
+  text-align: center;
 }
 
+#highlights p {
+  font-size: var(--font-size-p);
+  color: #d63384;
+  font-family: var(--font-family-p);
+  margin-bottom: 3rem;
+  font-weight: 300;
+  text-align: center;
+  max-width: 80%;
+}
 /* #endregion */
 
+/* #region VIDEO SECTION */
 #video-section {
   position: relative;
   width: 100%;
@@ -133,26 +141,27 @@ main {
 
 #video-hero {
   width: 100%;
-  object-fit: cover; /* Ser till att videon fyller containern utan att förvrängas */
+  object-fit: cover;
+  height: 40vw;
 }
 
 .video-content {
   position: absolute;
-  bottom: 0; /* Texten börjar i herons nederkant */
+  bottom: 7%;
   left: 0;
-  width: 100%; /* Fyll hela bredden */
+  width: 100%;
   display: flex;
-  justify-content: space-between; /* Sprid text och knappar */
-  padding: 2rem 4rem; /* Marginaler runt text och knappar */
+  justify-content: space-between;
+  padding: 2rem 4rem;
   z-index: 1;
-  transform: translateY(0); /* Ingen initial förskjutning */
-  transition: transform 0.1s ease-out; /* Mjuk rörelse vid skrollning */
+  transform: translateY(0);
+  transition: transform 0.1s ease-out;
 }
 
 .video-text {
   display: flex;
   flex-direction: column;
-  align-self: flex-start; /* Placera texten högst upp */
+  align-self: flex-start;
   margin: 0 2rem;
 }
 
@@ -163,27 +172,30 @@ main {
 }
 
 .video-small {
-  font-size: clamp(1rem, 3vw, 3rem);
+  font-size: clamp(2rem, 4vw, 4rem);
   font-family: var(--font-family-p);
   color: white;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Diskret skuggning */
+  font-weight: 500;
 }
 
 .video-large {
-  font-size: clamp(6rem, 6vw, 9rem); /* Dynamisk storlek */
-  font-family: cursive;
-  font-weight: bolder;
-  line-height: 9rem;
-
+  font-size: clamp(6rem, 6vw, 9rem);
+  font-family: var(--font-family-p);
+  font-weight: 900;
+  line-height: 8rem;
   color: #ffa2c8;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Diskret skuggning */
 }
+/* #endregion */
 
-/* Knappar */
+/* #region VIDEO BUTTONS */
 .video-buttons {
   display: flex;
-  flex-direction: row; /* Lägg knapparna i en kolumn */
-  align-self: flex-start; /* Placera knapparna högst upp */
+  flex-direction: row;
+  align-self: flex-end;
   margin: 0 2rem;
-  gap: 1rem; /* Avstånd mellan knapparna */
+  gap: 1rem;
 }
 
 .video-button {
@@ -191,16 +203,13 @@ main {
   padding: 1.2rem 3rem;
   font-size: 2rem;
   color: white;
-  border: none;
+  border: 2px solid white;
   text-decoration: none;
   margin: 0 0.5rem;
   transition: all 0.3s ease;
   cursor: pointer;
   font-family: var(--font-family-p);
   border-radius: 40px;
-  border-width: 2px;
-  border-color: white;
-  border-style: solid;
 }
 
 .video-button:hover {
@@ -209,3 +218,4 @@ main {
   border-color: #ff63a3;
   color: #ff63a3;
 }
+/* #endregion */

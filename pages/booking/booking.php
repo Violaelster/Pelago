@@ -37,11 +37,12 @@ $data = getBookingData();
           <label for="room_type">Room Type:</label>
           <select id="room_type" name="room_id" required>
             <?php foreach ($data['rooms'] as $room): ?>
-              <option value="<?= $room['id'] ?>" data-price="<?= $room['price'] ?>">
-                <?= htmlspecialchars($room['room_type']) ?> ($<?= $room['price'] ?> per night)
+              <option value="<?= $room['id'] ?>" data-price="<?= $room['price'] ?>" data-discount="<?= $room['discount'] ?>">
+                <?= htmlspecialchars($room['room_type']) ?>
+                ($<?= $room['price'] ?> per night <?= $room['discount'] > 0 ? '- ' . $room['discount'] . '% off after first night!' : '' ?>)
               </option>
             <?php endforeach; ?>
-          </select><br /><br />
+          </select>
 
           <article id="feature-section">
             <fieldset>
@@ -65,7 +66,9 @@ $data = getBookingData();
 
     <aside>
       <section id="calendar-section">
-        <h2>Calendar for Selected Room</h2>
+        <h2>
+          Calendar for Selected Room
+        </h2>
         <div id="calendar"></div>
       </section>
 
@@ -73,32 +76,49 @@ $data = getBookingData();
         <?php foreach ($data['rooms'] as $room): ?>
           <div class="room">
             <img src="/../../assets/images/<?= strtolower($room['room_type']) ?>-room.png" alt="<?= $room['room_type'] ?> Room">
-            <h2><?= $room['room_type'] ?></h2>
             <div class="room-info">
-              <p>Size: <?= $room['room_type'] === 'Budget' ? '30m²' : ($room['room_type'] === 'Standard' ? '50m²' : '100m²') ?></p>
-              <p>Price: $<?= $room['price'] ?>/night</p>
-              <h3>Facilities:</h3>
-              <ul>
+              <div class="room-details">
+                <h2><?= $room['room_type'] ?></h2>
+                <p>Size: <?= $room['room_type'] === 'Budget' ? '30m²' : ($room['room_type'] === 'Standard' ? '50m²' : '100m²') ?></p>
+                <p>Price: $<?= $room['price'] ?>/night</p>
+              </div>
+
+              <div class="room-text">
                 <?php if ($room['room_type'] === 'Budget'): ?>
-                  <li>Single bed</li>
-                  <li>Private bathroom</li>
-                  <li>Basic TV</li>
-                  <li>WiFi</li>
+                  <h3>The Bare Bones Bunk</h3>
+                  <p>"For the budget baller. It's basic but cozy, with just enough to keep you rested and ready to roll. No frills, just thrills—for the hustler on the go."</p>
                 <?php elseif ($room['room_type'] === 'Standard'): ?>
-                  <li>Double bed</li>
-                  <li>Private bathroom</li>
-                  <li>Smart TV</li>
-                  <li>WiFi</li>
-                  <li>Mini fridge</li>
+                  <h3>The Sweet Spot Suite</h3>
+                  <p>"Perfect balance of comfort and value. Kick back in style with modern amenities and enough space to spread out. Your home away from home, without breaking the bank."</p>
                 <?php else: ?>
-                  <li>King size bed</li>
-                  <li>Luxury bathroom with jacuzzi</li>
-                  <li>65" Smart TV</li>
-                  <li>High-speed WiFi</li>
-                  <li>Mini bar</li>
-                  <li>Room service</li>
+                  <h3>The Royal Retreat</h3>
+                  <p>"Live like royalty in our premium suite. Indulge in spacious luxury with top-tier amenities and personalized service. Where every detail is designed for the ultimate comfort experience."</p>
                 <?php endif; ?>
-              </ul>
+              </div>
+              <div class="facilities-details">
+                <h3>Facilities:</h3>
+                <ul>
+                  <?php if ($room['room_type'] === 'Budget'): ?>
+                    <li>Single bed</li>
+                    <li>Private bathroom</li>
+                    <li>Basic TV</li>
+                    <li>WiFi</li>
+                  <?php elseif ($room['room_type'] === 'Standard'): ?>
+                    <li>Double bed</li>
+                    <li>Private bathroom</li>
+                    <li>Smart TV</li>
+                    <li>WiFi</li>
+                    <li>Mini fridge</li>
+                  <?php else: ?>
+                    <li>King size bed</li>
+                    <li>Luxury bathroom with jacuzzi</li>
+                    <li>65" Smart TV</li>
+                    <li>High-speed WiFi</li>
+                    <li>Mini bar</li>
+                    <li>Room service</li>
+                  <?php endif; ?>
+                </ul>
+              </div>
             </div>
           </div>
         <?php endforeach; ?>

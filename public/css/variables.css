@@ -18,7 +18,9 @@
   --border-width-lower: 0 30px 30px 30px; /* Topp, höger, botten, vänster */
   --border-style: solid; /* Stil för ramen (solid, dashed, etc.) */
   --border-color: white; /* Ramens färg */
-  --border-radius-section:
+
+  --border-radius: 20px;
+  --border-width: 30px;
 
   /*   border-width: var(--border-width-upper);
   border-style: var(--border-style);

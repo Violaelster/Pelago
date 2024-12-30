@@ -8,7 +8,7 @@
             </video>
             <div class="video-content">
                 <div class="video-text">
-                    <p class="video-small">Welcome to the luxury of</p>
+                    <p class="video-small">Welcome To The Luxury Of The</p>
                     <h1 class="video-large"> D-O-Double-G's</h1>
                 </div>
 
@@ -20,9 +20,12 @@
         </div>
 
         <section id="welcoming">
-            <p>Welcome to Smooth Oasis, where every stay is smoother than a Snoop Dogg beat. No one represents effortless relaxation and style quite like Snoop. </p>
-            <p>At Smooth Oasis, we’ve crafted the ultimate retreat where calm meets elegance, and every detail invites you to unwind in true Doggfather fashion. Whether you're here to chill in our G-funk-inspired suites, sip on a signature cocktail at the Gin & Juice Lounge, Smooth Motel is your ultimate escape.</p>
-            <p>It's not just a place to stay—it's a lifestyle, handpicked by the Doggfather himself. Ready to live smooth? Book your stay now and join the vibe.</p>
+            <p>Welcome to Smooth Oasis, where every stay is as effortless as a Snoop Dogg beat. Experience the perfect blend of relaxation and style inspired by the Doggfather himself.</p>
+
+            <p>Unwind in G-funk-inspired suites or sip signature cocktails at the Gin & Juice Lounge. Smooth Oasis is more than a place to stay—it's a lifestyle.</p>
+
+            <p>Ready to live smooth? Book your stay now and join the vibe.</p>
+
         </section>
 
         <article id="spot">
@@ -34,7 +37,8 @@
     </section>
 
     <section id="highlights">
-        <h2>Enjoy this</h2>
+        <h2>Platinum Experiences</h2>
+        <p>Step into the world of laid-back luxury. From smooth vibes to first-class indulgence, our handpicked activities let you live the high life—Snoop style. Tap to explore and make every moment a hit.</p>
         <article id="shortcuts">
             <div class="shortcut">
                 <img src="/assets/svg/the-bling-shop.svg" alt="Gin & Juice Lounge" class="svg-shortcut">
@@ -56,3 +60,4 @@
 </main>
 <script src="/public/js/index.js"></script>
 </body>
+<?php include __DIR__ . '/components/footer.php'; ?>
