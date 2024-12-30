@@ -88,6 +88,11 @@ header.scrolled p {
   line-height: 7rem;
 }
 
+.title-section a {
+  text-decoration: none; /* Ta bort understrykning */
+  color: inherit; /* Ärva färgen från omgivande stil */
+}
+
 .title-section p {
   font-size: clamp(3rem, 4vw, 5rem);
   font-family: var(--font-family-p);

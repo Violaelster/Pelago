@@ -38,30 +38,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   form.addEventListener("submit", async function (e) {
     e.preventDefault();
-
-    // Create debug div if it doesn't exist
-    let debugDiv = document.getElementById("debug-info");
-    if (!debugDiv) {
-      debugDiv = document.createElement("div");
-      debugDiv.id = "debug-info";
-      debugDiv.style.margin = "20px";
-      debugDiv.style.padding = "10px";
-      debugDiv.style.border = "1px solid #ccc";
-      debugDiv.style.backgroundColor = "#f5f5f5";
-      form.parentNode.insertBefore(debugDiv, form.nextSibling);
-    }
-
     const formData = new FormData(this);
     const submitButton = form.querySelector('button[type="submit"]');
     submitButton.disabled = true;
-
-    // Log form data being sent
-    debugDiv.innerHTML = "<h3>Debug Information:</h3>";
-    debugDiv.innerHTML += "<p>Form Data being sent:</p>";
-    for (let pair of formData.entries()) {
-      debugDiv.innerHTML += `<p>${pair[0]}: ${pair[1]}</p>`;
-    }
-    debugDiv.innerHTML += `<p>Calculated Total Cost: $${calculateTotalcost()}</p>`;
 
     try {
       const response = await fetch("process_booking.php", {
@@ -69,19 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
         body: formData,
       });
 
-      // Log raw response
-      const rawResponse = await response.text();
-      debugDiv.innerHTML += "<p>Raw Response:</p>";
-      debugDiv.innerHTML += `<pre>${rawResponse}</pre>`;
-
-      // Try to parse JSON
-      let result;
-      try {
-        result = JSON.parse(rawResponse);
-      } catch (e) {
-        debugDiv.innerHTML += `<p>Error parsing JSON: ${e.message}</p>`;
-        throw new Error("Invalid JSON response");
-      }
+      const result = await response.json();
 
       if (result.status === "success") {
         // Create downloadable receipt
@@ -97,6 +64,15 @@ document.addEventListener("DOMContentLoaded", () => {
         window.URL.revokeObjectURL(url);
         document.body.removeChild(a);
 
+        if (result.status === "success") {
+          // Ta bort h2
+          document.querySelector("#form-section h2").remove();
+
+          // Resten av success-koden
+          const successDiv = document.createElement("div");
+          // ...
+        }
+
         // Show success message
         const successDiv = document.createElement("div");
         successDiv.className = "success-message";
@@ -105,13 +81,12 @@ document.addEventListener("DOMContentLoaded", () => {
           <p>Booking ID: ${result.booking_id}</p>
           <p>Total Cost: $${result.total_cost}</p>
           <p>Your receipt has been downloaded.</p>
-          <button onclick="location.reload()">Make Another Booking</button>
+          <img src="/../../assets/images/success.png" alt="Booking Success" style="width:90%; height: auto; margin: 10px 0; border-radius: 50%;">
+          <button onclick="location.reload()">Booking</button>
         `;
         form.innerHTML = "";
         form.appendChild(successDiv);
       } else {
-        debugDiv.innerHTML += "<p>Error Response:</p>";
-        debugDiv.innerHTML += `<pre>${JSON.stringify(result, null, 2)}</pre>`;
         alert(
           result.message ||
             result.errors?.join("\n") ||
@@ -120,10 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
         submitButton.disabled = false;
       }
     } catch (error) {
-      debugDiv.innerHTML += `<p>Fetch Error: ${error.message}</p>`;
-      alert(
-        "An error occurred while processing your booking. Please check the debug information below the form."
-      );
+      alert("An error occurred while processing your booking.");
       submitButton.disabled = false;
     }
   });

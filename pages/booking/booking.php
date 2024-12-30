@@ -5,7 +5,6 @@ require_once __DIR__ . '/../../config/app.php';
 include __DIR__ . '/../../components/header.html';
 require_once __DIR__ . '/process_booking.php';
 
-
 $data = getBookingData();
 ?>
 
@@ -21,14 +20,10 @@ $data = getBookingData();
 </head>
 
 <body>
-
-  <section id="booking-section">
-
-    <article id="options-section">
+  <main id="booking-section">
+    <section id="options-section">
       <article id="form-section">
-
         <h2>Book Room</h2>
-
         <form method="POST" action="process_booking.php">
           <label for="transfer_code">Transfer Code:</label>
           <input type="text" id="transfer_code" name="transfer_code" required /><br /><br />
@@ -41,62 +36,98 @@ $data = getBookingData();
 
           <label for="room_type">Room Type:</label>
           <select id="room_type" name="room_id" required>
-            <?php
-            foreach ($data['rooms'] as $room) {
-              echo '<option value="' . $room['id'] . '" data-price="' . $room['price'] . '">' .
-                htmlspecialchars($room['room_type']) . ' ($' . $room['price'] . ' per night)</option>';
-            }
-            ?>
+            <?php foreach ($data['rooms'] as $room): ?>
+              <option value="<?= $room['id'] ?>" data-price="<?= $room['price'] ?>">
+                <?= htmlspecialchars($room['room_type']) ?> ($<?= $room['price'] ?> per night)
+              </option>
+            <?php endforeach; ?>
           </select><br /><br />
+
+          <article id="feature-section">
+            <fieldset>
+              <legend>Additional Features</legend>
+              <?php foreach ($data['features'] as $feature): ?>
+                <label>
+                  <input type="checkbox" name="features[]" value="<?= $feature['id'] ?>" data-price="<?= $feature['price'] ?>">
+                  <?= htmlspecialchars($feature['feature_name']) ?> ($<?= $feature['price'] ?>)
+                </label><br>
+              <?php endforeach; ?>
+            </fieldset>
+          </article>
+
+          <div id="submit-section">
+            <div id="total_cost">Total Cost: $0.00</div>
+            <button type="submit">Submit Booking</button>
+          </div>
         </form>
       </article>
+    </section>
 
+    <aside>
+      <section id="calendar-section">
+        <h2>Calendar for Selected Room</h2>
+        <div id="calendar"></div>
+      </section>
 
-      <article id="feature-section">
+      <section id="rooms-section">
+        <div class="room">
+          <img src="images/budget-room.jpg" alt="Budget Room">
+          <h2>Budget Room</h2>
+          <div class="room-info">
+            <p>Size: 30m²</p>
+            <p>Price: 100kr/night</p>
+            <h3>Facilities:</h3>
+            <ul>
+              <li>Single bed</li>
+              <li>Private bathroom</li>
+              <li>Basic TV</li>
+              <li>WiFi</li>
+            </ul>
+          </div>
+        </div>
 
-        <fieldset>
-          <legend>Additional Features:</legend>
-          <?php
-          foreach ($data['features'] as $feature) {
-            echo '
-          <label>
-              <input type="checkbox" name="features[]" value="' . $feature['id'] . '" data-price="' . $feature['price'] . '">
-              ' . htmlspecialchars($feature['feature_name']) . ' ($' . $feature['price'] . ')
-          </label><br>';
-          }
-          ?>
-        </fieldset><br />
-      </article>
-      <div id="submit-section">
+        <div class="room">
+          <img src="images/standard-room.jpg" alt="Standard Room">
+          <h2>Standard Room</h2>
+          <div class="room-info">
+            <p>Size: 50m²</p>
+            <p>Price: 100kr/night</p>
+            <h3>Facilities:</h3>
+            <ul>
+              <li>Double bed</li>
+              <li>Private bathroom</li>
+              <li>Smart TV</li>
+              <li>WiFi</li>
+              <li>Mini fridge</li>
+            </ul>
+          </div>
+        </div>
 
-        <div id="total_cost">Total Cost: $0.00</div>
+        <div class="room">
+          <img src="images/luxury-room.jpg" alt="Luxury Room">
+          <h2>Luxury Room</h2>
+          <div class="room-info">
+            <p>Size: 100m²</p>
+            <p>Price: 100kr/night</p>
+            <h3>Facilities:</h3>
+            <ul>
+              <li>King size bed</li>
+              <li>Luxury bathroom with jacuzzi</li>
+              <li>65" Smart TV</li>
+              <li>High-speed WiFi</li>
+              <li>Mini bar</li>
+              <li>Room service</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </aside>
+  </main>
 
-        <button type="submit">Submit Booking</button>
-      </div>
-
-
-    </article>
-
-
-    <article id="calendar-section">
-
-      <h2>Calendar for Selected Room</h2>
-      <div id="calendar">
-        <!-- Dynamically loaded via JavaScript -->
-      </div>
-    </article>
-
-    <article id="rooms-section">
-      <h1>Hej</h1>
-    </article>
-
-  </section>
-  <input type="hidden" id="discount" value="<?php echo $data['rooms'][0]['discount']; ?>">
-
+  <input type="hidden" id="discount" value="<?= $data['rooms'][0]['discount'] ?>">
 
   <script src="/public/js/booking.js"></script>
   <script src="/public/js/room_calendar.js"></script>
-
 </body>
 
 </html>
