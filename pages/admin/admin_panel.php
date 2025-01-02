@@ -22,7 +22,12 @@ function handlePostRequest(PDO $db): string
 
     if (!empty($_POST['feature_prices'])) {
         updateFeaturePrices($db, $_POST['feature_prices']);
-        echo "Feature prices updated successfully!";
+        echo "Feature prices updated successfully! ";
+    }
+
+    if (!empty($_POST['admin_settings'])) {
+        updateAdminSettings($db, $_POST['admin_settings']);
+        echo "Admin settings updated successfully!";
     }
 
     return ob_get_clean();
@@ -89,5 +94,31 @@ function fetchDataForForm(PDO $db): array
     $stmt = $db->query("SELECT id, feature_name, price FROM features");
     $features = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    return compact('rooms', 'features');
+    $stmt = $db->query("SELECT setting_name, setting_value FROM admin_settings");
+    $settings = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
+
+    return compact('rooms', 'features', 'settings');
+}
+
+/**
+ * Update admin settings.
+ *
+ * @param PDO $db
+ * @param array $settings
+ * @return void
+ */
+function updateAdminSettings(PDO $db, array $settings): void
+{
+    $stmt = $db->prepare("
+        UPDATE admin_settings
+        SET setting_value = :value
+        WHERE setting_name = :name
+    ");
+
+    foreach ($settings as $name => $value) {
+        $stmt->execute([
+            ':value' => $value,
+            ':name' => $name
+        ]);
+    }
 }

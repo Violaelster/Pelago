@@ -40,8 +40,24 @@ $data = fetchDataForForm($db);
             <label><?= htmlspecialchars($feature['feature_name']) ?> Price:</label>
             <input type="number" name="feature_prices[<?= $feature['id'] ?>]" value="<?= $feature['price'] ?>" step="0.01" required><br><br>
         <?php endforeach; ?>
+
+
+
+        <h2>Update Hotel Settings</h2>
+        <label>Hotel Stars (1-5):</label>
+        <input type="number" name="admin_settings[hotel_stars]"
+            value="<?= $data['settings']['hotel_stars'] ?? 3 ?>"
+            min="1" max="5" required><br><br>
+
+        <label>Welcome Message:</label>
+        <textarea name="admin_settings[booking_welcome_text]" rows="4" required><?=
+                                                                                htmlspecialchars($data['settings']['booking_welcome_text'] ??
+                                                                                    'Welcome to Smooth Oasis! Get ready to experience the perfect blend of relaxation and style.')
+                                                                                ?></textarea><br><br>
         <button type="submit">Update Prices</button>
     </form>
+
+
 </body>
 
 </html>

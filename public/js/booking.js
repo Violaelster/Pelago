@@ -90,8 +90,6 @@ document.addEventListener("DOMContentLoaded", () => {
         successDiv.className = "success-message";
         successDiv.innerHTML = `
           <h2>Booking Confirmed!</h2>
-          <p>Booking ID: ${result.booking_id}</p>
-          <p>Total Cost: $${result.total_cost}</p>
           <p>Your receipt has been downloaded.</p>
           <img src="/../../assets/images/success.png" alt="Booking Success">
           <button onclick="location.reload()">Book Again</button>
@@ -126,4 +124,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Initialize room display on page load
   updateRoomDisplay();
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const popup = document.querySelector(".welcome-popup");
+  const overlay = document.querySelector(".popup-overlay");
+  const closeButton = document.querySelector(".welcome-popup-close");
+
+  // Visa popup när sidan laddas
+  setTimeout(() => {
+    popup.classList.add("show");
+    overlay.classList.add("show");
+  }, 500);
+
+  // Stäng popup när man klickar på krysset eller utanför
+  closeButton.addEventListener("click", closePopup);
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) {
+      closePopup();
+    }
+  });
+
+  function closePopup() {
+    popup.classList.remove("show");
+    overlay.classList.remove("show");
+  }
 });

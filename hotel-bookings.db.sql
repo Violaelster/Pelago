@@ -4,7 +4,7 @@
 -- https://tableplus.com/
 --
 -- Database: hotel-bookings.db
--- Generation Time: 2024-12-20 12:54:02.3850
+-- Generation Time: 2025-01-02 23:38:30.4380
 -- -------------------------------------------------------------
 
 
@@ -40,23 +40,36 @@ CREATE TABLE rooms (
     discount FLOAT DEFAULT 0
 );
 
+CREATE TABLE sqlite_sequence(name,seq);
+
 INSERT INTO "bookings" ("id", "transfer_code", "room_id", "arrival_date", "departure_date", "total_cost", "status") VALUES
-('33', '21320d20-0b14-4952-9f02-12f9fae5ca43', '1', '2025-01-01', '2025-01-02', '19.0', 'confirmed'),
-('34', '21320d20-0b14-4952-9f02-12f9fae5ca43', '1', '2025-01-01', '2025-01-02', '19.0', 'confirmed'),
-('35', '21320d20-0b14-4952-9f02-12f9fae5ca43', '1', '2025-01-01', '2025-01-02', '19.0', 'confirmed');
+('55', 'b32bc894-3d23-491c-a668-ec956146558b', '1', '2025-01-02', '2025-01-03', '20.79', 'confirmed'),
+('56', 'd5df191a-4643-412a-8a15-fcf08e80d366', '1', '2025-01-17', '2025-01-18', '20.79', 'confirmed'),
+('57', '295d4212-58cd-4708-b59b-6971594e91ac', '1', '2025-01-23', '2025-01-24', '20.79', 'confirmed'),
+('58', '3ae8663e-b758-4fc9-8f73-70b98527ee1d', '1', '2025-01-15', '2025-01-16', '20.79', 'confirmed'),
+('59', '8dd98488-301e-4117-9145-534af4250043', '2', '2025-01-02', '2025-01-03', '20.79', 'confirmed'),
+('60', '3d703eb7-4df9-40a2-b4fc-1a0aa2f64ec5', '2', '2025-01-20', '2025-01-21', '20.79', 'confirmed');
 
 INSERT INTO "bookings_features" ("booking_id", "feature_id") VALUES
-('33', '1'),
-('34', '1'),
-('35', '2');
+('55', '1'),
+('56', '2'),
+('57', '2'),
+('58', '2'),
+('59', '1'),
+('60', '1');
 
 INSERT INTO "features" ("id", "feature_name", "price") VALUES
-('1', 'Yatzy', '10.0'),
-('2', 'PS5', '10.0'),
-('3', 'Sauna', '10.0');
+('1', 'Yatzy', '11.0'),
+('2', 'PS5', '11.0'),
+('3', 'Sauna', '11.0');
 
 INSERT INTO "rooms" ("id", "room_type", "price", "discount") VALUES
-('1', 'Budget', '10.0', '10.0'),
-('2', 'Standard', '10.0', '10.0'),
-('3', 'Luxury', '10.0', '10.0');
+('1', 'Budget', '11.0', '11.0'),
+('2', 'Standard', '11.0', '11.0'),
+('3', 'Luxury', '11.0', '98.0');
+
+INSERT INTO "sqlite_sequence" ("name", "seq") VALUES
+('features', '3'),
+('bookings', '60'),
+('rooms', '3');
 

@@ -1,4 +1,4 @@
-<?php include __DIR__ . '/components/header.html'; ?>
+<?php include __DIR__ . '/components/header.php'; ?>
 <main>
     <section id="hero-index">
         <div id="video-section">

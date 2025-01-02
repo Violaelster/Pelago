@@ -28,7 +28,6 @@ require_once __DIR__ . '/../../config/app.php';
  */
 function getBookingData(): array
 {
-    // Get database connection
     try {
         $db = getDb();
     } catch (PDOException $e) {
@@ -44,8 +43,6 @@ function getBookingData(): array
     $roomQuery = "SELECT id, room_type, price, discount 
                  FROM rooms 
                  ORDER BY price ASC";
-
-    // Fetch room data
     $stmt = $db->prepare($roomQuery);
     $stmt->execute();
     $rooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -54,16 +51,22 @@ function getBookingData(): array
     $featureQuery = "SELECT id, feature_name, price 
                     FROM features 
                     ORDER BY price ASC";
-
-    // Fetch feature data
     $stmt = $db->prepare($featureQuery);
     $stmt->execute();
     $features = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Return combined data
+    // Get welcome settings
+    $settingsQuery = "SELECT setting_name, setting_value 
+                     FROM admin_settings 
+                     WHERE setting_name IN ('hotel_stars', 'booking_welcome_text')";
+    $stmt = $db->prepare($settingsQuery);
+    $stmt->execute();
+    $settings = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
+
     return [
         'rooms' => $rooms,
-        'features' => $features
+        'features' => $features,
+        'settings' => $settings
     ];
 }
 
@@ -85,9 +88,13 @@ function isValidUuid(string $uuid): bool
 /**
  * Validate all user input for a booking request.
  * 
- * Performs validation on:
+ * Functions
+ * - User input
+ * - Room availity
+ * - If transfercode is used
+ * - If transfercode is used
  * - Transfer code (UUID format)
- * - Dates (must be valid January 2025 dates in correct order)
+ * - Dates,
  * - Room ID (must exist in database)
  *
  * @param array $data User submitted booking data.
@@ -349,19 +356,70 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') { // Check if request is POST.
             $stmt->execute([':booking_id' => $booking_id, ':feature_id' => $feature_id]); // Link features to booking.
         }
 
-        // Create JSON response with booking details.
+        $room_specific_content = [
+            'Budget' => [
+                'messages' => [
+                    'Keepin\' it real in our budget-friendly crib! 💸, Straight outta pocket savings, but still stylin\'! Snoop approved Bare Bones Bunk, fo\' shizzle!'
+                ],
+                'gifs' => [
+                    'https://media2.giphy.com/media/83cdjFtt3f9XWNOHAO/giphy.gif'
+                ],
+                'motto' => 'Relax your mind, let your conscience be free. Welcome!'
+            ],
+            'Standard' => [
+                'messages' => [
+                    'Stay in The D-O-Double Suite – a space as smooth as a classic G-Funk track, tailored for your comfort.'
+                ],
+                'gifs' => [
+                    'https://media2.giphy.com/media/xT9KVvCqLmtooJn6GA/giphy.gif'
+                ],
+                'motto' => 'Smooth living, done just right. Welcome!'
+            ],
+            'Luxury' => [
+                'messages' => [
+                    'Welcome to Tha Platinum Palace – ✨, VIP status activated, Snoop approved luxury! 🕴️ Living lavish in The Platinum Palace! 💎'
+                ],
+                'gifs' => [
+                    'https://media1.giphy.com/media/HRRL24tbWOmEPRQihV/giphy.gif'
+                ],
+                'motto' => 'Stay smooth, stay legendary. Welcome!'
+            ]
+        ];
+
+        // Hämta rumstyp och content
+        $room_type = $room['room_type'];
+        $room_content = $room_specific_content[$room_type];
+
+        // Hämta meddelande och gif för rumstypen
+        $message = $room_content['messages'][0];
+        $gif = $room_content['gifs'][0];
+
         $response = [
             'status' => 'success',
-            'booking_id' => $booking_id,
-            'total_cost' => $total_cost,
-            'arrival_date' => $_POST['arrival_date'],
-            'departure_date' => $_POST['departure_date'],
+            'hotel' => [
+                'name' => 'Smooth Mansion',
+                'island' => 'Fo Shizzle Isle',
+                'stars' => 4
+            ],
+            'booking' => [
+                'id' => $booking_id,
+                'arrival_date' => $_POST['arrival_date'],
+                'departure_date' => $_POST['departure_date'],
+                'total_cost' => $total_cost,
+                'status' => 'confirmed'
+            ],
             'room' => [
                 'id' => $room_id,
                 'type' => $room['room_type'],
-                'price_per_night' => $room['price'],
+                'price_per_night' => $room['price']
             ],
             'features' => [],
+            'personal_message' => [
+                'message' => $message,
+                'motto' => $room_content['motto'],
+                'gif_url' => $gif,
+                'signature' => 'Stay smooth, stay cool, stay Snoop!'
+            ]
         ];
 
         foreach ($features as $feature_id) { // Add feature details to response.
