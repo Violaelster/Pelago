@@ -96,7 +96,7 @@ $data = getBookingData();
                 <?php endif; ?>
               </div>
               <div class="facilities-details">
-                <h3>Facilities:</h3>
+                <h3>Facilities</h3>
                 <ul>
                   <?php if ($room['room_type'] === 'Budget'): ?>
                     <li>Single bed</li>
@@ -125,11 +125,10 @@ $data = getBookingData();
       </section>
     </aside>
   </main>
+  <?php include __DIR__ . '/../../components/footer.php'; ?>
 
   <input type="hidden" id="discount" value="<?= $data['rooms'][0]['discount'] ?>">
 
   <script src="/public/js/booking.js"></script>
   <script src="/public/js/room_calendar.js"></script>
 </body>
-
-</html>

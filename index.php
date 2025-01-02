@@ -59,5 +59,5 @@
     </section>
 </main>
 <script src="/public/js/index.js"></script>
-</body>
+
 <?php include __DIR__ . '/components/footer.php'; ?>

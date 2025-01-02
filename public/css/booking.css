@@ -1,5 +1,7 @@
 body {
   display: flex;
+  flex-direction: column;
+  display: flex;
   justify-content: center;
 }
 
@@ -227,7 +229,7 @@ legend {
   width: 100%;
   display: block;
   object-fit: cover;
-  height: 550px;
+  height: 480px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -287,6 +289,7 @@ legend {
   margin: 0;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .room-info li {
@@ -294,9 +297,14 @@ legend {
   font-weight: 400;
   color: #d63384;
   font-family: var(--font-family-p);
-  margin: 8px 0;
-  padding-left: 24px;
+  margin: 5px;
+  padding: 12px 24px;
   position: relative;
+  border-radius: 10px;
+  border-width: 5px;
+  border-style: var(--border-style);
+  border-color: var(--border-color);
+  text-wrap: nowrap;
 }
 
 .room-details p:nth-child(2),
@@ -356,8 +364,9 @@ legend {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   position: relative;
   top: 0;
-  width: 100%;
+  width: 65%;
   margin-top: 2rem;
+  letter-spacing: 0.2rem;
 }
 
 .success-message button:hover {
@@ -365,5 +374,12 @@ legend {
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
   filter: brightness(110%);
   scale: 1.02;
+}
+
+.success-message img {
+  max-width: 35%;
+  height: auto;
+  margin: 10px 0;
+  border-radius: 50%;
 }
 /* #endregion */
