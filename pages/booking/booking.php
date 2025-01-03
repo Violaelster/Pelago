@@ -6,6 +6,7 @@ require_once __DIR__ . '/../../config/paths.php';
 include __DIR__ . '/../../components/header.php';
 require_once __DIR__ . '/process_booking.php';
 
+
 $data = getBookingData();
 ?>
 
@@ -18,6 +19,7 @@ $data = getBookingData();
   <title>Book a Room</title>
   <link rel="stylesheet" href="<?= BASE_PATH ?>/public/css/calendar.css" />
   <link rel="stylesheet" href="<?= BASE_PATH ?>/public/css/booking.css" />
+  <meta name="base-path" content="<?= BASE_PATH ?>">
 
 </head>
 
