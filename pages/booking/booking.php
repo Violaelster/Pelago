@@ -15,8 +15,8 @@ $data = getBookingData();
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Book a Room</title>
-  <link rel="stylesheet" href="/public/css/calendar.css" />
-  <link rel="stylesheet" href="/public/css/booking.css" />
+  <link rel="stylesheet" href="/Pelago/public/css/calendar.css" />
+  <link rel="stylesheet" href="/Pelago/public/css/booking.css" />
 </head>
 
 <div class="popup-overlay">
@@ -83,7 +83,7 @@ $data = getBookingData();
     <section id="rooms-section">
       <?php foreach ($data['rooms'] as $room): ?>
         <div class="room">
-          <img src="/../../assets/images/<?= strtolower($room['room_type']) ?>-room.png" alt="<?= $room['room_type'] ?> Room">
+          <img src="/Pelago/assets/images/<?= strtolower($room['room_type']) ?>-room.png" alt="<?= $room['room_type'] ?> Room">
           <div class="room-info">
             <div class="room-details">
               <h2><?= $room['room_type'] ?></h2>
@@ -97,7 +97,7 @@ $data = getBookingData();
                 <p>"For the budget baller. Keep it simple, keep it smooth. Tha Bare Bones Bunk is perfect for those who roll with style on a budget."</p>
               <?php elseif ($room['room_type'] === 'Standard'): ?>
                 <h3>Tha D-O-Double Suite</h3>
-                <p>"Tha D-O-Double Suite blends laid-back vibes with just the right amount of flair – the perfect spot for chillin’ in style."</p>
+                <p>"Tha D-O-Double Suite blends laid-back vibes with just the right amount of flair – the perfect spot for chillin' in style."</p>
               <?php else: ?>
                 <h3>Tha Platinum Palace</h3>
                 <p>"Elevate your stay at Tha Platinum Palace – where every detail shines and the vibes are nothing but premium."</p>
@@ -137,6 +137,6 @@ $data = getBookingData();
 
 <input type="hidden" id="discount" value="<?= $data['rooms'][0]['discount'] ?>">
 
-<script src="/public/js/booking.js"></script>
-<script src="/public/js/room_calendar.js"></script>
+<script src="/Pelago/public/js/booking.js"></script>
+<script src="/Pelago/public/js/room_calendar.js"></script>
 </body>

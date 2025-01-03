@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
         successDiv.innerHTML = `
           <h2>Booking Confirmed!</h2>
           <p>Your receipt has been downloaded.</p>
-          <img src="/../../assets/images/success.png" alt="Booking Success">
+          <img src="/Pelago/assets/images/success.png" alt="Booking Success">
           <button onclick="location.reload()">Book Again</button>
         `;
         form.innerHTML = "";

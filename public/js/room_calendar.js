@@ -4,7 +4,7 @@ function updateCalendar() {
   const calendarDiv = document.getElementById("calendar");
 
   // Fetch booked dates from the API
-  fetch(`room_calendar.php?room_id=${roomType}`)
+  fetch(`/Pelago/pages/booking/room_calendar.php?room_id=${roomType}`)
     .then((response) => {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
