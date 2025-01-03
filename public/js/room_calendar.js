@@ -2,9 +2,11 @@
 function updateCalendar() {
   const roomType = document.getElementById("room_type").value;
   const calendarDiv = document.getElementById("calendar");
+  const basePath =
+    document.querySelector('meta[name="base-path"]')?.content || "";
 
   // Fetch booked dates from the API
-  fetch(`/Pelago/pages/booking/room_calendar.php?room_id=${roomType}`)
+  fetch(`${basePath}/pages/booking/room_calendar.php?room_id=${roomType}`)
     .then((response) => {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -17,8 +19,7 @@ function updateCalendar() {
       // Clear the calendar
       calendarDiv.innerHTML = ""; // Reset calendar content
 
-      // Generate a simple calendar
-      // Generate a calendar for January
+      // Generate a simple calendar for January
       const daysInJanuary = 31;
       for (let day = 1; day <= daysInJanuary; day++) {
         const date = `2025-01-${String(day).padStart(2, "0")}`;

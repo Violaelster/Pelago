@@ -1,9 +1,12 @@
-<?php include __DIR__ . '/components/header.php'; ?>
+<?php
+require_once __DIR__ . '/config/paths.php';
+include __DIR__ . '/components/header.php';
+?>
 <main>
     <section id="hero-index">
         <div id="video-section">
             <video id="video-hero" autoplay muted loop playsinline>
-                <source src="/Pelago/assets/images/snoop-hero.mp4" type="video/mp4">
+                <source src="<?= BASE_PATH ?>/assets/images/snoop-hero.mp4" type="video/mp4">
                 Din webbläsare stöder inte HTML5-video.
             </video>
             <div class="video-content">
@@ -13,7 +16,7 @@
                 </div>
 
                 <div class="video-buttons">
-                    <a href="/Pelago/pages/booking/booking.php" class="video-button">Book Now</a>
+                    <a href="<?= BASE_PATH ?>/pages/booking/booking.php" class="video-button">Book Now</a>
                     <a href="#" class="video-button">Learn More</a>
                 </div>
             </div>
@@ -31,7 +34,7 @@
         <article id="spot">
             <p>
                 Get yo spot
-                <a href="/Pelago/pages/booking/booking.php">
+                <a href="<?= BASE_PATH ?>/pages/booking/booking.php">
                     <button class="spot-button">here</button>
                 </a>
             </p>
@@ -43,18 +46,18 @@
         <p>Step into the world of laid-back luxury. From smooth vibes to first-class indulgence, our handpicked activities let you live the high life—Snoop style. Tap to explore and make every moment a hit.</p>
         <article id="shortcuts">
             <div class="shortcut">
-                <img src="/Pelago/assets/svg/the-bling-shop.svg" alt="Gin & Juice Lounge" class="svg-shortcut">
+                <img src="<?= BASE_PATH ?>/assets/svg/the-bling-shop.svg" alt="Gin & Juice Lounge" class="svg-shortcut">
             </div>
 
             <div class="shortcut">
-                <img src="/Pelago/assets/svg/gin-and-juice.svg" alt="Gin & Juice Lounge" class="svg-shortcut">
+                <img src="<?= BASE_PATH ?>/assets/svg/gin-and-juice.svg" alt="Gin & Juice Lounge" class="svg-shortcut">
             </div>
             <div class="shortcut">
-                <img src="/Pelago/assets/svg/g-funk-nights.svg" alt="G-funk nights" class="svg-shortcut">
+                <img src="<?= BASE_PATH ?>/assets/svg/g-funk-nights.svg" alt="G-funk nights" class="svg-shortcut">
             </div>
 
             <div class="shortcut">
-                <img src="/Pelago/assets/svg/marthas-kitchen.svg" alt="Martha's Kitchen" class="svg-shortcut">
+                <img src="<?= BASE_PATH ?>/assets/svg/marthas-kitchen.svg" alt="Martha's Kitchen" class="svg-shortcut">
             </div>
         </article>
     </section>

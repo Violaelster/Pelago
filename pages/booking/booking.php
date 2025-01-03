@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 require_once __DIR__ . '/../../config/app.php';
+require_once __DIR__ . '/../../config/paths.php';
 include __DIR__ . '/../../components/header.php';
 require_once __DIR__ . '/process_booking.php';
 
@@ -15,8 +16,9 @@ $data = getBookingData();
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Book a Room</title>
-  <link rel="stylesheet" href="/Pelago/public/css/calendar.css" />
-  <link rel="stylesheet" href="/Pelago/public/css/booking.css" />
+  <link rel="stylesheet" href="<?= BASE_PATH ?>/public/css/calendar.css" />
+  <link rel="stylesheet" href="<?= BASE_PATH ?>/public/css/booking.css" />
+
 </head>
 
 <div class="popup-overlay">
@@ -83,7 +85,7 @@ $data = getBookingData();
     <section id="rooms-section">
       <?php foreach ($data['rooms'] as $room): ?>
         <div class="room">
-          <img src="/Pelago/assets/images/<?= strtolower($room['room_type']) ?>-room.png" alt="<?= $room['room_type'] ?> Room">
+          <img src="<?= BASE_PATH ?>/assets/images/<?= strtolower($room['room_type']) ?>-room.png" alt="<?= $room['room_type'] ?> Room">
           <div class="room-info">
             <div class="room-details">
               <h2><?= $room['room_type'] ?></h2>
@@ -137,6 +139,6 @@ $data = getBookingData();
 
 <input type="hidden" id="discount" value="<?= $data['rooms'][0]['discount'] ?>">
 
-<script src="/Pelago/public/js/booking.js"></script>
-<script src="/Pelago/public/js/room_calendar.js"></script>
+<script src="<?= BASE_PATH ?>/public/js/booking.js"></script>
+<script src="<?= BASE_PATH ?>/public/js/room_calendar.js"></script>
 </body>

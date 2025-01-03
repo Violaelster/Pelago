@@ -1,3 +1,6 @@
+<?php
+require_once __DIR__ . '/../config/paths.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,11 +8,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Smooth Mansion</title>
-  <link rel="stylesheet" href="/Pelago/public/css/header.css" />
-  <link rel="stylesheet" href="/Pelago/public/css/footer.css" />
-  <link rel="stylesheet" href="/Pelago/public/css/admin_panel.css" />
-  <link rel="stylesheet" href="/Pelago/public/css/variables.css" />
-  <link rel="stylesheet" href="/Pelago/public/css/index.css" />
+  <link rel="stylesheet" href="<?= BASE_PATH ?>/public/css/header.css" />
+  <link rel="stylesheet" href="<?= BASE_PATH ?>/public/css/footer.css" />
+  <link rel="stylesheet" href="<?= BASE_PATH ?>/public/css/admin_panel.css" />
+  <link rel="stylesheet" href="<?= BASE_PATH ?>/public/css/variables.css" />
+  <link rel="stylesheet" href="<?= BASE_PATH ?>/public/css/index.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -25,9 +28,9 @@
     <section class="content-wrapper">
       <!-- Logo -->
       <figure class="header-logo">
-        <a href="/Pelago/pages/booking/booking.php" aria-label="Book your stay">
+        <a href="<?= BASE_PATH ?>/pages/booking/booking.php" aria-label="Book your stay">
           <img
-            src="/Pelago/assets/svg/book-here.svg"
+            src="<?= BASE_PATH ?>/assets/svg/book-here.svg"
             alt="Book Here"
             class="paw-svg" />
         </a>
@@ -35,10 +38,10 @@
 
       <!-- Uppdaterad Title Section -->
       <article class="title-section">
-        <a href="/Pelago/index.php">
+        <a href="<?= BASE_PATH ?>/index.php">
           <h1>
             Smooth Mansion
-            <img src="/Pelago/assets/images/snoop-icon.svg" alt="Icon" />
+            <img src="<?= BASE_PATH ?>/assets/images/snoop-icon.svg" alt="Icon" />
           </h1>
         </a>
         <p>Smooth vibes, Snoop style.</p>
@@ -53,13 +56,13 @@
 
             for ($i = 0; $i < $starCount; $i++):
           ?>
-              <img src="/Pelago/assets/svg/star.svg" alt="Hotel Star Rating" class="star-rating">
+              <img src="<?= BASE_PATH ?>/assets/svg/star.svg" alt="Hotel Star Rating" class="star-rating">
             <?php
             endfor;
           } catch (PDOException $e) {
             for ($i = 0; $i < 3; $i++):
             ?>
-              <img src="/Pelago/assets/svg/star.svg" alt="Hotel Star Rating" class="star-rating">
+              <img src="<?= BASE_PATH ?>/assets/svg/star.svg" alt="Hotel Star Rating" class="star-rating">
           <?php
             endfor;
           }
@@ -85,7 +88,7 @@
   </header>
 
   <!-- Include header-specific JavaScript -->
-  <script src="/Pelago/public/js/header.js"></script>
+  <script src="<?= BASE_PATH ?>/public/js/header.js"></script>
 </body>
 
 </html>

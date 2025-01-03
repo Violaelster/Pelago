@@ -9,6 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const totalcostDiv = document.getElementById("total_cost");
   const discountInput = document.getElementById("discount");
   const rooms = document.querySelectorAll(".room");
+  const basePath =
+    document.querySelector('meta[name="base-path"]')?.content || "";
 
   // Function to update room display
   function updateRoomDisplay() {
@@ -89,11 +91,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const successDiv = document.createElement("div");
         successDiv.className = "success-message";
         successDiv.innerHTML = `
-          <h2>Booking Confirmed!</h2>
-          <p>Your receipt has been downloaded.</p>
-          <img src="/Pelago/assets/images/success.png" alt="Booking Success">
-          <button onclick="location.reload()">Book Again</button>
-        `;
+    <h2>Booking Confirmed!</h2>
+    <p>Your receipt has been downloaded.</p>
+    <img src="${basePath}/assets/images/success.png" alt="Booking Success">
+    <button onclick="location.reload()">Book Again</button>
+  `;
         form.innerHTML = "";
         form.appendChild(successDiv);
       } else {
