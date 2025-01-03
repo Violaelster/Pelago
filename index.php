@@ -13,7 +13,7 @@
                 </div>
 
                 <div class="video-buttons">
-                    <a href="#" class="video-button">Book Now</a>
+                    <a href="/../pages/booking/booking.php" class="video-button">Book Now</a>
                     <a href="#" class="video-button">Learn More</a>
                 </div>
             </div>
@@ -31,7 +31,9 @@
         <article id="spot">
             <p>
                 Get yo spot
-                <button class="spot-button">here</button>
+                <a href="/../pages/booking/booking.php">
+                    <button class="spot-button">here</button>
+                </a>
             </p>
         </article>
     </section>

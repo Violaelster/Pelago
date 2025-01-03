@@ -11,10 +11,15 @@
 
         <!-- Center Image -->
         <div class="footer-center">
-            <img
-                src="/../../assets/images/snoop-icon.svg"
-                alt="Icon" />
+            <a href="/../pages/admin/update_admin.php">
+                <img
+                    src="/../../assets/images/snoop-icon.svg"
+                    alt="Icon" />
+            </a>
         </div>
+
+
+
 
         <!-- Links -->
 
