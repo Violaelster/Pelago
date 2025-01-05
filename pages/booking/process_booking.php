@@ -7,11 +7,12 @@
  * - Data fetching
  * - Input validation
  * - Cost calculations
+ * - Payment processing
  * - Booking processing
  */
 
 declare(strict_types=1);
-require_once __DIR__ . '/../../config/app.php';
+require_once __DIR__ . './../../config/app.php';
 
 // ============================================================================
 //  Data Fetching Functions
@@ -86,16 +87,72 @@ function isValidUuid(string $uuid): bool
 }
 
 /**
+ * Validates if a transfer code has the correct UUID format.
+ *
+ * @param string $transferCode The code to validate format
+ * @return bool True if valid UUID format
+ */
+function validateTransferCodeFormat(string $transferCode): bool
+{
+    if (empty($transferCode)) {
+        return false;
+    }
+    return isValidUuid($transferCode);
+}
+
+/**
+ * Validate the transfer code with the central bank API.
+ *
+ * @param string $transferCode The code to validate
+ * @param float $totalCost Total booking cost
+ * @return array API response
+ */
+function validateTransferCodeWithAPI(string $transferCode, float $totalCost): array
+{
+    $url = 'https://www.yrgopelago.se/centralbank/transferCode';
+
+    $data = [
+        'transferCode' => $transferCode,
+        'totalcost' => $totalCost
+    ];
+
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Content-Type: application/json',
+        'Accept: application/json',
+    ]);
+
+    $response = curl_exec($ch);
+
+    if ($response === false) {
+        $error = curl_error($ch);
+        curl_close($ch);
+        die("CURL error: $error");
+    }
+
+    curl_close($ch);
+
+    $decodedResponse = json_decode($response, true);
+    if ($decodedResponse === null) {
+        die("Failed to parse API response.");
+    }
+
+    return $decodedResponse;
+}
+
+/**
  * Validate all user input for a booking request.
  * 
  * Functions
  * - User input
- * - Room availity
- * - If transfercode is used
- * - If transfercode is used
- * - Transfer code (UUID format)
- * - Dates,
- * - Room ID (must exist in database)
+ * - Room availability
+ * - Transfer code format
+ * - Transfer code usage
+ * - Dates
+ * - Room ID
  *
  * @param array $data User submitted booking data.
  * @param PDO $db Database connection for room validation.
@@ -109,7 +166,7 @@ function validateInput(array $data, PDO $db): array
     $transfer_code = $data['transfer_code'] ?? '';
     if (empty($transfer_code)) {
         $errors[] = "Transfer code is required.";
-    } elseif (!isValidUuid($transfer_code)) {
+    } elseif (!validateTransferCodeFormat($transfer_code)) {
         $errors[] = "Transfer code is not in a valid UUID format.";
     } elseif (isTransferCodeUsed($transfer_code, $db)) {
         $errors[] = "Transfer code has already been used.";
@@ -137,7 +194,6 @@ function validateInput(array $data, PDO $db): array
     return $errors;
 }
 
-
 function isRoomAvailable(int $room_id, string $arrival_date, string $departure_date, PDO $db): bool
 {
     $stmt = $db->prepare("
@@ -161,14 +217,6 @@ function isTransferCodeUsed(string $transfer_code, PDO $db): bool
     $stmt = $db->prepare("SELECT COUNT(*) FROM bookings WHERE transfer_code = :transfer_code");
     $stmt->execute([':transfer_code' => $transfer_code]);
     return $stmt->fetchColumn() > 0;
-}
-
-function validateTransferCode(string $transfer_code): bool
-{
-    if (empty($transfer_code)) {
-        return false;
-    }
-    return isValidUuid($transfer_code);
 }
 
 function validateDates(string $arrival_date, string $departure_date): array
@@ -206,58 +254,56 @@ function validateRoomId(string $room_id, PDO $db): bool
 }
 
 /**
- * Validate the transfer code using the central bank API.
+ * Deposit booking payment to the central bank.
  *
- * @param string $transferCode The code to validate.
- * @param float $totalCost Total booking cost.
- * @return bool True if transfer code is valid, otherwise false.
+ * @param string $transferCode The validated transfer code
+ * @param string $arrivalDate Booking arrival date
+ * @param string $departureDate Booking departure date
+ * @return array API response
  */
-function validateTransferCodeWithAPI(string $transferCode, float $totalCost): bool
+function depositPayment(string $transferCode, string $arrivalDate, string $departureDate): array
 {
-    $url = "https://www.yrgopelago.se/centralbank/transferCode"; // API endpoint.
+    $url = 'https://www.yrgopelago.se/centralbank/deposit';
 
-    // Prepare data payload for API request.
+    // Calculate number of days
+    $numberOfDays = (strtotime($departureDate) - strtotime($arrivalDate)) / (60 * 60 * 24);
+
     $data = [
+        'user' => 'Viola', // Replace with your actual username
         'transferCode' => $transferCode,
-        'totalcost' => $totalCost // API requires lowercase 'cost'.
+        'numberOfDays' => $numberOfDays
     ];
 
-    // HTTP options for API request.
-    $options = [
-        'http' => [
-            'header'  => "Content-Type: application/json\r\n", // Set JSON content type.
-            'method'  => 'POST', // Use POST method.
-            'content' => json_encode($data), // JSON encode the data.
-            'ignore_errors' => true, // Ignore HTTP errors.
-        ],
-    ];
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Content-Type: application/json',
+        'Accept: application/json',
+    ]);
 
-    try {
-        $context = stream_context_create($options); // Create stream context.
-        $result = file_get_contents($url, false, $context); // Send request.
+    $response = curl_exec($ch);
 
-        if ($result === false) { // Check if request failed.
-            error_log('Failed to contact API at $url');
-            return false;
-        }
-
-        $response = json_decode($result, true); // Decode JSON response.
-        if (json_last_error() !== JSON_ERROR_NONE) { // Check for JSON errors.
-            error_log("JSON decode error: " . json_last_error_msg()); // Logs the error with an explanation
-            return false;
-        }
-
-        // Validate response status.
-        return isset($response['status']) && $response['status'] === 'success';
-    } catch (Exception $e) { // Catch exceptions.
-        return false;
+    if ($response === false) {
+        $error = curl_error($ch);
+        curl_close($ch);
+        die("CURL error: $error");
     }
+
+    curl_close($ch);
+
+    $decodedResponse = json_decode($response, true);
+    if ($decodedResponse === null) {
+        die("Failed to parse API response.");
+    }
+
+    return $decodedResponse;
 }
 
 // ============================================================================
 //  Calculation Functions
 // ============================================================================
-
 
 /**
  * Calculate the total cost for a booking.
@@ -270,75 +316,84 @@ function validateTransferCodeWithAPI(string $transferCode, float $totalCost): bo
  */
 function calculateTotalcost(array $data, float $room_price, float $room_discount, PDO $db): float
 {
-    // Calculate number of nights.
+    // Calculate number of nights
     $nights = (strtotime($data['departure_date']) - strtotime($data['arrival_date'])) / (60 * 60 * 24);
 
-    // Calculate base room cost.
+    // Calculate base room cost
     $total_cost = $room_price * $nights;
 
-    // Apply discount if applicable.
+    // Apply discount if applicable
     if ($room_discount > 0 && $room_discount <= 100) {
         $discount_amount = $total_cost * ($room_discount / 100);
         $total_cost -= $discount_amount;
     }
 
-    // Add feature costs.
-    $features = $data['features'] ?? []; // Get selected features.
+    // Add feature costs
+    $features = $data['features'] ?? [];
     foreach ($features as $feature_id) {
-        $stmt = $db->prepare("SELECT price FROM features WHERE id = :id"); // Prepare query.
-        $stmt->execute([':id' => $feature_id]); // Execute with feature ID.
-        $feature_price = (float)$stmt->fetchColumn(); // Get feature price.
-        $total_cost += $feature_price; // Add to total cost.
+        $stmt = $db->prepare("SELECT price FROM features WHERE id = :id");
+        $stmt->execute([':id' => $feature_id]);
+        $feature_price = (float)$stmt->fetchColumn();
+        $total_cost += $feature_price;
     }
 
-    return $total_cost; // Return total cost.
+    return $total_cost;
 }
 
 // ============================================================================
 //  Main Booking Logic
 // ============================================================================
 
-// Main booking processing logic.
-if ($_SERVER['REQUEST_METHOD'] === 'POST') { // Check if request is POST.
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
-        $db = getDb(); // Försök att få databasanslutningen.
+        $db = getDb();
     } catch (PDOException $e) {
-        error_log("Database connection error: " . $e->getMessage()); // Logga felet.
-        echo json_encode(['status' => 'error', 'message' => "Unable to connect to the database."]); // Returnera JSON-fel.
-        exit;
-    } // Get database connection.
-
-    // Validate user input.
-    $errors = validateInput($_POST, $db);
-    if (!empty($errors)) { // Check for validation errors.
-        echo json_encode(['status' => 'error', 'errors' => $errors]); // Return errors as JSON.
+        error_log("Database connection error: " . $e->getMessage());
+        echo json_encode(['status' => 'error', 'message' => "Unable to connect to the database."]);
         exit;
     }
 
-    // Fetch room details by ID.
+    // Validate user input
+    $errors = validateInput($_POST, $db);
+    if (!empty($errors)) {
+        echo json_encode(['status' => 'error', 'errors' => $errors]);
+        exit;
+    }
+
+    // Fetch room details
     $room_id = $_POST['room_id'];
     $stmt = $db->prepare("SELECT room_type, price, discount FROM rooms WHERE id = :room_id");
-    $stmt->execute([':room_id' => $room_id]); // Execute query with room ID.
-    $room = $stmt->fetch(PDO::FETCH_ASSOC); // Fetch room data.
+    $stmt->execute([':room_id' => $room_id]);
+    $room = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if (!$room) { // Check if room exists.
+    if (!$room) {
         echo json_encode(['status' => 'error', 'message' => "Invalid room ID."]);
         exit;
     }
 
-    // Calculate total cost.
+    // Calculate total cost
     $total_cost = calculateTotalcost($_POST, $room['price'], $room['discount'], $db);
 
-    // Validate transfer code via API.
-    if (!validateTransferCodeWithAPI($_POST['transfer_code'], $total_cost)) {
+    // Validate transfer code via API
+    $transferValidation = validateTransferCodeWithAPI($_POST['transfer_code'], $total_cost);
+    if (!isset($transferValidation['status']) || $transferValidation['status'] !== 'success') {
         echo json_encode(['status' => 'error', 'message' => "Transfer code is invalid or has already been used."]);
         exit;
     }
 
-    // Save booking and features.
+    // Process booking
     try {
-        // Insert booking data into database.
-        $stmt = $db->prepare("INSERT INTO bookings (transfer_code, room_id, arrival_date, departure_date, total_cost, status) VALUES (:transfer_code, :room_id, :arrival_date, :departure_date, :total_cost, :status)");
+        // Start transaction
+        $db->beginTransaction();
+
+        // Insert booking
+        $stmt = $db->prepare("
+            INSERT INTO bookings (
+                transfer_code, room_id, arrival_date, departure_date, total_cost, status
+            ) VALUES (
+                :transfer_code, :room_id, :arrival_date, :departure_date, :total_cost, :status
+            )
+        ");
         $stmt->execute([
             ':transfer_code' => $_POST['transfer_code'],
             ':room_id' => $room_id,
@@ -348,14 +403,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') { // Check if request is POST.
             ':status' => 'confirmed',
         ]);
 
-        $booking_id = $db->lastInsertId(); // Get inserted booking ID.
+        $booking_id = $db->lastInsertId();
 
-        $features = $_POST['features'] ?? []; // Get selected features.
-        $stmt = $db->prepare("INSERT INTO bookings_features (booking_id, feature_id) VALUES (:booking_id, :feature_id)"); // Prepare feature query.
-        foreach ($features as $feature_id) {
-            $stmt->execute([':booking_id' => $booking_id, ':feature_id' => $feature_id]); // Link features to booking.
+        // Process deposit
+        $depositResponse = depositPayment(
+            $_POST['transfer_code'],
+            $_POST['arrival_date'],
+            $_POST['departure_date']
+        );
+
+        if (!isset($depositResponse['status']) || $depositResponse['status'] !== 'success') {
+            // Rollback transaction if deposit fails
+            $db->rollBack();
+            echo json_encode(['status' => 'error', 'message' => "Failed to process payment."]);
+            exit;
         }
 
+        // Insert features
+        $features = $_POST['features'] ?? [];
+        $stmt = $db->prepare("INSERT INTO bookings_features (booking_id, feature_id) VALUES (:booking_id, :feature_id)");
+        foreach ($features as $feature_id) {
+            $stmt->execute([':booking_id' => $booking_id, ':feature_id' => $feature_id]);
+        }
+
+        // Commit transaction
+        $db->commit();
+
+        // Prepare room-specific content
         $room_specific_content = [
             'Budget' => [
                 'messages' => [
@@ -386,14 +460,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') { // Check if request is POST.
             ]
         ];
 
-        // Hämta rumstyp och content
+        // Get room type specific content
         $room_type = $room['room_type'];
         $room_content = $room_specific_content[$room_type];
-
-        // Hämta meddelande och gif för rumstypen
         $message = $room_content['messages'][0];
         $gif = $room_content['gifs'][0];
 
+        // Prepare response
         $response = [
             'status' => 'success',
             'hotel' => [
@@ -422,19 +495,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') { // Check if request is POST.
             ]
         ];
 
-        foreach ($features as $feature_id) { // Add feature details to response.
+        // Add features to response
+        foreach ($features as $feature_id) {
             $stmt = $db->prepare("SELECT feature_name, price FROM features WHERE id = :id");
-            $stmt->execute([':id' => $feature_id]); // Fetch feature data.
+            $stmt->execute([':id' => $feature_id]);
             $feature = $stmt->fetch(PDO::FETCH_ASSOC);
             if ($feature) {
-                $response['features'][] = $feature; // Append to response.
+                $response['features'][] = $feature;
             }
         }
 
-        header('Content-Type: application/json'); // Set JSON header.
-        echo json_encode($response); // Return response as JSON.
+        // Send response
+        header('Content-Type: application/json');
+        echo json_encode($response);
         exit;
-    } catch (PDOException $e) { // Catch database exceptions.
+    } catch (PDOException $e) {
+        // Rollback transaction on error
+        $db->rollBack();
+        error_log("Database error in booking process: " . $e->getMessage());
         echo json_encode(['status' => 'error', 'message' => "Failed to save booking or features."]);
+        exit;
     }
 }

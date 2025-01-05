@@ -17,7 +17,7 @@ class Database
         if (self::$connection === null) {
             try {
                 // Using __DIR__ to get absolute path relative to this file
-                self::$connection = new PDO('sqlite:' . __DIR__ . '/../hotel-bookings.db');
+                self::$connection = new PDO('sqlite:' . __DIR__ . './../hotel-bookings.db');
                 self::$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             } catch (PDOException $e) {
                 throw new PDOException("Database connection failed: " . $e->getMessage());
@@ -39,5 +39,5 @@ class Database
  */
 function getDb(): PDO
 {
-    return Database::getConnection(3);
+    return Database::getConnection();
 }
