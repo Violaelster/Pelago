@@ -1,9 +1,9 @@
 <?php
 
 declare(strict_types=1);
-require_once __DIR__ . '/../../config/app.php';
+require_once __DIR__ . './../../config/app.php';
 require_once __DIR__ . '/../../config/paths.php';
-include __DIR__ . '/../../components/header.php';
+include __DIR__ . './../../components/header.php';
 require_once __DIR__ . '/process_booking.php';
 
 
@@ -87,7 +87,7 @@ $data = getBookingData();
     <section id="rooms-section">
       <?php foreach ($data['rooms'] as $room): ?>
         <div class="room">
-          <img src="<?= BASE_PATH ?>/assets/images/<?= strtolower($room['room_type']) ?>-room.png" alt="<?= $room['room_type'] ?> Room">
+          <img src=".<?= BASE_PATH ?>/assets/images/<?= strtolower($room['room_type']) ?>-room.png" alt="<?= $room['room_type'] ?> Room">
           <div class="room-info">
             <div class="room-details">
               <h2><?= $room['room_type'] ?></h2>

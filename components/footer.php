@@ -27,6 +27,7 @@ require_once __DIR__ . '/../config/paths.php';
             <li><a href="#">Talk to Tha Smooth Team</a></li>
             <li><a href="#">The Snoop Legacy</a></li>
             <li><a href="#">The Doggfather's Story</a></li>
+            <li><a href="#">The Doggfather's Story</a></li>
         </ul>
     </div>
 

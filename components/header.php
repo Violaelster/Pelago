@@ -15,6 +15,7 @@ require_once __DIR__ . '/../config/paths.php';
   <link rel="stylesheet" href="<?= BASE_PATH ?>/public/css/index.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -48,7 +49,7 @@ require_once __DIR__ . '/../config/paths.php';
         <div class="hotel-stars">
 
           <?php
-          require_once __DIR__ . '/../config/app.php';
+          require_once __DIR__ . './../config/app.php';
           try {
             $db = getDb();
             $stmt = $db->query("SELECT setting_value FROM admin_settings WHERE setting_name = 'hotel_stars'");
