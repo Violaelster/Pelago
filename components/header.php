@@ -1,4 +1,16 @@
 <?php
+
+/**
+ * This file represents the header component of the website.
+ *
+ * It includes the necessary HTML, CSS, and JavaScript code to display the header section.
+ * The header contains the logo, title, star rating, and navigation menu.
+ * It also includes a link to the booking page and a hamburger menu button for mobile navigation.
+ *
+ * @filesource /Users/violas/Desktop/Developer/Pelago/components/header.php
+ * @package Pelago
+ * @subpackage Components
+ */
 require_once __DIR__ . '/../config/paths.php';
 ?>
 <!DOCTYPE html>
@@ -15,12 +27,7 @@ require_once __DIR__ . '/../config/paths.php';
   <link rel="stylesheet" href="<?= BASE_PATH ?>/public/css/index.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Advent+Pro:ital,wght@0,100..900;1,100..900&family=Monoton&family=Roboto+Slab:wght@100..900&family=Sacramento&family=Sonsie+One&display=swap"
-    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Advent+Pro:ital,wght@0,100..900;1,100..900&family=Monoton&family=Roboto+Slab:wght@100..900&family=Sacramento&family=Sonsie+One&display=swap" rel="stylesheet" />
 </head>
 
 <body>
@@ -30,10 +37,7 @@ require_once __DIR__ . '/../config/paths.php';
       <!-- Logo -->
       <figure class="header-logo">
         <a href="<?= BASE_PATH ?>/pages/booking/booking.php" aria-label="Book your stay">
-          <img
-            src="<?= BASE_PATH ?>/assets/svg/book-here.svg"
-            alt="Book Here"
-            class="paw-svg" />
+          <img src="<?= BASE_PATH ?>/assets/svg/book-here.svg" alt="Book Here" class="paw-svg" />
         </a>
       </figure>
 
@@ -47,13 +51,12 @@ require_once __DIR__ . '/../config/paths.php';
         </a>
         <p>Smooth vibes, Snoop style.</p>
         <div class="hotel-stars">
-
           <?php
           require_once __DIR__ . './../config/app.php';
           try {
             $db = getDb();
             $stmt = $db->query("SELECT setting_value FROM admin_settings WHERE setting_name = 'hotel_stars'");
-            $starCount = (int)($stmt->fetchColumn() ?? 3);
+            $starCount = (int) ($stmt->fetchColumn() ?? 3);
 
             for ($i = 0; $i < $starCount; $i++):
           ?>
@@ -69,14 +72,10 @@ require_once __DIR__ . '/../config/paths.php';
           }
           ?>
         </div>
-
       </article>
 
       <!-- Hamburger Menu Button -->
-      <button
-        class="hamburger-menu"
-        aria-label="Toggle navigation menu"
-        aria-expanded="false">
+      <button class="hamburger-menu" aria-label="Toggle navigation menu" aria-expanded="false">
         <span class="menu-trigger">
           <span class="menu-bar"></span>
           <span class="menu-bar"></span>

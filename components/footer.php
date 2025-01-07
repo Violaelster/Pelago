@@ -1,4 +1,13 @@
 <?php
+
+/**
+ * Footer Component
+ *
+ * This component represents the footer section of a webpage. It includes social media icons, a center image, and various links.
+ *
+ * @package Components
+ * @subpackage Footer
+ */
 require_once __DIR__ . '/../config/paths.php';
 ?>
 <footer class="footer">
