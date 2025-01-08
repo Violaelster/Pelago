@@ -5,6 +5,8 @@ require_once __DIR__ . './../../config/app.php';
 require_once __DIR__ . '/../../config/paths.php';
 include __DIR__ . './../../components/header.php';
 require_once __DIR__ . '/process_booking.php';
+require_once __DIR__ . '/booking_db.php';
+
 
 
 $data = getBookingData();
@@ -36,7 +38,7 @@ $data = getBookingData();
   <section id="options-section">
     <article id="form-section">
       <h2>Book Room</h2>
-      <form method="POST" action="process_booking.php">
+      <form method="POST" action="./process_booking.php">
         <label for="transfer_code">Transfer Code:</label>
         <input type="text" id="transfer_code" name="transfer_code" required /><br /><br />
 
@@ -87,7 +89,7 @@ $data = getBookingData();
     <section id="rooms-section">
       <?php foreach ($data['rooms'] as $room): ?>
         <div class="room">
-          <img src=".<?= BASE_PATH ?>/assets/images/<?= strtolower($room['room_type']) ?>-room.png" alt="<?= $room['room_type'] ?> Room">
+          <img src="<?= BASE_PATH ?>/assets/images/<?= strtolower($room['room_type']) ?>-room.png" alt="<?= $room['room_type'] ?> Room">
           <div class="room-info">
             <div class="room-details">
               <h2><?= $room['room_type'] ?></h2>

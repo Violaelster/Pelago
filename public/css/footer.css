@@ -99,3 +99,22 @@
 
   margin-right: 10px;
 }
+
+.hotel-stars {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  align-items: center;
+  flex-direction: row;
+  margin-top: 0.5rem;
+}
+
+.star-rating {
+  width: 30px;
+  height: 30px;
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.2));
+}
+
+.header.scrolled .hotel-stars {
+  display: none;
+}

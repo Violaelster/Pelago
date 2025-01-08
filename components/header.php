@@ -1,15 +1,11 @@
 <?php
 
 /**
- * This file represents the header component of the website.
- *
- * It includes the necessary HTML, CSS, and JavaScript code to display the header section.
- * The header contains the logo, title, star rating, and navigation menu.
- * It also includes a link to the booking page and a hamburger menu button for mobile navigation.
- *
- * @filesource /Users/violas/Desktop/Developer/Pelago/components/header.php
- * @package Pelago
- * @subpackage Components
+ * Header Component
+ * 
+ * The header contains a book-here paw to the left with a link to the booking site.
+ * In the middle is the title and logo, also the dynamical star rating. 
+ * To the right is a non-working hamburger-menu. 
  */
 require_once __DIR__ . '/../config/paths.php';
 ?>
@@ -37,44 +33,22 @@ require_once __DIR__ . '/../config/paths.php';
       <!-- Logo -->
       <figure class="header-logo">
         <a href="<?= BASE_PATH ?>/pages/booking/booking.php" aria-label="Book your stay">
-          <img src="<?= BASE_PATH ?>/assets/svg/book-here.svg" alt="Book Here" class="paw-svg" />
+          <img src="<?= BASE_PATH ?>/assets/header-icons/book-here.svg" alt="Book Here" class="paw-svg" />
         </a>
       </figure>
 
-      <!-- Uppdaterad Title Section -->
+      <!-- Title Section -->
       <article class="title-section">
         <a href="<?= BASE_PATH ?>/index.php">
           <h1>
             Smooth Mansion
-            <img src="<?= BASE_PATH ?>/assets/images/snoop-icon.svg" alt="Icon" />
+            <img src="<?= BASE_PATH ?>/assets/snoop-icon.svg" alt="Icon" />
           </h1>
         </a>
         <p>Smooth vibes, Snoop style.</p>
-        <div class="hotel-stars">
-          <?php
-          require_once __DIR__ . './../config/app.php';
-          try {
-            $db = getDb();
-            $stmt = $db->query("SELECT setting_value FROM admin_settings WHERE setting_name = 'hotel_stars'");
-            $starCount = (int) ($stmt->fetchColumn() ?? 3);
-
-            for ($i = 0; $i < $starCount; $i++):
-          ?>
-              <img src="<?= BASE_PATH ?>/assets/svg/star.svg" alt="Hotel Star Rating" class="star-rating">
-            <?php
-            endfor;
-          } catch (PDOException $e) {
-            for ($i = 0; $i < 3; $i++):
-            ?>
-              <img src="<?= BASE_PATH ?>/assets/svg/star.svg" alt="Hotel Star Rating" class="star-rating">
-          <?php
-            endfor;
-          }
-          ?>
-        </div>
       </article>
 
-      <!-- Hamburger Menu Button -->
+      <!-- Hamburger Menu Button (Not working) -->
       <button class="hamburger-menu" aria-label="Toggle navigation menu" aria-expanded="false">
         <span class="menu-trigger">
           <span class="menu-bar"></span>
@@ -83,11 +57,7 @@ require_once __DIR__ . '/../config/paths.php';
         </span>
       </button>
     </section>
-
-    <!-- Navigation Menu -->
   </header>
-
-  <!-- Include header-specific JavaScript -->
   <script src="<?= BASE_PATH ?>/public/js/header.js"></script>
 </body>
 

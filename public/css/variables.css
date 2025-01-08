@@ -1,32 +1,39 @@
 :root {
-  /* Färgpalett */
-  --color-bg: #ffe6eb; /* Bakgrundsfärg */
-  --color-primary: #ffa2c8; /* Huvudfärg */
-  --color-secondary: #ffe6eb; /* Sekundär färg */
-  --color-tertiary: #ffa2c8;
-  --color-p: #ffe6eb; /* Accentfärg */
-  --color-accent: #ff63a3; /* Knappfärg */
+  /* Base colors */
+  --color-primary: #ffa2c8;
+  --color-secondary: #ffe6eb;
+  --color-accent: #ffa2c8;
+  --color-background: #ffe6eb;
+  --color-text1: #ff63a3;
+  --color-text: #d63384;
 
-  /* Typsnitt */
-  --font-family-h1: "Monoton", serif;
-  --font-family-p: "Roboto Slab";
+  --color-text-light: #ffe6eb;
+  --color-border: #ffff;
+
+  /* Font types */
+  --font-family-logo: "Monoton", serif;
+  --font-family-text: "Roboto Slab";
   --font-family-mono: "Courier New", monospace;
 
-  /* White borders sections */
+  /* Border sections */
+  --border-width: 30px 30px 30px 30px;
+  --border-style: solid;
+  --border-color: #ffff;
+  --border-radius: 0;
 
-  --border-width-upper: 30px 30px 0 30px; /* Topp, höger, botten, vänster */
-  --border-width-lower: 0 30px 30px 30px; /* Topp, höger, botten, vänster */
-  --border-style: solid; /* Stil för ramen (solid, dashed, etc.) */
-  --border-color: white; /* Ramens färg */
-
-  --border-radius: 20px;
-  --border-width: 30px;
+  --font-weight-text: 350;
+  --font-size-s: clamp(1.5rem, 3vw, 3rem);
 
   /*   border-width: var(--border-width-upper);
   border-style: var(--border-style);
   border-color: var(--border-color); */
 
   --title-section-p: clamp(2rem, 2vw, 3rem);
+
+  --font-size-small: 0.875rem; /* 14px */
+  --font-size-base: 1rem; /* 16px */
+  --font-size-large: 1.25rem; /* 20px */
+  --font-size-xl: 2rem; /* 32px */
 
   /* Typografi */
   --font-size-h1: clamp(
@@ -70,4 +77,7 @@
   /* Övergångar */
   --transition-duration: 0.3s;
   --transition-easing: ease-in-out;
+
+  /* index */
+  --padding-content: 3rem 3rem;
 }

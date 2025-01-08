@@ -23,7 +23,7 @@ include __DIR__ . '/components/header.php';
         </div>
 
         <section id="welcoming">
-            <p>Welcome to Smooth Oasis, where every stay is as effortless as a Snoop Dogg beat. Experience the perfect blend of relaxation and style inspired by the Doggfather himself.</p>
+            <p>Welcome to Smooth Mansion, where every stay is as effortless as a Snoop Dogg beat. Experience the perfect blend of relaxation and style inspired by the Doggfather himself.</p>
 
             <p>Unwind in G-funk-inspired suites or sip signature cocktails at the Gin & Juice Lounge. Smooth Oasis is more than a place to stay—it's a lifestyle.</p>
 
