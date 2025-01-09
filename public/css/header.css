@@ -15,14 +15,14 @@ html {
   align-items: center;
   top: 0;
   position: fixed;
-  z-index: 1000;
-  height: 20rem;
+  height: 15rem;
+  padding-top: 8rem;
 }
 
 .header.scrolled {
   z-index: 1000;
-  height: 14rem;
-  padding: 6rem 0;
+  height: 15rem;
+  padding: 6rem 3rem;
   backdrop-filter: blur(10px);
   width: 100%;
 }
@@ -48,7 +48,7 @@ html {
 .header-logo {
   position: relative;
   margin: 0;
-  transition: all 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .header.scrolled .header-logo {
@@ -56,31 +56,32 @@ html {
 }
 
 .paw-svg {
-  transition: all 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  width: 10vw; /* SVG tar 20% av viewport bredd */
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1); /* Längre och mjukare övergång */
+  width: 20rem; /* SVG tar 20% av viewport bredd */
   height: auto;
   max-width: 100%;
-  animation: move-scale 3s infinite ease-in-out;
+  animation: move-scale 4s infinite ease-in-out; /* Längre varaktighet för animationen */
 }
 
 @keyframes move-scale {
-  25% {
-    transform: scale(1);
+  0% {
+    transform: scale(1); /* Startpunkt */
   }
-
   50% {
-    transform: translate(0, 0) scale(1.2);
+    transform: scale(1.2); /* Högsta punkt */
+  }
+  100% {
+    transform: scale(1); /* Tillbaka till start */
   }
 }
 
 .header-logo:hover .paw-svg {
-  filter: drop-shadow(0 0 10px #ffa2c8);
+  filter: drop-shadow(0 0 15px #ffa2c8);
 }
 
 .title-section {
   text-align: center;
   flex-grow: 1;
-  margin: 0 4rem;
 }
 
 .title-section h1 {
@@ -88,7 +89,7 @@ html {
   color: #ff63a3;
   font-weight: 700;
   letter-spacing: 2px;
-  font-family: var(--font-family-h1);
+  font-family: var(--font-family-logo);
   text-wrap: nowrap;
   line-height: 7rem;
 }
@@ -100,7 +101,7 @@ html {
 
 .title-section p {
   font-size: clamp(3rem, 5vw, 4rem);
-  font-family: var(--font-family-p);
+  font-family: var(--font-family-text);
   color: #ffa2c8;
   font-weight: 600;
 }

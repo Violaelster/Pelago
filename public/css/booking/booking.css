@@ -1,0 +1,161 @@
+body {
+  display: flex;
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+}
+
+#booking-section {
+  padding: 25rem 0 5rem 0;
+  width: 90%;
+  display: flex;
+  flex-direction: row;
+  gap: 5rem;
+  margin: 0 auto;
+}
+/* calendar and roomsection */
+aside {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  align-self: flex-start;
+  margin-top: 0;
+}
+
+#calendar-section,
+#rooms-section,
+#options-section {
+  background-color: var(--color-primary);
+  border-width: var(--border-width);
+  border-style: var(--border-style);
+  border-color: var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow-section);
+  padding: 2rem;
+}
+
+/* #region SUCCESS MESSAGE */
+.success-message {
+  text-align: center;
+}
+
+.success-message p {
+  font-family: var(--font-family-p);
+  font-size: 2.5rem;
+  font-weight: 500;
+  color: var(--color-secondary);
+  padding-bottom: 1rem;
+}
+
+.success-message button {
+  font-family: var(--font-family-h1);
+  font-size: 2.5rem;
+  background-color: var(--color-accent);
+  color: var(--color-secondary);
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  position: relative;
+  top: 0;
+  width: 65%;
+  margin-top: 2rem;
+  letter-spacing: 0.2rem;
+}
+
+.success-message button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  filter: brightness(110%);
+  scale: 1.02;
+}
+
+.success-message img {
+  max-width: 35%;
+  height: auto;
+  margin: 10px 0;
+  border-radius: 50%;
+}
+/* #endregion */
+
+/* #region POP UP DISCOUNT */
+
+.welcome-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--color-tertiary);
+  padding: 2rem;
+  border-radius: 10px;
+  z-index: 1000;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  display: none;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.welcome-popup.show {
+  display: block;
+}
+
+.welcome-popup-content {
+  text-align: center;
+  color: #d63384;
+  font-family: var(--font-family-p);
+}
+
+.welcome-popup-stars {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.welcome-popup-stars img {
+  width: 30px;
+  height: 30px;
+}
+
+.welcome-popup-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #d63384;
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  z-index: 999;
+}
+
+.popup-overlay.show {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* #endregion */

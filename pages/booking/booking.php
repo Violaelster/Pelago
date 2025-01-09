@@ -6,6 +6,10 @@ require_once __DIR__ . '/../../config/paths.php';
 include __DIR__ . './../../components/header.php';
 require_once __DIR__ . '/process_booking.php';
 require_once __DIR__ . '/booking_db.php';
+require_once __DIR__ . '/booking_functions.php';
+require_once __DIR__ . '/booking_db.php';
+
+
 
 
 
@@ -20,7 +24,7 @@ $data = getBookingData();
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Book a Room</title>
   <link rel="stylesheet" href="<?= BASE_PATH ?>/public/css/calendar.css" />
-  <link rel="stylesheet" href="<?= BASE_PATH ?>/public/css/booking.css" />
+  <link rel="stylesheet" href="<?= BASE_PATH ?>/public/css/booking/booking.css" />
   <meta name="base-path" content="<?= BASE_PATH ?>">
 
 </head>
@@ -29,7 +33,7 @@ $data = getBookingData();
   <div class="welcome-popup">
     <button class="welcome-popup-close">&times;</button>
     <div class="welcome-popup-content">
-      <p><?= htmlspecialchars($data['settings']['booking_welcome_text'] ?? 'Welcome to Smooth Oasis!') ?></p>
+      <p><?= htmlspecialchars($data['settings']['booking_welcome_text'] ?? 'Enjoy your stay at Smooth Mansion') ?></p>
     </div>
   </div>
 </div>
@@ -89,7 +93,7 @@ $data = getBookingData();
     <section id="rooms-section">
       <?php foreach ($data['rooms'] as $room): ?>
         <div class="room">
-          <img src="<?= BASE_PATH ?>/assets/images/<?= strtolower($room['room_type']) ?>-room.png" alt="<?= $room['room_type'] ?> Room">
+          <img src="<?= BASE_PATH ?>/assets/booking/<?= strtolower($room['room_type']) ?>-room.png" alt="<?= $room['room_type'] ?> Room">
           <div class="room-info">
             <div class="room-details">
               <h2><?= $room['room_type'] ?></h2>

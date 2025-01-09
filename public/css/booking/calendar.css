@@ -1,0 +1,27 @@
+#calendar {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 1px;
+  font-weight: 400;
+  margin-bottom: 8px;
+  font-family: var(--font-family-p);
+  text-wrap: nowrap;
+}
+
+.calendar-day {
+  height: 6rem;
+  line-height: 5rem;
+  font-size: 2.5rem;
+  font-weight: 400;
+  border: 2px solid #ff63a3;
+  background-color: #ffe6eb;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  color: #ff63a3;
+}
+
+.unavailable {
+  background-color: #ff63a3;
+  color: #fff;
+}

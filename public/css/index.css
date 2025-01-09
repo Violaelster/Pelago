@@ -21,8 +21,26 @@ main {
   display: flex;
   align-items: center;
   flex-direction: column;
+  box-shadow: var(--box-shadow-section);
 }
 /* #endregion */
+
+/* #region HERO SECTION */
+#welcoming {
+  padding: var(--padding-content);
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+#welcoming p {
+  font-size: var(--font-size-s);
+  color: var(--color-text);
+  font-family: var(--font-family-text);
+  font-weight: var(--font-weight-text);
+}
+/* #endregion */
+
 /* #region VIDEO SECTION */
 #video-section {
   position: relative;
@@ -70,6 +88,7 @@ main {
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 /* #endregion */
+
 /* #region VIDEO BUTTONS */
 .video-buttons {
   display: flex;
@@ -99,27 +118,26 @@ main {
   color: var(--color-text);
 }
 /* #endregion */
-/* #region HERO SECTION */
 
-#welcoming {
-  padding: var(--padding-content);
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
-}
-
-#welcoming p {
-  font-size: var(--font-size-s);
-  color: var(--color-text);
-  font-family: var(--font-family-text);
-  font-weight: var(--font-weight-text);
-}
-/* #endregion */
 /* #region SPOT BUTTON */
+#spot {
+  width: 100%;
+  justify-content: flex-end;
+  display: flex;
+  padding: 0 8rem 3rem 2rem;
+}
+
+#spot p {
+  color: var(--color-secondary);
+  font-family: var(--font-family-text);
+  font-size: clamp(2rem, 3vw, 4rem);
+  font-weight: 600;
+}
+
 .spot-button {
   font-family: var(--font-family-logo);
   font-size: clamp(2rem, 3vw, 4rem);
-  background-color: #ff63a3;
+  background-color: var(--color-button);
   color: var(--color-secondary);
   border: none;
   border-radius: 5px;
@@ -138,70 +156,22 @@ main {
   filter: brightness(110%);
   scale: 1.02;
 }
-
-#spot {
-  width: 100%;
-  justify-content: flex-end;
-  display: flex;
-  padding: 0 8rem 3rem 2rem;
-}
-
-#spot p {
-  color: var(--color-secondary);
-  font-family: var(--font-family-text);
-  font-size: clamp(2rem, 3vw, 4rem);
-  font-weight: 600;
-}
 /* #endregion */
+
 /* #region HIGHLIGHTS SECTION */
-/* Highlights Section */
 #highlights {
   width: 90%;
-  margin: 0 auto;
+  height: auto;
   background-color: var(--color-accent);
   border-radius: var(--border-radius);
-  border: var(--border-width) var(--border-style) var(--border-color);
+  border-width: var(--border-width);
+  border-style: var(--border-style);
+  border-color: var(--border-color);
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 4rem;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Grid Layout for Images */
-#shortcuts {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-  width: 100%;
-  margin-top: 2rem;
-}
-
-/* Individual Image Wrapper */
-.shortcut {
-  position: relative;
-  overflow: hidden;
-  border-radius: var(--border-radius);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* Images Inside the Wrapper */
-.svg-shortcut {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 16/9; /* Ensures consistent proportions */
-  object-fit: cover; /* Ensures the image fills the container */
-  cursor: pointer;
-}
-
-/* Subtle Interaction (Optional) */
-.shortcut:focus,
-.shortcut:active {
-  transform: scale(1.02);
-  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--box-shadow-section);
 }
 
 #highlights h2 {
@@ -219,5 +189,23 @@ main {
   margin-bottom: 3rem;
   font-weight: var(--font-weight-text);
   text-align: center;
+}
+
+#shortcuts {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+}
+
+.shortcut {
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
+}
+
+.svg-shortcut {
+  display: block;
+  cursor: pointer;
 }
 /* #endregion */

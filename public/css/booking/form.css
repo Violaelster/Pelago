@@ -1,0 +1,132 @@
+#options-section {
+  position: sticky;
+  top: 150px;
+  align-self: flex-start;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+}
+
+form {
+  margin-bottom: 10px;
+}
+
+#form-section h2,
+#calendar-section h2 {
+  font-size: clamp(2rem, 2vw, 4rem);
+  font-family: var(--font-family-text);
+  font-weight: 400;
+  color: var(--color-text-light);
+  padding-bottom: 1.5rem;
+  text-wrap: nowrap;
+}
+
+label {
+  display: block;
+  font-size: clamp(1rem, 2vw, 2rem);
+  font-weight: 400;
+  color: var(--color-text);
+  font-family: var(--font-family-text);
+  margin-bottom: 4px;
+}
+
+input[type="text"],
+input[type="date"],
+select {
+  width: 100%;
+  padding: 6px;
+  font-size: 1.2rem;
+  border: 2px solid var(--color-text);
+  margin-bottom: 3px;
+  background-color: ffff;
+  box-sizing: border-box;
+}
+
+input[type="text"]:focus,
+input[type="date"]:focus,
+select:focus {
+  outline: none;
+  border-color: #9c2465;
+  box-shadow: 0 0 15px rgba(220, 102, 150, 0.5);
+}
+
+button[type="submit"] {
+  font-family: var(--font-family-logo);
+  font-size: clamp(2rem, 3vw, 2rem);
+  background-color: var(--color-button);
+  color: var(--color-secondary);
+  border: none;
+  border-radius: 5px;
+  padding: 5px 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  position: relative;
+  top: 0;
+  width: 100%;
+}
+
+button[type="submit"]:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  filter: brightness(110%);
+  scale: 1.02;
+}
+/* #endregion */
+
+/* #region FEATURE SECTION */
+fieldset {
+  padding: 0 2rem;
+  border-radius: 5px;
+  border-width: 3px;
+  border-style: var(--border-style);
+  border-color: var(--border-color);
+}
+
+legend {
+  font-size: 2rem;
+  padding: 1.8rem 1rem;
+  font-family: var(--font-family-text);
+  font-weight: 400;
+  color: var(--color-text-light);
+  padding-bottom: 1rem;
+}
+
+#feature-section label {
+  font-size: 1.7rem;
+}
+
+#feature-section input[type="checkbox"] {
+  appearance: none;
+  width: 17px;
+  height: 17px;
+  border: 1.5px solid var(--color-text);
+  border-radius: 2px;
+  margin-right: 5px;
+  position: relative;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+#feature-section input[type="checkbox"]:checked {
+  background-color: #d63384;
+}
+
+#feature-section input[type="checkbox"]:checked::after {
+  content: "♥";
+  position: absolute;
+  color: lightpink;
+  left: 3px;
+  top: 0px;
+}
+
+#feature-section input[type="checkbox"]:hover {
+  border-color: #9c2465;
+}
+
+#total_cost {
+  font-size: 2.5rem;
+  padding: 2rem 2rem 1rem 0;
+  font-family: var(--font-family-p);
+  font-weight: 500;
+  color: var(--color-secondary);
+}

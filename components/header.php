@@ -18,9 +18,16 @@ require_once __DIR__ . '/../config/paths.php';
   <title>Smooth Mansion</title>
   <link rel="stylesheet" href="<?= BASE_PATH ?>/public/css/header.css" />
   <link rel="stylesheet" href="<?= BASE_PATH ?>/public/css/footer.css" />
-  <link rel="stylesheet" href="<?= BASE_PATH ?>/public/css/admin_panel.css" />
+  <link rel="stylesheet" href="<?= BASE_PATH ?>/public/css/admin/admin_panel.css" />
   <link rel="stylesheet" href="<?= BASE_PATH ?>/public/css/variables.css" />
   <link rel="stylesheet" href="<?= BASE_PATH ?>/public/css/index.css" />
+  <link rel="stylesheet" href="<?= BASE_PATH ?>/public/css/booking/calendar.css" />
+  <link rel="stylesheet" href="<?= BASE_PATH ?>/public/css/booking/booking.css" />
+  <link rel="stylesheet" href="<?= BASE_PATH ?>/public/css/booking/rooms.css" />
+  <link rel="stylesheet" href="<?= BASE_PATH ?>/public/css/booking/form.css" />
+
+
+  <meta name="base-path" content="<?= BASE_PATH ?>">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Advent+Pro:ital,wght@0,100..900;1,100..900&family=Monoton&family=Roboto+Slab:wght@100..900&family=Sacramento&family=Sonsie+One&display=swap" rel="stylesheet" />

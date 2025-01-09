@@ -4,7 +4,7 @@
   --color-secondary: #ffe6eb;
   --color-accent: #ffa2c8;
   --color-background: #ffe6eb;
-  --color-text1: #ff63a3;
+  --color-button: #ff63a3;
   --color-text: #d63384;
 
   --color-text-light: #ffe6eb;
@@ -20,6 +20,8 @@
   --border-style: solid;
   --border-color: #ffff;
   --border-radius: 0;
+
+  --box-shadow-section: 0 4px 8px rgba(0, 0, 0, 0.1);
 
   --font-weight-text: 350;
   --font-size-s: clamp(1.5rem, 3vw, 3rem);
