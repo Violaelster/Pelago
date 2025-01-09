@@ -4,17 +4,18 @@ The website has been designed primarily for desktop users, and the booking syste
 Composer is also utilized in this project for dependency management.
 Note that the database is not included in the repository. You will need to set up the database manually using the SQL queries provided below. Make sure to place the database files in a folder named 'database' located in the root directory of the project.
 
-## Funktioner
-- Bokningssystem: Ett formulär som lagrar bokningsdetaljer i databasen, kollar tillgänglighet i
-- Kalender: Dynamisk kalender som visar tillgänglighet för rum.
-- Adminpanel: För att uppdatera rumspriser och inställningar.
+## Features
+Booking System: A form that stores booking details in the database and checks availability.
+Calendar: A dynamic calendar displaying room availability.
+Admin Panel: Allows updating room prices and settings.
 
-## Teknologier
-HTML5, CSS3, JavaScript
-PHP 8.1
-MySQL
-Composer (beroendehantering)
-FileZilla (för deployment)
+
+## Technologies
+- HTML5, CSS3, JavaScript
+- PHP 8.1
+- MySQL
+- Composer (dependency management)
+- FileZilla (for deployment)
 
 ## Database structure:
 CREATE TABLE bookings (
