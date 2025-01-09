@@ -5,9 +5,9 @@ Composer is also utilized in this project for dependency management.
 Note that the database is not included in the repository. You will need to set up the database manually using the SQL queries provided below. Make sure to place the database files in a folder named 'database' located in the root directory of the project.
 
 ## Features
-Booking System: A form that stores booking details in the database and checks availability.
-Calendar: A dynamic calendar displaying room availability.
-Admin Panel: Allows updating room prices and settings.
+- Booking System: A form that stores booking details in the database and checks availability.
+- Calendar: A dynamic calendar displaying room availability.
+- Admin Panel: Allows updating room prices and settings.
 
 
 ## Technologies
