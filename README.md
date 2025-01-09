@@ -1,27 +1,22 @@
-# Pelago
-
-Smooth Mansion
+#Smooth Mansion
 This project focuses on building a hotel website with a functional booking system, utilizing technologies such as HTML, CSS, PHP, JavaScript, and SQL. Additionally, it integrates an external API for specific functionality.
 The website has been designed primarily for desktop users, and the booking system is currently limited to reservations within January 2025. This restriction is configurable and can be modified in the source code as needed.
 Composer is also utilized in this project for dependency management.
 Note that the database is not included in the repository. You will need to set up the database manually using the SQL queries provided below. Make sure to place the database files in a folder named 'database' located in the root directory of the project.
 
-Funktioner
+##Funktioner
 Bokningssystem: Ett formulär som lagrar bokningsdetaljer i databasen, kollar tillgänglighet i
 Kalender: Dynamisk kalender som visar tillgänglighet för rum.
 Adminpanel: För att uppdatera rumspriser och inställningar.
 
-Teknologier
+##Teknologier
 HTML5, CSS3, JavaScript
 PHP 8.1
 MySQL
 Composer (beroendehantering)
 FileZilla (för deployment)
 
-Licens
-Projektet är inte open source och är utvecklat som en del av en utbildning.
-
-Database structure:
+##Database structure:
 CREATE TABLE bookings (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
 transfer_code VARCHAR(255) NOT NULL,
