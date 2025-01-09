@@ -5,9 +5,9 @@ Composer is also utilized in this project for dependency management.
 Note that the database is not included in the repository. You will need to set up the database manually using the SQL queries provided below. Make sure to place the database files in a folder named 'database' located in the root directory of the project.
 
 ## Funktioner
-Bokningssystem: Ett formulär som lagrar bokningsdetaljer i databasen, kollar tillgänglighet i
-Kalender: Dynamisk kalender som visar tillgänglighet för rum.
-Adminpanel: För att uppdatera rumspriser och inställningar.
+- Bokningssystem: Ett formulär som lagrar bokningsdetaljer i databasen, kollar tillgänglighet i
+- Kalender: Dynamisk kalender som visar tillgänglighet för rum.
+- Adminpanel: För att uppdatera rumspriser och inställningar.
 
 ## Teknologier
 HTML5, CSS3, JavaScript
