@@ -25,8 +25,6 @@ require_once __DIR__ . '/../config/paths.php';
   <link rel="stylesheet" href="<?= BASE_PATH ?>/public/css/booking/booking.css" />
   <link rel="stylesheet" href="<?= BASE_PATH ?>/public/css/booking/rooms.css" />
   <link rel="stylesheet" href="<?= BASE_PATH ?>/public/css/booking/form.css" />
-
-
   <meta name="base-path" content="<?= BASE_PATH ?>">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -65,7 +63,3 @@ require_once __DIR__ . '/../config/paths.php';
       </button>
     </section>
   </header>
-  <script src="<?= BASE_PATH ?>/public/js/header.js"></script>
-</body>
-
-</html>

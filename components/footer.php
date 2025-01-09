@@ -7,7 +7,6 @@
  * panel in the center and a list of links to the right. A sektion at the bottom
  * containing payment icons, company values and copyright. 
  */
-require_once __DIR__ . '/../config/paths.php';
 ?>
 <footer class="footer">
     <div class="footer-container">
@@ -70,6 +69,7 @@ require_once __DIR__ . '/../config/paths.php';
         <p>&copy; Smooth Mansion</p>
     </div>
 </footer>
+<script src="<?= BASE_PATH ?>/public/js/header.js"></script>
 </body>
 
 </html>

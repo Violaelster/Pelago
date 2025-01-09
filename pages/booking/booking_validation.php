@@ -1,19 +1,11 @@
 <?php
 
 require_once __DIR__ . '/booking_db.php';
-require_once __DIR__ . '/process_booking.php';
-require_once __DIR__ . '/booking.php';
 
-
-// ============================================================================
-//  Validation Functions
-// ============================================================================
+require_once __DIR__ . '/booking_functions.php';
 
 /**
  * Validates if a given string is in UUID format.
- *
- * @param string $uuid The string to validate.
- * @return bool True if valid UUID, otherwise false.
  */
 function isValidUuid(string $uuid): bool
 {
@@ -36,10 +28,6 @@ function validateTransferCodeFormat(string $transferCode): bool
 
 /**
  * Validate the transfer code with the central bank API.
- *
- * @param string $transferCode The code to validate
- * @param float $totalCost Total booking cost
- * @return array API response
  */
 function validateTransferCodeWithAPI(string $transferCode, float $totalCost): array
 {
@@ -87,10 +75,6 @@ function validateTransferCodeWithAPI(string $transferCode, float $totalCost): ar
  * - Transfer code usage
  * - Dates
  * - Room ID
- *
- * @param array $data User submitted booking data.
- * @param PDO $db Database connection for room validation.
- * @return array List of validation error messages, empty if validation passed.
  */
 function validateInput(array $data, PDO $db): array
 {

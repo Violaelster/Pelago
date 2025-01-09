@@ -1,7 +1,7 @@
 /* #region ROOM DISPLAY */
 #rooms-section {
   display: flex;
-  flex-direction: column; /* Ändrat från row till column */
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 0;
@@ -13,34 +13,58 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: var(--color-tertiary);
-
-  transition: transform 0.3s ease;
+  background-color: var(--color-primary);
 }
 
 .room-details {
   display: flex;
   flex-direction: row;
   align-items: center;
-  align-self: flex-start;
   margin-bottom: 40px;
 }
 
 .room img {
-  width: 100%;
+  width: 90%;
   display: block;
   object-fit: cover;
-  height: 480px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  height: 400px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  margin: 0 auto;
+  margin-top: 3rem;
 }
 
 .room h2 {
-  font-size: 5rem;
-  font-family: var(--font-family-p);
-  font-weight: 500;
-  color: var(--color-secondary);
-  text-wrap: nowrap;
-  text-align: center;
+  padding: 8px 12px;
+  display: flex;
+  font-size: clamp(1.5rem, 3vw, 3rem);
+  font-weight: 350;
+  color: var(--color-text);
+  font-family: var(--font-family-text);
+  align-items: center;
+  justify-content: center;
+  height: 6rem;
+  border-radius: 10px;
+  border-width: 5px;
+  border-style: var(--border-style);
+  border-color: var(--border-color);
+  margin-left: 3rem;
+}
+
+.room-details p {
+  padding: 8px 12px;
+  display: flex;
+  font-size: clamp(1.5rem, 3vw, 3rem);
+  font-weight: 350;
+  color: var(--color-text);
+  font-family: var(--font-family-text);
+  align-items: center;
+  justify-content: center;
+  height: 6rem;
+  border-radius: 10px;
+  border-width: 5px;
+  border-style: var(--border-style);
+  border-color: var(--border-color);
+  margin-left: 3rem;
 }
 
 .room-info {
@@ -48,16 +72,15 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 2rem;
+  gap: 5rem;
   margin: 5rem 5rem;
 }
 
 .room-info h3 {
-  font-size: 4rem;
-  font-family: var(--font-family-p);
+  font-size: 5rem;
+  font-family: var(--font-family-text);
   font-weight: 500;
-  color: var(--color-secondary);
-
+  color: var(--color-text-light);
   position: relative;
   margin: 20px 0; /* Mellanrum ovanför och nedanför texten */
 }
@@ -77,11 +100,11 @@
 }
 
 .room-text p {
-  font-size: var(--font-size-p);
-  color: var(--color-secondary);
-  font-family: var(--font-family-p);
+  font-size: clamp(1.5rem, 3vw, 3rem);
+  color: var(--color-text);
+  font-family: var(--font-family-text);
   margin-bottom: 3rem;
-  font-weight: 300;
+  font-weight: 350;
 }
 
 .room-info ul {
@@ -94,10 +117,10 @@
 }
 
 .room-info li {
-  font-size: 3rem;
-  font-weight: 400;
-  color: #d63384;
-  font-family: var(--font-family-p);
+  font-size: clamp(1.5rem, 3vw, 3rem);
+  font-weight: 350;
+  color: var(--color-text);
+  font-family: var(--font-family-text);
   margin: 5px;
   padding: 12px 24px;
   position: relative;
@@ -106,24 +129,4 @@
   border-style: var(--border-style);
   border-color: var(--border-color);
   text-wrap: nowrap;
-}
-
-.room-details p:nth-child(2),
-.room-details p:nth-child(3) {
-  padding: 8px 12px;
-  display: flex;
-  font-size: 3rem;
-  font-weight: 400;
-  color: #d63384;
-  font-family: var(--font-family-p);
-  align-items: center;
-  justify-content: center;
-  height: 6rem;
-
-  border-radius: 10px;
-  border-width: 5px;
-  border-style: var(--border-style);
-  border-color: var(--border-color);
-  background-color: var(--color-tertiary);
-  margin-left: 3rem;
 }

@@ -3,37 +3,25 @@
 declare(strict_types=1);
 require_once __DIR__ . './../../config/app.php';
 require_once __DIR__ . '/../../config/paths.php';
-include __DIR__ . './../../components/header.php';
-require_once __DIR__ . '/process_booking.php';
+
+
 require_once __DIR__ . '/booking_db.php';
 require_once __DIR__ . '/booking_functions.php';
-require_once __DIR__ . '/booking_db.php';
+require_once __DIR__ . '/booking_validation.php';
 
-
-
-
+include __DIR__ . './../../components/header.php';
 
 $data = getBookingData();
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Book a Room</title>
-  <link rel="stylesheet" href="<?= BASE_PATH ?>/public/css/calendar.css" />
-  <link rel="stylesheet" href="<?= BASE_PATH ?>/public/css/booking/booking.css" />
-  <meta name="base-path" content="<?= BASE_PATH ?>">
-
-</head>
 
 <div class="popup-overlay">
   <div class="welcome-popup">
     <button class="welcome-popup-close">&times;</button>
     <div class="welcome-popup-content">
-      <p><?= htmlspecialchars($data['settings']['booking_welcome_text'] ?? 'Enjoy your stay at Smooth Mansion') ?></p>
+      <h2>It's Deal Time!</h2>
+      <p><?= htmlspecialchars($data['settings']['booking_welcome_text'] ?? 'Always good discounts at Smooth Mansion!') ?></p>
     </div>
   </div>
 </div>
@@ -42,7 +30,7 @@ $data = getBookingData();
   <section id="options-section">
     <article id="form-section">
       <h2>Book Room</h2>
-      <form method="POST" action="./process_booking.php">
+      <form method="POST" action="process_booking.php">
         <label for="transfer_code">Transfer Code:</label>
         <input type="text" id="transfer_code" name="transfer_code" required /><br /><br />
 
@@ -97,43 +85,37 @@ $data = getBookingData();
           <div class="room-info">
             <div class="room-details">
               <h2><?= $room['room_type'] ?></h2>
-              <p>Size: <?= $room['room_type'] === 'Budget' ? '30m²' : ($room['room_type'] === 'Standard' ? '50m²' : '100m²') ?></p>
               <p>Price: $<?= $room['price'] ?>/night</p>
+              <p>Discount: <?= $room['discount'] ?>%</p>
             </div>
 
             <div class="room-text">
               <?php if ($room['room_type'] === 'Budget'): ?>
                 <h3>The Bare Bones Bunk</h3>
-                <p>"For the budget baller. Keep it simple, keep it smooth. Tha Bare Bones Bunk is perfect for those who roll with style on a budget."</p>
+                <p>For the budget baller. Keep it simple, keep it smooth. Tha Bare Bones Bunk is perfect for those who roll with style on a budget.</p>
               <?php elseif ($room['room_type'] === 'Standard'): ?>
-                <h3>Tha D-O-Double Suite</h3>
-                <p>"Tha D-O-Double Suite blends laid-back vibes with just the right amount of flair – the perfect spot for chillin' in style."</p>
+                <h3>The D-O-Double Suite</h3>
+                <p>The D-O-Double Suite blends laid-back vibes with just the right amount of flair – the perfect spot for chillin' in style.</p>
               <?php else: ?>
                 <h3>Tha Platinum Palace</h3>
-                <p>"Elevate your stay at Tha Platinum Palace – where every detail shines and the vibes are nothing but premium."</p>
+                <p>Elevate your stay at Tha Platinum Palace – where every detail shines and the vibes are nothing but premium.</p>
               <?php endif; ?>
             </div>
             <div class="facilities-details">
-              <h3>Facilities</h3>
+              <h3>Room Flavours</h3>
               <ul>
                 <?php if ($room['room_type'] === 'Budget'): ?>
-                  <li>Single bed</li>
-                  <li>Private bathroom</li>
-                  <li>Basic TV</li>
-                  <li>WiFi</li>
+                  <li>Laid back bed</li>
+                  <li>Hot Spot WiFi</li>
+                  <li>Easy Breezy Fan</li>
                 <?php elseif ($room['room_type'] === 'Standard'): ?>
-                  <li>Double bed</li>
-                  <li>Private bathroom</li>
-                  <li>Smart TV</li>
-                  <li>WiFi</li>
-                  <li>Mini fridge</li>
+                  <li>Double-G bed</li>
+                  <li>Hot Spot WiFi</li>
+                  <li>Tha Essentials+</li>
                 <?php else: ?>
-                  <li>King size bed</li>
-                  <li>Luxury bathroom with jacuzzi</li>
-                  <li>65" Smart TV</li>
-                  <li>High-speed WiFi</li>
-                  <li>Mini bar</li>
-                  <li>Room service</li>
+                  <li>Snoop's own bed</li>
+                  <li>Hot Spot WiFi</li>
+                  <li>The VIP View</li>
                 <?php endif; ?>
               </ul>
             </div>
@@ -143,10 +125,11 @@ $data = getBookingData();
     </section>
   </aside>
 </main>
-<?php include __DIR__ . '/../../components/footer.php'; ?>
+
 
 <input type="hidden" id="discount" value="<?= $data['rooms'][0]['discount'] ?>">
 
 <script src="<?= BASE_PATH ?>/public/js/booking.js"></script>
 <script src="<?= BASE_PATH ?>/public/js/room_calendar.js"></script>
-</body>
+
+<?php include __DIR__ . '/../../components/footer.php'; ?>

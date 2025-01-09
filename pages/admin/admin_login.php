@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Admin Login Handler
+ * 
+ * This script handles admin authentication using an API key stored in environment variables.
+ * On successful authentication, the user is redirected to the admin update panel.
+ * 
+ * Security measures:
+ * - Uses environment variables for API key storage
+ * - Session-based authentication
+ * - POST method for form submission
+ */
 
 require_once __DIR__ . '/../../config/app.php';
 session_start();

@@ -61,14 +61,31 @@ document.addEventListener("DOMContentLoaded", () => {
     submitButton.disabled = true;
 
     try {
-      const response = await fetch("process_booking.php", {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        `${basePath}/pages/booking/process_booking.php`,
+        {
+          method: "POST",
+          body: formData,
+          headers: {
+            Accept: "application/json",
+          },
+        }
+      );
 
       const result = await response.json();
 
       if (result.status === "success") {
+        // Hide the "Book a Room" heading
+        const heading = document.querySelector("form-section h2");
+        if (heading) {
+          heading.style.display = "none";
+        }
+
+        // Hide the aside section
+        const asideSection = document.querySelector("aside");
+        if (asideSection) {
+          asideSection.style.display = "none";
+        }
         // Create downloadable receipt
         const blob = new Blob([JSON.stringify(result, null, 2)], {
           type: "application/json",
@@ -81,11 +98,6 @@ document.addEventListener("DOMContentLoaded", () => {
         a.click();
         window.URL.revokeObjectURL(url);
         document.body.removeChild(a);
-
-        if (result.status === "success") {
-          // Ta bort h2
-          document.querySelector("#form-section h2").remove();
-        }
 
         // Show success message
         const successDiv = document.createElement("div");

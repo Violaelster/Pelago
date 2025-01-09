@@ -1,4 +1,15 @@
 <?php
+
+/**
+ *   Handles the deposit payment process by sending data to a central bank API.
+ * - Parse the number of days between arrival and departure.
+ * - Prepare the data array with user information, transfer code, and the number of days.
+ * - Initialize a cURL session for the given API endpoint.
+ * - Set cURL options for POST request and include the data.
+ * - Execute the cURL request and retrieve the response.
+ * - Decode the JSON response and return it as an array.
+ */
+
 function depositPayment(string $transferCode, string $arrivalDate, string $departureDate): array
 {
     $url = 'https://www.yrgopelago.se/centralbank/deposit';
@@ -39,18 +50,13 @@ function depositPayment(string $transferCode, string $arrivalDate, string $depar
     return $decodedResponse;
 }
 
-// ============================================================================
-//  Calculation Functions
-// ============================================================================
-
 /**
- * Calculate the total cost for a booking.
- *
- * @param array $data User input data.
- * @param float $room_price Price per night of the room.
- * @param float $room_discount Discount percentage for the room.
- * @param PDO $db Database connection.
- * @return float Total booking cost.
+ * Calculate the total cost for a booking based on room price, discounts, and selected features.
+ * - Calculate the number of nights between arrival and departure.
+ * - Calculate the base room cost by multiplying room price by the number of nights.
+ * - Apply a discount to the total cost if a valid discount is provided.
+ * - Retrieve and add the cost of selected features from the database.
+ * - Return the final total cost as a float.
  */
 function calculateTotalcost(array $data, float $room_price, float $room_discount, PDO $db): float
 {

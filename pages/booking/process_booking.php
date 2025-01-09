@@ -2,8 +2,9 @@
 
 require_once __DIR__ . '/booking_db.php';
 require_once __DIR__ . '/booking_validation.php';
-require_once __DIR__ . '/booking.php';
 require_once __DIR__ . '/booking_functions.php';
+
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
@@ -94,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $room_specific_content = [
             'Budget' => [
                 'messages' => [
-                    'Keepin\' it real in our budget-friendly crib! 💸, Straight outta pocket savings, but still stylin\'! Snoop approved Bare Bones Bunk, fo\' shizzle!'
+                    'Keepin it real in our budget-friendly crib! 💸, Straight outta pocket savings, but still stylin! Snoop approved Bare Bones Bunk, fo shizzle!'
                 ],
                 'gifs' => [
                     'https://media2.giphy.com/media/83cdjFtt3f9XWNOHAO/giphy.gif'

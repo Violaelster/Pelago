@@ -1,8 +1,9 @@
 <?php
 
 declare(strict_types=1);
-require_once __DIR__ . '/../../config/app.php';
 
+
+require_once __DIR__ . '/../../config/app.php';
 /**
  * - Processing incoming POST data for updating room prices, feature prices, and admin settings.
  * - Fetching data for rendering the admin panel form (room, feature, and settings data).
