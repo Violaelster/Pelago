@@ -183,7 +183,7 @@ main {
 }
 
 #highlights p {
-  font-size: var(--font-size-p);
+  font-size: clamp(2rem, 2vw, 3rem);
   color: var(--color-text);
   font-family: var(--font-family-text);
   margin-bottom: 3rem;

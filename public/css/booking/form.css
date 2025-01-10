@@ -126,7 +126,7 @@ legend {
 #total_cost {
   font-size: 2.5rem;
   padding: 2rem 2rem 1rem 0;
-  font-family: var(--font-family-p);
+  font-family: var(--font-family-text);
   font-weight: 500;
-  color: var(--color-secondary);
+  color: var(--color-text);
 }

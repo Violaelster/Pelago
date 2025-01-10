@@ -20,7 +20,7 @@ $data = getBookingData();
   <div class="welcome-popup">
     <button class="welcome-popup-close">&times;</button>
     <div class="welcome-popup-content">
-      <h2>It's Deal Time!</h2>
+      <h2>It's deal time!</h2>
       <p><?= htmlspecialchars($data['settings']['booking_welcome_text'] ?? 'Always good discounts at Smooth Mansion!') ?></p>
     </div>
   </div>

@@ -2,14 +2,14 @@
 .footer {
   background-color: #ffa2c8;
   padding-top: 20px;
-  border-radius: 20px 20px 20px 20px;
   border-width: 30px 30px 30px 30px;
   border-style: var(--border-style);
   border-color: var(--border-color);
   margin: 50px auto 0 auto; /* Ändrat här: centrerar footern */
   margin-bottom: 30px;
   width: 90%;
-  font-family: Arial, sans-serif;
+  font-family: var(--font-family-text);
+  box-shadow: var(--box-shadow-section);
   color: #fff;
   align-self: center; /* Lägger till detta för att säkerställa centrering i flex-container */
 }

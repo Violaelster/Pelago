@@ -85,7 +85,7 @@ html {
 }
 
 .title-section h1 {
-  font-size: var(--font-size-h1);
+  font-size: clamp(3rem, 5vw, 8rem);
   color: #ff63a3;
   font-weight: 700;
   letter-spacing: 2px;
