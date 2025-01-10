@@ -82,3 +82,39 @@ INSERT INTO "sqlite_sequence" ("name", "seq") VALUES
 ('features', '3'),
 ('bookings', '60'),
 ('rooms', '3');
+
+# FEEDBACK FROM VIKTOR
+
+## GENERAL PRAISE
+
+The website looks really good, great concept and execution. The general structure of the project is impeccable and everything works nicely.
+
+## PROJECT STRUCTURE
+
+- Missing an .env.example - handy instructions on requirements [here](https://github.com/yrgo/WU24/tree/main/PHP/26%20-%20ENV)
+
+## CSS
+
+- ../booking/form.css:1-1 - Missing the start of a region, easy fix!
+- ../booking/rooms.css:85-95 - Your comments are both in English and Swedish throughout the project: convention says to use English, but try to stick to one language.
+- variables.css:28-30 - Commented out code should either be deleted or have a comment that explains the context on why it's there.
+
+### CONCLUSION
+
+Great structure, DRY code. In my opinion there's merit in being consistent and once you've started using regions to also add them to smaller documents like ../booking/calendar.css as well. Or, if they're so small that they don't need a region, maybe append them to a larger document. But that's an opinion!
+
+## PHP
+
+- ../config/app.php:4-4 - While the comment on the previous line is helpful and provides context, it's a good idea to remove comments like this one that offers no context or help(and is more than likely a remnant of asking AI for help(which there's nothing wrong with of course))
+- ../config/paths.php:1-23 - Personally, I'd stick this in ../config/app.php for easier upkeep of the code. Also, most of the comments feel superfluous.
+- ../includes/database.php:23-35 - Some comments explaining the process and what's happening here would be helpful and make the code more readable.
+- ../pages/booking/booking_functions.php and ../pages/booking/booking_validation.php - seems like these are both function junction files - it'd be more DRY to merge them.
+- ../pages/booking/room_calendar.php:11-15 - To improve structure, I'd move this function to ../pages/booking/booking_functions.php or similar.
+
+### CONCLUSION
+
+Once again, great structure and a lot of thoughtful comments. While the structure differs from what we've used during class, it's rigid and well put together. It uses a lot of concepts and syntax I'm unfamiliar and we haven't covered yet in class and (this might be me reading in a little bit ) it might be a good idea to look over your code again and make sure that, if asked, you understand and can explain what parts do what.
+
+## DATABASE
+
+Looks good and works nicely. Down the line, it might be benefitial to add a 'guests' table if you decide to handle more data about the user.
