@@ -2,7 +2,7 @@
 This project focuses on building a hotel website with a functional booking system, utilizing technologies such as HTML, CSS, PHP, JavaScript, and SQL. Additionally, it integrates an external API for specific functionality.
 The website has been designed primarily for desktop users, and the booking system is currently limited to reservations within January 2025. This restriction is configurable and can be modified in the source code as needed.
 Composer is also utilized in this project for dependency management.
-Note that the database is not included in the repository. You will need to set up the database manually using the SQL queries provided below. Make sure to place the database files in a folder named 'database' located in the root directory of the project.
+Note that the database is not included in the repository. You will need to set up the database manually using the SQL queries provided below. 
 
 ## Features
 - Booking System: A form that stores booking details in the database and checks availability.
@@ -78,10 +78,6 @@ INSERT INTO "rooms" ("id", "room_type", "price", "discount") VALUES
 ('2', 'Standard', '11.0', '11.0'),
 ('3', 'Luxury', '11.0', '98.0');
 
-INSERT INTO "sqlite_sequence" ("name", "seq") VALUES
-('features', '3'),
-('bookings', '60'),
-('rooms', '3');
 
 # FEEDBACK FROM VIKTOR
 
