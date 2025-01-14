@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 /**
  * Admin Update Panel
  * 
@@ -14,7 +15,6 @@
  * - Strict type declarations
  */
 
-declare(strict_types=1);
 
 require_once __DIR__ . '/../../config/app.php';
 require_once __DIR__ . '/admin_panel.php';

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  *   Handles the deposit payment process by sending data to a central bank API.
  * - Parse the number of days between arrival and departure.

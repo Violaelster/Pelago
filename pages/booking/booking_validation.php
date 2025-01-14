@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
 require_once __DIR__ . '/booking_db.php';
-
 require_once __DIR__ . '/booking_functions.php';
+
+
 
 /**
  * Validates if a given string is in UUID format.

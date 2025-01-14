@@ -2,6 +2,8 @@
 
 require_once __DIR__ . '/../../config/app.php';
 
+declare(strict_types=1);
+
 /**
  * Retrieves information needed for the booking form.
  * - Room details (types, prices, discounts)

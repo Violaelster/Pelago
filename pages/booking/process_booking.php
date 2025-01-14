@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 require_once __DIR__ . '/booking_db.php';
 require_once __DIR__ . '/booking_validation.php';
 require_once __DIR__ . '/booking_functions.php';
